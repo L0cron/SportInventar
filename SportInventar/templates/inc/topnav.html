@@ -1,0 +1,29 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title></title>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/inc/topnav.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="topnav">
+        <div class="nav-button">
+            <button>кнопОЧКА</button>
+            <button>КнОпОчКа</button>
+            <button>КНЫПОЧКА</button>
+            <button><a href="{% url 'user:login' %}">login</a></button>
+            <button><a href="{% url 'user:register' %}">register</a></button>
+            <button><a href="{% url 'user:profile' %}">profile</a></button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
