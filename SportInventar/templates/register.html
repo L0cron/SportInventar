@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -15,6 +15,7 @@
         <form class="form" method="post" action="{% url 'user:profile' %}">
             {% csrf_token %}
             <input type="text" placeholder="Логин" required>
+            <input type="email" placeholder="Почта" required>
             <input type="password" placeholder="Пароль" required>
             <button class="login-button" type="submit">Зарегистрироваться</button>
         </form>
