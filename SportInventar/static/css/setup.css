@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 20px;
+    padding: 0;
+    user-select: none; /* Standard syntax */
+}
+
+h1 {
+    color: #333;
+    font-size: 50px;
+}
+
+.step-description {
+    margin-bottom:40px;
+}
+
+.current-step {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 400px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 400px; /* Fixed width */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-size: 4px;
+    padding: 5px 5px;
+    margin-right: 10px;
+    transition: background-color 0.2s ease;
+}
+
+
+.button:hover {
+    background-color: #efefef;
+}
+
+.arrow {
+    margin: 0 5px;
+}
+
+.underline {
+    position: relative;
+    display: inline-block;
+    color: black;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.underline::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.25s ease, left 0.25s ease;
+}
+
+.underline:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.content {
+    position: absolute; /* Устанавливаем абсолютное позиционирование для контейнеров контента */
+    top: 20; /* Устанавливаем верхнюю границу на 0 */
+    left: 20; /* Устанавливаем левую границу на 0 */
+    opacity: 1; /* Начальная непрозрачность */
+    transition: opacity 0.5s ease; /* Плавный переход для изменения непрозрачности */
+}
+
+
+.button-container {
+    position: absolute; /* Устанавливаем абсолютное позиционирование для контейнера кнопок */
+    bottom: 20px; /* Располагаем кнопки внизу */
+    left: 0; /* Выравниваем по левому краю */
+    right: 0; /* Выравниваем по правому краю */
+    text-align: center; /* Центрируем кнопки */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    opacity: 1; /* Начальная непрозрачность */
+    transition: opacity 0.5s ease; /* Плавный переход для изменения непрозрачности */
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none; /* Отключаем взаимодействие с элементом */
+}
+
+.progress-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ccc; /* Серый фон */
+    height: 12px; /* Высота прогресс-бара */
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%; /* Измените это значение для изменения заполнения */
+    background-color: #0098de; /* Серое заполнение */
+    border: 1px solid rgb(13, 155, 199);
+    transition: width 0.75s ease;
+}
+
+
+
+.disabled {
+    cursor: not-allowed;
+}

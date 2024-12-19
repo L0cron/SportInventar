@@ -1,0 +1,123 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title></title>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/setup.css' %}">
+{% endblock %}
+
+{% block body %}
+    <h1>Установка</h1>
+    <div id="content1" class="content">
+        <p class="current-step">Шаг 1: Подключение Базы Данных</p>
+        <p class="step-description">Необходимо настроить подключение к базе данных, рекомендуется использовать PostgreSQL</p>
+        <form id="setup-form1">
+            <div class="form-group">
+                <label for="db_engine">Движок базы данных согласно документации <a href="https://docs.djangoproject.com/en/5.1/ref/databases/" target="_blank">Django</a></label>
+                <input type="text" id="db_engine" name="db_engine" value="django.backends.db.postgres" required>
+            </div>
+            <div class="form-group">
+                <label for="ip">IP адрес базы данных:</label>
+                <input type="text" id="ip" name="ip" value="127.0.0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="port">Порт базы данных:</label>
+                <input type="text" id="port" name="port" value="5432" required>
+            </div>
+            <div class="form-group">
+                <label for="dbusername">Имя пользователя владельца базы данных:</label>
+                <input type="text" id="dbusername" name="dbusername" required>
+            </div>
+            <div class="form-group">
+                <label for="dbpassword">Пароль:</label>
+                <input type="password" id="dbpassword" name="dbpassword" required>
+            </div>
+        </form>
+    </div>
+    <div id="content2" class="content hidden">
+        <p class="current-step">Шаг 2: Создание супер-пользователя</p>
+        <p class="step-description">Необходимо создать супер-пользователя, который сможет настраивать сервер.</p>
+        <form id="setup-form2">
+            <div class="form-group">
+                <label for="username">Имя супер-пользователя:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="rpassword">Повторите пароль:</label>
+                <input type="password" id="rpassword" name="rpassword" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Фамилия:</label>
+                <input type="text" id="lastname" name="lastname" required>
+            </div>
+        </form>
+    </div>
+
+    <div id="content3" class="content hidden">
+        <p class="current-step">Шаг 3: Конфигурация сервера</p>
+        <p class="step-description">Необходимо указать базовые насйтроки сервера.</p>
+        <form id="setup-form2">
+            <div class="form-group">
+                <label for="servername">Имя сервера:</label>
+                <input type="text" id="servername" name="servername" required>
+            </div>
+        </form>
+    </div>
+
+    <div id="content4" class="content hidden">
+        <p class="current-step">Шаг 3: Конфигурация сервера</p>
+        <p class="step-description">Необходимо указать базовые насйтроки сервера.</p>
+        <form id="setup-form2">
+            <div class="form-group">
+                <label for="servername">Имя сервера:</label>
+                <input type="text" id="servername" name="servername" required>
+            </div>
+        </form>
+    </div>
+
+    <div id="finish-content" class="content hidden">
+        <p class="current-step">Готово!</p>
+        <p class="step-description">Настройка сервера завершена.</p>
+        <button>Перейти в панель администрирования</button>
+    </div>
+
+    <div class="button-container">
+        <div hidden class="prev-button">
+            <a href="#" class="underline button" onclick="prevStep()">
+                <span class="arrow">←</span>
+                Назад
+            </a>
+        </div>
+        
+        <div class="next-button">
+            <a href="#" class="underline button disabled" onclick="nextStep()" >
+                Далее
+                <span class="arrow">→</span>
+            </a>
+        </div>
+        <div class="finish-button" hidden>
+            <a href="#" class="underline button" onclick="finish()">
+                Завершить
+            </a>
+        </div>
+        
+    </div>
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/setup.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация Перехода Контента</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .content.hidden {
+            opacity: 0;
+            pointer-events: none; /* Отключаем взаимодействие с элементом */
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div id="content1" class="content">
+    <h1>Контент 1</h1>
+    <p>Это первый блок контента.</p>
+    <button class="button" onclick="showContent(2)">Далее</button>
+</div>
+
+<div id="content2" class="content hidden">
+    <h1>Контент 2</h1>
+    <p>Это второй блок контента.</p>
+    <button class="button" onclick="showContent(1)">Назад</button>
+</div>
+
+<script>
+    function showContent(contentNumber) {
+        const content1 = document.getElementById('content1');
+        const content2 = document.getElementById('content2');
+
+        if (contentNumber === 1) {
+            content1.classList.remove('hidden');
+            content2.classList.add('hidden');
+        } else {
+            content1.classList.add('hidden');
+            content2.classList.remove('hidden');
+        }
+    }
+</script>
+
+</body>
+</html>

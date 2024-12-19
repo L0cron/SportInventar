@@ -133,6 +133,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+AUTH_USER_MODEL = "user_handler.User"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
