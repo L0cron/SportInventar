@@ -21,6 +21,9 @@
         </form>
         <p class="no-account">Уже есть аккаунт? <a href='{% url "user:login" %}'>Авторизоваться</a>.</p>
     </div>
+
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.location.href='/'">В начало</button>
 {% endblock %}
 
 {% block script %}

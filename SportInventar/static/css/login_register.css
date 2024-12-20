@@ -70,20 +70,26 @@
 
 /* Стили для кнопки "Назад" */
 .back-button {
-    background-color: transparent; /* Прозрачный фон */
-    color: #007bff; /* Цвет текста */
+    padding: 10px; /* Внутренние отступы */
+    background-color: #007bff; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
     border: none; /* Без рамки */
+    border-radius: 4px; /* Закругленные углы */
     font-size: 16px; /* Размер шрифта */
     cursor: pointer; /* Курсор при наведении */
-    margin-bottom: 20px; /* Отступ снизу */
-    position: absolute; /* Абсолютное позиционирование */
-    top: 20px; /* Отступ сверху */
-    left: 20px; /* Отступ слева */
+    transition: background-color 0.3s; /* Плавный переход цвета фона */
 }
 
 /* Эффект при наведении на кнопку "Назад" */
 .back-button:hover {
-    text-decoration: underline; /* Подчеркивание при наведении */
+    text-decoration: none; /* нету Подчеркивания при наведении */
+}
+
+.back-button-container {
+    position: absolute; /* Позволяет позиционировать элемент относительно ближайшего позиционированного предка */
+    top: 10px; /* Отступ сверху */
+    left: 10px; /* Отступ слева */
+    z-index: 1000; /* Убедитесь, что кнопка будет поверх других элементов */
 }
 
 /* Общие стили для контейнера */
