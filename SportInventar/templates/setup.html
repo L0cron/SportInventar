@@ -10,30 +10,40 @@
 {% endblock %}
 
 {% block body %}
+    {% csrf_token %}
     <h1>Установка</h1>
     <div id="content1" class="content">
         <p class="current-step">Шаг 1: Подключение Базы Данных</p>
-        <p class="step-description">Необходимо настроить подключение к базе данных, рекомендуется использовать PostgreSQL</p>
+        <p class="step-description">Необходимо настроить подключение к базе данных   PostgreSQL</p>
         <form id="setup-form1">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="db_engine">Движок базы данных согласно документации <a href="https://docs.djangoproject.com/en/5.1/ref/databases/" target="_blank">Django</a></label>
-                <input type="text" id="db_engine" name="db_engine" value="django.backends.db.postgres" required>
+                <input type="text" id="db_engine" name="db_engine" value="django.backends.db.postgres" required min="1">
+            </div> -->
+            <div class="form-group">
+                <label for="dbname">Имя базы данных:</label>
+                <input type="text" id="dbname" name="dbname" value="" required min="1">
             </div>
             <div class="form-group">
                 <label for="ip">IP адрес базы данных:</label>
-                <input type="text" id="ip" name="ip" value="127.0.0.1" required>
+                <input type="text" id="ip" name="ip" value="127.0.0.1" required min="1">
             </div>
             <div class="form-group">
                 <label for="port">Порт базы данных:</label>
-                <input type="text" id="port" name="port" value="5432" required>
+                <input type="text" id="port" name="port" value="5432" required min="1">
             </div>
             <div class="form-group">
                 <label for="dbusername">Имя пользователя владельца базы данных:</label>
-                <input type="text" id="dbusername" name="dbusername" required>
+                <input type="text" id="dbusername" name="dbusername" required min="1" autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="dbpassword">Пароль:</label>
-                <input type="password" id="dbpassword" name="dbpassword" required>
+                <input type="password" id="dbpassword" name="dbpassword" required min="1" autocomplete="off">
+            </div>
+            <div class="statusfield">
+                
+                <button name="dbconnect">Подключить</button>
+                <p>Статус: <p name="dbstatus">Не подключено</p></p>
             </div>
         </form>
     </div>
@@ -61,27 +71,76 @@
                 <label for="lastname">Фамилия:</label>
                 <input type="text" id="lastname" name="lastname" required>
             </div>
+            <div class="statusfield">
+                
+                <button name="superusercheck">Проверить</button>
+                <p>Статус: <p name="superuserstatus">Не проверено</p></p>
+            </div>
         </form>
     </div>
 
     <div id="content3" class="content hidden">
         <p class="current-step">Шаг 3: Конфигурация сервера</p>
         <p class="step-description">Необходимо указать базовые насйтроки сервера.</p>
-        <form id="setup-form2">
+        <form id="setup-form3">
             <div class="form-group">
-                <label for="servername">Имя сервера:</label>
+                <label for="servername">Наименование организации:</label>
                 <input type="text" id="servername" name="servername" required>
+            </div>
+            <div class="form-group">
+                <label for="serverip">Локальный IP сервера:</label>
+                <input type="text" id="serverip" name="serverip" value="127.0.0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="serverport">Порт сервера:</label>
+                <input type="text" id="serverport" value="8000" name="serverport" required>
+            </div>
+            <div class="statusfield">
+                
+                <button name="cfgcheck">Проверить</button>
+                <p>Статус: <p name="cfgstatus">Не проверено</p></p>
             </div>
         </form>
     </div>
 
     <div id="content4" class="content hidden">
-        <p class="current-step">Шаг 3: Конфигурация сервера</p>
-        <p class="step-description">Необходимо указать базовые насйтроки сервера.</p>
-        <form id="setup-form2">
-            <div class="form-group">
-                <label for="servername">Имя сервера:</label>
-                <input type="text" id="servername" name="servername" required>
+        <p class="current-step">Шаг 4: Проверка</p>
+        <p class="step-description">Почти готово. Необходимо проверить введённые данные и применить их к серверу.</p>
+        <form id="setup-form4">
+            <div class="user-input-check">
+                <p class="headp">Проверка введённых данных</p>
+                <div class="statusfield">
+                    <p>База данных</p>
+                    <p id="status1">...</p>
+                </div>
+                <div class="statusfield">
+                    <p>Супер-пользователь</p>
+                    <p id="status2">...</p>
+                </div>
+                <div class="statusfield">
+                    <p>Конфигурация сервера</p>
+                    <p id="status3">...</p>
+                </div>
+            </div>
+
+            <div class="user-input-check">
+                <p class="headp">Создание файлов конфигурации</p>
+                <div class="statusfield">
+                    <p>Миграция полей в базу данных</p>
+                    <p id="status4">...</p>
+                </div>
+                <div class="statusfield">
+                    <p>Создание файла среды</p>
+                    <p id="status5">...</p>
+                </div>
+                <div class="statusfield">
+                    <p>Создание конфига сервера</p>
+                    <p id="status6">...</p>
+                </div>
+            </div>
+
+            <div class="statusfield">
+                <button name="checkcreate">Проверить и создать</button>
             </div>
         </form>
     </div>
@@ -89,24 +148,24 @@
     <div id="finish-content" class="content hidden">
         <p class="current-step">Готово!</p>
         <p class="step-description">Настройка сервера завершена.</p>
-        <button>Перейти в панель администрирования</button>
+        <button onclick="window.location.href=`{% url 'index' %}`">Перейти в панель администрирования</button>
     </div>
 
     <div class="button-container">
-        <div hidden class="prev-button">
+        <div hidden class="prev-button btn">
             <a href="#" class="underline button" onclick="prevStep()">
                 <span class="arrow">←</span>
                 Назад
             </a>
         </div>
         
-        <div class="next-button">
-            <a href="#" class="underline button disabled" onclick="nextStep()" >
+        <div class="next-button btn disabled">
+            <a href="#" class="underline button" onclick="nextStep()" >
                 Далее
                 <span class="arrow">→</span>
             </a>
         </div>
-        <div class="finish-button" hidden>
+        <div class="finish-button btn disabled" hidden>
             <a href="#" class="underline button" onclick="finish()">
                 Завершить
             </a>
@@ -119,5 +178,6 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/setup.js' %}"></script>
+    <script src="{% static 'js/setup.js' %}"
+    data-setup_url="{% url 'setup' %}"></script>
 {% endblock %}
