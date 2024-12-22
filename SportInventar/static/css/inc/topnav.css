@@ -9,6 +9,11 @@
     padding-right: 10px;
 }
 
-.nav-button {
-    margin-left: auto; /* Это переместит кнопку вправо */
+.nav-right {
+    margin-left: auto; /* Отодвигаем правую часть вправо */
+    margin-right: 0px; /* Отступ слева для отделения от других кнопок */
+}
+
+.nav-left {
+    display: flex; /* Используем Flexbox для левой части */
 }

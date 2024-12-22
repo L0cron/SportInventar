@@ -21,5 +21,7 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('user/', include(('user_handler.urls','user_handler'),namespace='user'))
+    path('user/', include(('user_handler.urls','user_handler'),namespace='user')),
+    path('inventory/', include('inventory.urls')),
+    path('requests/', include('requests.urls'))
 ]
