@@ -10,15 +10,16 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="topnav">
-        <div class="nav-button">
-            <button><a href="{% url 'user:login' %}">login</a></button>
+        <div class="nav-left">
+            <button onclick="window.location.href=`{% url 'inventory' %}`">Инвентарь</button>
+            <button onclick="window.location.href=`{% url 'requests' %}`">Заявки</button>
+        </div>
+        <div class="nav-right">
+            <button onclick="window.location.href=`{% url 'user:login' %}`">Авторизация</button>
         </div>
     </div>
-
 {% endblock %}
 
 {% block script %}
-
 {% endblock %}

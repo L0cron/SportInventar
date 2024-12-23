@@ -17,10 +17,14 @@
             <input type="password" placeholder="Пароль" required>
             <button class="login-button" type="submit">Войти</button>
         </form>
+
         <p class="no-account">Нет аккаунта? <a href='{% url "user:register" %}'>Регистрация</a>.</p>
+    </div>
+
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.location.href='/'">В начало</button>
     </div>
 {% endblock %}
 
 {% block script %}
-
 {% endblock %}

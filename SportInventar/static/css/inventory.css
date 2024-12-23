@@ -9,63 +9,6 @@
     background-color: #f9f9f9; /* Цвет фона */
 }
 
-/* Стили для заголовка */
-.title {
-    font-size: 24px; /* Размер шрифта */
-    margin-bottom: 20px; /* Отступ снизу */
-    text-align: center; /* Выравнивание по центру */
-    color: #333; /* Цвет текста */
-}
-
-/* Стили для формы */
-.form {
-    display: flex; /* Используем flexbox для выравнивания элементов */
-    flex-direction: column; /* Элементы располагаются в колонку */
-}
-
-/* Стили для полей ввода */
-.form input[type="text"],
-.form input[type="email"],
-.form input[type="password"]{
-    padding: 10px; /* Внутренние отступы */
-    margin-bottom: 15px; /* Отступ снизу */
-    border: 1px solid #ccc; /* Рамка */
-    border-radius: 4px; /* Закругленные углы */
-    font-size: 16px; /* Размер шрифта */
-}
-
-/* Стили для кнопки */
-.login-button {
-    padding: 10px; /* Внутренние отступы */
-    background-color: #007bff; /* Цвет фона кнопки */
-    color: white; /* Цвет текста */
-    border: none; /* Без рамки */
-    border-radius: 4px; /* Закругленные углы */
-    font-size: 16px; /* Размер шрифта */
-    cursor: pointer; /* Курсор при наведении */
-    transition: background-color 0.3s; /* Плавный переход цвета фона */
-}
-
-/* Эффект при наведении на кнопку */
-.login-button:hover {
-    background-color: #0056b3; /* Более темный цвет при наведении */
-}
-
-/* Стили для ссылки */
-.no-account {
-    text-align: center; /* Выравнивание по центру */
-    margin-top: 15px; /* Отступ сверху */
-}
-
-.no-account a {
-    color: #007bff; /* Цвет ссылки */
-    text-decoration: none; /* Без подчеркивания */
-}
-
-.no-account a:hover {
-    text-decoration: underline; /* Подчеркивание при наведении */
-}
-
 /* Стили для кнопки "Назад" */
 
 /* Стили для кнопки "Назад" */
