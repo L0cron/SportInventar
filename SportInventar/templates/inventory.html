@@ -2,21 +2,66 @@
 {% load static %}
 
 {% block title %}
-    <title>index</title>
+    <title>Inventory Management</title>
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/' %}">
+    <link rel="stylesheet" href="{% static 'css/inventory.css' %}">
 {% endblock %}
 
 {% block body %}
-
     {% include 'inc/topnav.html' %}
-    
-    
+    <div class="container">
+        <div class="inventory-container">
+            <div class="inventory-list">
+                <h2>Список инвентаря</h2>
+                {% for i in items %}
+                    <div class="inventory-item">
+                        <h3>{{ i.name }}</h3>
+                        <p>Владелец: {{ i.current_holder.first_name }} {{ i.current_holder.last_name }}</p>
+                        <p>Описание: {{ i.description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
 
+            <div class="add-inventory">
+                <h2>Добавить инвентарь</h2>
+                <button class="add-button" onclick="openModal()">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <form id="addItemForm">
+            {% csrf_token %}
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Введите данные инвентаря</h2>
+                <div class="input-group">
+                    <label for="inventoryName">Название инвентаря:</label>
+                    <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря">
+                </div>
+                <div class="input-group">
+                    <label for="inventoryStatus">Статус инвентаря:</label>
+                    <input name='itemStatus' type="text" id="inventoryStatus" placeholder="Статус инвентаря">
+                </div>
+                <div class="input-group">
+                    <label for="inventoryOwnerFirstName">Имя владельца инвентаря:</label>
+                    <input name="itemFirstName" type="text" id="inventoryOwnerFirstName" placeholder="Имя владельца инвентаря">
+                </div>
+                <div class="input-group">
+                    <label for="inventoryOwnerLastName">Фамилия владельца инвентаря:</label>
+                    <input name="itemLastName" type="text" id="inventoryOwnerLastName" placeholder="Фамилия владельца инвентаря">
+                </div>
+                <button id="addButton" class="add-button">Добавить</button>
+            </div>
+        </form>
+        
+    </div>
+ 
 {% endblock %}
 
 {% block script %}
-
+    <script src="{% static 'js/inventory.js' %}"
+    data-url="{% url 'inventory:index' %}"></script>
 {% endblock %}

@@ -1,6 +1,6 @@
 /* Общие стили для контейнера */
 .container {
-    max-width: 400px; /* Максимальная ширина контейнера */
+    max-width: 800px; /* Максимальная ширина контейнера */
     margin: 50px auto; /* Центрирование контейнера по вертикали и горизонтали */
     padding: 20px; /* Внутренние отступы */
     border: 1px solid #ccc; /* Рамка вокруг контейнера */
@@ -9,10 +9,31 @@
     background-color: #f9f9f9; /* Цвет фона */
 }
 
-/* Стили для кнопки "Назад" */
+/* Стили для контейнера инвентаря */
+.inventory-container {
+    display: flex; /* Используем Flexbox для горизонтального расположения */
+    justify-content: space-between; /* Распределяем пространство между элементами */
+}
 
-/* Стили для кнопки "Назад" */
-.back-button {
+/* Стили для списка инвентаря */
+.inventory-list {
+    width: 60%; /* Ширина списка инвентаря */
+    margin-right: 20px; /* Отступ справа */
+}
+
+/* Стили для добавления инвентаря */
+.add-inventory {
+    width: 35%; /* Ширина секции добавления инвентаря */
+}
+
+/* Стили для заголовков */
+h2 {
+    font-size: 20px; /* Размер шрифта заголовка */
+    margin-bottom: 10px; /* Отступ снизу */
+}
+
+/* Стили для кнопки добавления инвентаря */
+.add-button {
     padding: 10px; /* Внутренние отступы */
     background-color: #007bff; /* Цвет фона кнопки */
     color: white; /* Цвет текста */
@@ -23,26 +44,62 @@
     transition: background-color 0.3s; /* Плавный переход цвета фона */
 }
 
-/* Эффект при наведении на кнопку "Назад" */
-.back-button:hover {
-    text-decoration: none; /* нету Подчеркивания при наведении */
+/* Эффект при наведении на кнопку добавления */
+.add-button:hover {
+    background-color: #0056b3; /* Цвет фона при наведении */
 }
 
-.back-button-container {
-    position: absolute; /* Позволяет позиционировать элемент относительно ближайшего позиционированного предка */
-    top: 10px; /* Отступ сверху */
-    left: 10px; /* Отступ слева */
-    z-index: 1000; /* Убедитесь, что кнопка будет поверх других элементов */
+/* Стили для элементов инвентаря */
+.inventory-item {
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 4px; /* Закругленные углы для элементов списка */
+    background-color: #f9f9f9; /* Цвет фона для элементов списка */
 }
 
-/* Общие стили для контейнера */
-.container {
-    position: relative; /* Устанавливаем относительное позиционирование для контейнера */
-    max-width: 400px; /* Максимальная ширина контейнера */
-    margin: 50px auto; /* Центрирование контейнера по вертикали и горизонтали */
-    padding: 20px; /* Внутренние отступы */
-    border: 1px solid #ccc; /* Рамка вокруг контейнера */
-    border-radius: 8px; /* Закругленные углы */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
-    background-color: #f9f9f9; /* Цвет фона */
+/* Стили для модального окна */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; /* Остается на месте при прокрутке */
+    z-index: 1000; /* Поверх других элементов */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Прокрутка, если необходимо */
+    background-color: rgb(0,0,0); /* Черный фон с прозрачностью */
+    background-color: rgba(0,0,0,0.4); /* Черный фон с прозрачностью */
+}
+
+/* Модальное содержимое */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% сверху и центрирование */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина */
+}
+
+/* Кнопка закрытия */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.input-group {
+    margin-bottom: 10px;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
 }

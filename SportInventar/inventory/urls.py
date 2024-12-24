@@ -18,5 +18,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('inventory-url/', views.inventory_view, name='inventory'),  # Убедитесь, что путь правильный
+    path('', views.inventory_view, name='index'),  # Убедитесь, что путь правильный
 ]

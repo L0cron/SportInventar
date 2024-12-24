@@ -23,6 +23,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('user/', include(('user_handler.urls','user_handler'),namespace='user')),
     path('setup/',setup,name='setup'),
-    path('inventory/', include('inventory.urls')),
+    path('inventory/', include(('inventory.urls','inventory'),namespace='inventory')),
     path('requests/', include('requests.urls'))
 ]
