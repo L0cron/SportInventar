@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 
 def check_auth(request):
     if request.user.is_authenticated:
-        return 1#HttpResponse("Пользователь авторизован", status=200)
+        return 1 #HttpResponse("Пользователь авторизован", status=200)
     else:
-        return 0#redirect('user:login') 
+        return 0 #redirect('user:login') 
 
 def index(request:HttpRequest)->HttpResponse:
     return redirect('user:profile')
