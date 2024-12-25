@@ -4,7 +4,8 @@ import uuid # Required for unique book instances
 
 class Item(models.Model):
     # Поля
-    name = models.CharField(max_length=30, help_text='Название')
+    name = models.CharField(max_length=30, help_text='Название предмета')
+    price = models.IntegerField(help_text='Цена предмета')
     # Метаданные
     class Meta:
         ordering = ['-name']
@@ -16,6 +17,13 @@ class Item(models.Model):
     def __str__(self):
         """Строка для представления объекта item"""
         return self.name
+
+    def display_genre(self):
+        """
+        Creates a string for the Genre. This is required to display genre in Admin.
+        """
+        return ', '.join([ genre.name for genre in self.genre.all()[:3] ])
+    display_genre.short_description = 'Genre'
     
 
 class owner(models.Model):
@@ -38,8 +46,7 @@ class itemInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
     owner = models.ForeignKey(owner, on_delete=models.SET_NULL, null=True)
-    amount = models.IntegerField(help_text='Количество')
-    #price = models.IntegerField(help_text='Цена')
+    amount = models.IntegerField(help_text='Количество предметов')
     due_back = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (

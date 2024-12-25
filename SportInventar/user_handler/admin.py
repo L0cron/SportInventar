@@ -1,9 +1,14 @@
 from django.contrib import admin
 from .models import Item, itemInstance, owner
 
-#class ownerAdmin(admin.ModelAdmin):
- #   pass
+@admin.register(owner)
+class ownerAdmin(admin.ModelAdmin):
+    list_display = ('first_name','last_name')
 
-admin.site.register(Item)
-admin.site.register(itemInstance)
-admin.site.register(owner) 
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display = tuple(['name'])
+
+@admin.register(itemInstance)
+class itemInstanceAdmin(admin.ModelAdmin):
+    list_display = ('id','item','owner','amount','status','due_back')

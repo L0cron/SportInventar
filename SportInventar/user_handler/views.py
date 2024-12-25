@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.decorators import login_required
+from .forms import ItemInstanceForm
+
 
 def check_auth(request):
     if request.user.is_authenticated:
@@ -32,3 +34,13 @@ def recieve_register(request):
         # Обработка данных
         
     return render(request, 'profile.html')
+
+def my_view(request):
+    if request.method == 'POST':
+        form = ItemInstanceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user:register')  # перенаправление на страницу успеха
+    else:
+        form = ItemInstanceForm()
+    return render(request, 'user:login', {'form': form})

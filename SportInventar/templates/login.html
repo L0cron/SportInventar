@@ -12,7 +12,9 @@
 {% block body %}
     <div class="container">
         <div class="title">Авторизация</div>
-        <form class="form">
+        <form class="form" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
             <input type="text" placeholder="Логин" required>
             <input type="password" placeholder="Пароль" required>
             <button class="login-button" type="submit">Войти</button>
