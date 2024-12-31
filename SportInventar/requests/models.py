@@ -19,5 +19,5 @@ class Request(models.Model):
     author = models.ForeignKey(User, verbose_name='Текущий владелец', on_delete=models.CASCADE)
     requested_item = models.ForeignKey(Item, verbose_name='Запрошенный инвентарь', on_delete=models.CASCADE)
     text = models.TextField(verbose_name='Описание запроса(причина запроса)',max_length=255)
-    request_type = models.Choices(REQ_TYPE)
-    status = models.Choices(STATUS)
+    request_type = models.IntegerField(choices=REQ_TYPE, verbose_name='Тип запроса')
+    status = models.IntegerField(choices=STATUS, verbose_name='Статус запроса')
