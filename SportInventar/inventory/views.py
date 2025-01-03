@@ -14,12 +14,18 @@ def inventory_view(request:HttpRequest):
     elif request.method == 'POST':
         status = 'ok'
         try:
-            itemName = request.POST['itemName']     
-            itemStatus = request.POST['itemStatus']
-            if len(itemName) == 0 or len(itemStatus) == 0:
+            itemName = request.POST.get('itemName')
+            itemStatus = request.POST.get('itemStatus')
+            itemOwner = request.POST.get('itemOwner')
+
+            if not itemName or not itemStatus or not itemOwner:
                 status = 'Присутствуют незаполненные поля'
             else:
-                Item(name=itemName,status=int(itemStatus)).save()
-        except:
-            status = 'Все поля должны быть заполнены'
+                item = Item(name=itemName,status=int(itemStatus),current_holder=itemOwner)
+                item.save()
+                status = 'ok'
+        except Exception as e:
+            status = 'Ошибка записи данных в базу данных: ' + str(e)
+
+        print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
         return JsonResponse({"status":status})

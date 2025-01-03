@@ -13,4 +13,4 @@ inventory_status = (
 class Item(models.Model):
     name = models.CharField(verbose_name='название инвентаря', max_length=255)
     status = models.IntegerField(verbose_name='статус', choices=inventory_status)
-    current_holder = models.ForeignKey(User, verbose_name='текущий владелей',on_delete=models.CASCADE,null=True)
+    current_holder = models.CharField(verbose_name='текущий владелец', max_length=255) # models.ForeignKey(User, verbose_name='текущий владелец',on_delete=models.CASCADE,null=True)

@@ -29,7 +29,7 @@
                                 неизвестно
                             {% endif %}
                         </p>
-                        <p>Владелец: {{ i.current_holder}}</p>
+                        <p>Владелец: {{ i.current_holder }}</p>
                     </div>
                 {% endfor %}
             </div>
@@ -62,12 +62,8 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="inventoryOwnerFirstName">Имя владельца инвентаря:</label>
-                    <input name="itemFirstName" type="text" id="inventoryOwnerFirstName" placeholder="Имя владельца инвентаря" required>
-                </div>
-                <div class="input-group">
-                    <label for="inventoryOwnerLastName">Фамилия владельца инвентаря:</label>
-                    <input name="itemLastName" type="text" id="inventoryOwnerLastName" placeholder="Фамилия владельца инвентаря" required>
+                    <label for="inventoryOwner">Имя владельца инвентаря:</label>
+                    <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
                 </div>
                 <div class="confirm">
                     <span class="error-message" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->

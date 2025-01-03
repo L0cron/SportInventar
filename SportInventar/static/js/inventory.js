@@ -11,14 +11,12 @@ function closeModal() {
 function addInventory() {
     const inventoryName = document.getElementById('inventoryName').value;
     const inventoryStatus = document.getElementById('inventoryStatus').value;
-    const inventoryOwnerFirstName = document.getElementById('inventoryOwnerFirstName').value;
-    const inventoryOwnerLastName = document.getElementById('inventoryOwnerLastName').value;
+    const inventoryOwner = document.getElementById('inventoryOwner').value;
 
     // Очистка предыдущих выделений
     document.getElementById('inventoryName').style.border = '';
     document.getElementById('inventoryStatus').style.border = '';
-    document.getElementById('inventoryOwnerFirstName').style.border = '';
-    document.getElementById('inventoryOwnerLastName').style.border = '';
+    document.getElementById('inventoryOwner').style.border = '';
 
     let hasError = false; // Флаг для отслеживания наличия ошибок
     const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
@@ -38,12 +36,8 @@ function addInventory() {
             hasError = true;
         }
     }
-    if (!inventoryOwnerFirstName) {
-        document.getElementById('inventoryOwnerFirstName').style.border = '1px solid red';
-        hasError = true;
-    }
-    if (!inventoryOwnerLastName) {
-        document.getElementById('inventoryOwnerLastName').style.border = '1px solid red';
+    if (!inventoryOwner) {
+        document.getElementById('inventoryOwner').style.border = '1px solid red';
         hasError = true;
     }
 
