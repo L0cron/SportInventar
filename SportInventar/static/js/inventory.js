@@ -1,9 +1,11 @@
 function openModal() {
-    document.getElementById("myModal").style.display = "block";
+    const modal = document.getElementById("myModal");
+    modal.style.display = "block";
 }
 
 function closeModal() {
-    document.getElementById("myModal").style.display = "none";
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
 }
 
 function addInventory() {
@@ -12,46 +14,94 @@ function addInventory() {
     const inventoryOwnerFirstName = document.getElementById('inventoryOwnerFirstName').value;
     const inventoryOwnerLastName = document.getElementById('inventoryOwnerLastName').value;
 
-    if (inventoryName && inventoryOwnerFirstName && inventoryOwnerLastName) {
-        const inventoryList = document.querySelector('.inventory-list');
-        const newItem = document.createElement('div');
-        newItem.className = 'inventory-item';
-        newItem.innerHTML = `
-            <h3>${inventoryName}</h3>
-            <p>Статус: ${inventoryStatus}</p>
-            <p>Владелец: ${inventoryOwnerFirstName} ${inventoryOwnerLastName}</p>
-        `;
-        inventoryList.appendChild(newItem);
-        document.getElementById('inventoryName').value = '';
-        document.getElementById('inventoryStatus').value = '';
-        document.getElementById('inventoryOwnerFirstName').value = '';
-        document.getElementById('inventoryOwnerLastName').value = '';
-        closeModal();
-        alert('Инвентарь успешно добавлен!'); // User feedback
-    } else {
-        alert('Пожалуйста, введите все необходимые данные.');
+    // Очистка предыдущих выделений
+    document.getElementById('inventoryName').style.border = '';
+    document.getElementById('inventoryStatus').style.border = '';
+    document.getElementById('inventoryOwnerFirstName').style.border = '';
+    document.getElementById('inventoryOwnerLastName').style.border = '';
+
+    let hasError = false; // Флаг для отслеживания наличия ошибок
+    const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
+
+    // Проверка каждого поля и выделение красным, если оно пустое
+    if (!inventoryName) {
+        document.getElementById('inventoryName').style.border = '1px solid red';
+        hasError = true;
     }
+    if (inventoryStatus === '') {
+        document.getElementById('inventoryStatus').style.border = '1px solid red';
+        hasError = true;
+    } else {
+        const select = document.getElementById('inventoryStatus');
+        if (select.selectedIndex === 0) {
+            select.style.border = '1px solid red';
+            hasError = true;
+        }
+    }
+    if (!inventoryOwnerFirstName) {
+        document.getElementById('inventoryOwnerFirstName').style.border = '1px solid red';
+        hasError = true;
+    }
+    if (!inventoryOwnerLastName) {
+        document.getElementById('inventoryOwnerLastName').style.border = '1px solid red';
+        hasError = true;
+    }
+
+    // Если есть ошибки, выводим сообщение
+    if (hasError) {
+        errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
+        return;
+    } else {
+        errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
+        closeModal();
+    }
+
+    // Если все поля заполнены, отправляем
 }
 
 // Закрытие модального окна при клике вне его
 window.onclick = function(event) {
     const modal = document.getElementById("myModal");
-    if (event.target == modal) {
+    if (event.target === modal) {
         closeModal();
     }
 }
 
+
+// Получение данных из атрибутов тега script
 let dataset = document.currentScript.dataset
+
+// Функция, выполняемая после загрузки страницы
 $(document).ready(function() {
-    $("#addButton").on('click', function(e) {
+    // Обработчик клика по кнопке добавления
+    $('#addButton').on('click', function(e) {
+        // Предотвращение стандартного поведения кнопки
         e.preventDefault();
-        let data = $('#addItemForm').serialize()
+        
+        // Сериализация данных формы в строку
+        let data = $("#addItemForm").serialize();
+        
+        // AJAX-запрос на добавление элемента
         $.ajax({
+            // Тип запроса
+            type: "POST",
+            // URL, на который отправляется запрос
             url: dataset['url'],
-            method: 'POST',
+            // Данные, отправляемые с запросом
             data: data,
-            success: function(e) {
-                addInventory();
+            // Функция, выполняемая при успешном ответе сервера
+            success: function(response) {
+                // Проверка статуса ответа
+                if(response['status'] == 'ok') {
+                    // Добавление элемента в инвентарь
+                    addInventory();
+                    // Перезагрузка страницы
+                    window.location.reload();
+
+                } else {
+                    // TODO: обработка ошибки
+                }
+                
             }
         })
     })

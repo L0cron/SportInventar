@@ -18,8 +18,18 @@
                 {% for i in items %}
                     <div class="inventory-item">
                         <h3>{{ i.name }}</h3>
-                        <p>Владелец: {{ i.current_holder.first_name }} {{ i.current_holder.last_name }}</p>
-                        <p>Описание: {{ i.description }}</p>
+                        <p>Статус: 
+                            {% if i.status == 0 %}
+                                сломано
+                            {% elif i.status == 1 %}
+                                в норме
+                            {% elif i.status == 2 %}
+                                новое
+                            {% else %}
+                                неизвестно
+                            {% endif %}
+                        </p>
+                        <p>Владелец: {{ i.current_holder}}</p>
                     </div>
                 {% endfor %}
             </div>
@@ -39,29 +49,36 @@
                 <h2>Введите данные инвентаря</h2>
                 <div class="input-group">
                     <label for="inventoryName">Название инвентаря:</label>
-                    <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря">
+                    <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря" required>
                 </div>
                 <div class="input-group">
                     <label for="inventoryStatus">Статус инвентаря:</label>
-                    <input name='itemStatus' type="text" id="inventoryStatus" placeholder="Статус инвентаря">
+                    <input hidden name="itemStatus" value="1">
+                    <select name="itemStatus" id="inventoryStatus" required>
+                        <option value="-1" disabled selected>Выберите статус</option>
+                        <option value="0">сломано</option>
+                        <option value="1">в норме</option>
+                        <option value="2">новое</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="inventoryOwnerFirstName">Имя владельца инвентаря:</label>
-                    <input name="itemFirstName" type="text" id="inventoryOwnerFirstName" placeholder="Имя владельца инвентаря">
+                    <input name="itemFirstName" type="text" id="inventoryOwnerFirstName" placeholder="Имя владельца инвентаря" required>
                 </div>
                 <div class="input-group">
                     <label for="inventoryOwnerLastName">Фамилия владельца инвентаря:</label>
-                    <input name="itemLastName" type="text" id="inventoryOwnerLastName" placeholder="Фамилия владельца инвентаря">
+                    <input name="itemLastName" type="text" id="inventoryOwnerLastName" placeholder="Фамилия владельца инвентаря" required>
                 </div>
-                <button id="addButton" class="add-button">Добавить</button>
+                <div class="confirm">
+                    <span class="error-message" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                    <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
+                </div>
             </div>
         </form>
-        
     </div>
  
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/inventory.js' %}"
-    data-url="{% url 'inventory:index' %}"></script>
+    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'inventory:index' %}"></script>
 {% endblock %}

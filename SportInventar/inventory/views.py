@@ -14,8 +14,12 @@ def inventory_view(request:HttpRequest):
     elif request.method == 'POST':
         status = 'ok'
         try:
-            itemName = request.POST['itemName']
+            itemName = request.POST['itemName']     
             itemStatus = request.POST['itemStatus']
+            if len(itemName) == 0 or len(itemStatus) == 0:
+                status = 'Присутствуют незаполненные поля'
+            else:
+                Item(name=itemName,status=int(itemStatus)).save()
         except:
             status = 'Все поля должны быть заполнены'
-        return JsonResponse({})
+        return JsonResponse({"status":status})
