@@ -1,12 +1,45 @@
 /* Общие стили для контейнера */
 .container {
-    max-width: 1200px; /* Увеличенная максимальная ширина контейнера */
-    margin: 50px auto; /* Центрирование контейнера по вертикали и горизонтали */
-    padding: 20px; /* Внутренние отступы */
-    border: 1px solid #ccc; /* Рамка вокруг контейнера */
-    border-radius: 8px; /* Закругленные углы */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
-    background-color: #f9f9f9; /* Цвет фона */
+    display: flex; /* Используем Flexbox */
+    justify-content: space-between; /* Распределяем пространство между элементами */
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.main-content {
+    width: 70%; /* Основной контент занимает 70% ширины */
+}
+
+.sidebar {
+    width: 25%; /* Боковая панель занимает 25% ширины */
+    padding: 20px;
+    border-left: 1px solid #ddd; /* Разделительная линия */
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.sidebar .add-button {
+    width: 100%; /* Кнопка занимает всю ширину боковой панели */
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar .add-button:hover {
+    background-color: #0056b3;
 }
 
 /* Стили для контейнера инвентаря */
@@ -17,7 +50,7 @@
 
 /* Стили для списка инвентаря */
 .inventory-list {
-    width: 65%; /* Увеличенная ширина списка инвентаря */
+    width: 100%;
     margin-right: 20px; /* Отступ справа */
 }
 
@@ -34,7 +67,8 @@ h2 {
 
 /* Стили для кнопки добавления инвентаря */
 .add-button {
-    padding: 10px; /* Внутренние отступы */
+    padding: 10
+    px; /* Внутренние отступы */
     background-color: #007bff; /* Цвет фона кнопки */
     color: white; /* Цвет текста */
     border: none; /* Без рамки */
@@ -104,21 +138,24 @@ h2 {
     margin-bottom: 5px;
 }
 
-/* Стили для элементов инвентаря */
+.inventory-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
 .inventory-item {
     padding: 15px;
     border: 1px solid #ddd;
-    margin-bottom: 15px;
-    border-radius: 8px; /* Закругленные углы для элементов списка */
-    background-color: #f9f9f9; /* Цвет фона для элементов списка */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для элементов списка */
-    transition: transform 0.2s, box-shadow 0.2s; /* Плавный переход для эффекта */
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Эффект при наведении на элементы инвентаря */
 .inventory-item:hover {
-    transform: translateY(-2px); /* Поднимаем элемент при наведении */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Увеличиваем тень при наведении */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Стили для заголовков внутри элементов инвентаря */
@@ -149,4 +186,57 @@ h2 {
     flex-direction: column;
     margin: 0;
     gap: 0;
+}
+
+/* Стили для кнопки переключения вида */
+.toggle-view-button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+}
+.toggle-view-button:hover {
+    background-color: #0056b3   ;
+}
+
+/* Стили для блочного вида (сетка) */
+.inventory-list.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.inventory-list.grid-view .inventory-item {
+    margin-bottom: 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.inventory-list.grid-view .inventory-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для списочного вида */
+.inventory-list.list-view {
+    display: block;
+}
+
+.inventory-list.list-view .inventory-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

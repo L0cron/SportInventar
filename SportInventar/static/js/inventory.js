@@ -100,3 +100,18 @@ $(document).ready(function() {
         })
     })
 })
+
+function toggleInventoryView() {
+    const inventoryList = document.querySelector('.inventory-list');
+    const toggleButton = document.querySelector('.toggle-view-button');
+
+    if (inventoryList.classList.contains('grid-view')) {
+        // Переключаем на вид списка
+        inventoryList.classList.remove('grid-view');
+        inventoryList.classList.add('list-view');
+    } else {
+        // Переключаем на вид блоков
+        inventoryList.classList.remove('list-view');
+        inventoryList.classList.add('grid-view');
+    }
+}

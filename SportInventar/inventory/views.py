@@ -18,7 +18,7 @@ def inventory_view(request:HttpRequest):
             itemStatus = request.POST.get('itemStatus')
             itemOwner = request.POST.get('itemOwner')
 
-            if not itemName or not itemStatus or not itemOwner:
+            if len(itemName) == 0 or len(itemStatus) == 0 or len(itemOwner) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
                 item = Item(name=itemName,status=int(itemStatus),current_holder=itemOwner)
@@ -27,5 +27,5 @@ def inventory_view(request:HttpRequest):
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
 
-        print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
+        # print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
         return JsonResponse({"status":status})

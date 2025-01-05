@@ -11,10 +11,14 @@
 
 {% block body %}
     {% include 'inc/topnav.html' %}
+
     <div class="container">
-        <div class="inventory-container">
-            <div class="inventory-list">
+        <div class="main-content">
+            <div class="inventory-header">
                 <h2>Список инвентаря</h2>
+                <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
+            </div>
+            <div class="inventory-list list-view">
                 {% for i in items %}
                     <div class="inventory-item">
                         <h3>{{ i.name }}</h3>
@@ -33,11 +37,11 @@
                     </div>
                 {% endfor %}
             </div>
-
-            <div class="add-inventory">
-                <h2>Добавить инвентарь</h2>
-                <button class="add-button" onclick="openModal()">Добавить</button>
-            </div>
+        </div>
+    
+        <div class="sidebar">
+            <h2>Добавить инвентарь</h2>
+            <button class="add-button" onclick="openModal()">Добавить</button>
         </div>
     </div>
 
@@ -53,7 +57,7 @@
                 </div>
                 <div class="input-group">
                     <label for="inventoryStatus">Статус инвентаря:</label>
-                    <input hidden name="itemStatus" value="1">
+                    <input hidden name="itemStatus">
                     <select name="itemStatus" id="inventoryStatus" required>
                         <option value="-1" disabled selected>Выберите статус</option>
                         <option value="0">сломано</option>
