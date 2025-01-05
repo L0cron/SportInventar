@@ -1,7 +1,6 @@
-/* Общие стили для контейнера */
 .container {
-    display: flex; /* Используем Flexbox */
-    justify-content: space-between; /* Распределяем пространство между элементами */
+    display: flex;
+    justify-content: space-between;
     max-width: 1200px;
     margin: 50px auto;
     padding: 20px;
@@ -12,13 +11,13 @@
 }
 
 .main-content {
-    width: 70%; /* Основной контент занимает 70% ширины */
+    width: 70%;
 }
 
 .sidebar {
-    width: 25%; /* Боковая панель занимает 25% ширины */
+    width: 25%;
     padding: 20px;
-    border-left: 1px solid #ddd; /* Разделительная линия */
+    border-left: 1px solid #ddd;
 }
 
 .sidebar h2 {
@@ -26,8 +25,8 @@
     margin-bottom: 10px;
 }
 
-.sidebar .add-button {
-    width: 100%; /* Кнопка занимает всю ширину боковой панели */
+.button {
+    width: 100%;
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -38,84 +37,49 @@
     transition: background-color 0.3s;
 }
 
-.sidebar .add-button:hover {
+.button:hover {
     background-color: #0056b3;
 }
 
-/* Стили для контейнера инвентаря */
 .inventory-container {
-    display: flex; /* Используем Flexbox для горизонтального расположения */
-    justify-content: space-between; /* Распределяем пространство между элементами */
+    display: flex;
+    justify-content: space-between;
 }
 
-/* Стили для списка инвентаря */
 .inventory-list {
     width: 100%;
-    margin-right: 20px; /* Отступ справа */
+    margin-right: 20px;
 }
 
-/* Стили для добавления инвентаря */
 .add-inventory {
-    width: 30%; /* Уменьшенная ширина секции добавления инвентаря */
+    width: 30%;
 }
 
-/* Стили для заголовков */
 h2 {
-    font-size: 20px; /* Размер шрифта заголовка */
-    margin-bottom: 10px; /* Отступ снизу */
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
-/* Стили для кнопки добавления инвентаря */
-.add-button {
-    padding: 10
-    px; /* Внутренние отступы */
-    background-color: #007bff; /* Цвет фона кнопки */
-    color: white; /* Цвет текста */
-    border: none; /* Без рамки */
-    border-radius: 4px; /* Закругленные углы */
-    font-size: 16px; /* Размер шрифта */
-    cursor: pointer; /* Курсор при наведении */
-    transition: background-color 0.3s; /* Плавный переход цвета фона */
-}
-
-/* Эффект при наведении на кнопку добавления */
-.add-button:hover {
-    background-color: #0056b3; /* Цвет фона при наведении */
-}
-
-/* Стили для элементов инвентаря */
-.inventory-item {
-    padding: 5px;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
-    border-radius: 4px; /* Закругленные углы для элементов списка */
-    background-color: #f9f9f9; /* Цвет фона для элементов списка */
-}
-
-/* Стили для модального окна */
 .modal {
-    display: none; /* Скрыто по умолчанию */
-    position: fixed; /* Остается на месте при прокрутке */
-    z-index: 1000; /* Поверх других элементов */
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; /* Полная ширина */
-    height: 100%; /* Полная высота */
-    overflow: auto; /* Прокрутка, если необходимо */
-    background-color: rgb(0,0,0); /* Черный фон с прозрачностью */
-    background-color: rgba(0,0,0,0.4); /* Черный фон с прозрачностью */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Модальное содержимое */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% сверху и центрирование */
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Ширина */
+    width: 80%;
 }
 
-/* Кнопка закрытия */
 .close {
     color: #aaa;
     float: right;
@@ -123,8 +87,7 @@ h2 {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -133,6 +96,7 @@ h2 {
 .input-group {
     margin-bottom: 10px;
 }
+
 .input-group label {
     display: block;
     margin-bottom: 5px;
@@ -158,37 +122,32 @@ h2 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Стили для заголовков внутри элементов инвентаря */
 .inventory-item h3 {
-    margin: 0 0 10px; /* Отступы для заголовка */
-    color: #333; /* Цвет заголовка */
-    font-size: 20px; /* Размер шрифта заголовка */
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 20px;
 }
 
-/* Стили для параграфов внутри элементов инвентаря */
 .inventory-item p {
-    margin: 5px 0; /* Отступы для параграфов */
-    color: #666; /* Цвет текста */
-    font-size: 16px; /* Размер шрифта */
+    margin: 5px 0;
+    color: #666;
+    font-size: 16px;
 }
 
 .error-message {
-
-    color: #ab2432; /* Темно-красный текст */
-    padding: 5px; /* Отступы внутри сообщения */
-    font-family: Arial, sans-serif; /* Шрифт */
-    font-size: 16px; /* Размер шрифта */
+    color: #ab2432;
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 .confirm {
-    
     display: flex;
     flex-direction: column;
     margin: 0;
     gap: 0;
 }
 
-/* Стили для кнопки переключения вида */
 .toggle-view-button {
     padding: 10px;
     background-color: #007bff;
@@ -200,11 +159,11 @@ h2 {
     transition: background-color 0.3s;
     margin-bottom: 20px;
 }
+
 .toggle-view-button:hover {
-    background-color: #0056b3   ;
+    background-color: #0056b3;
 }
 
-/* Стили для блочного вида (сетка) */
 .inventory-list.grid-view {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -214,7 +173,7 @@ h2 {
 
 .inventory-list.grid-view .inventory-item {
     margin-bottom: 0;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #f9f9f9;
@@ -227,7 +186,6 @@ h2 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Стили для списочного вида */
 .inventory-list.list-view {
     display: block;
 }
