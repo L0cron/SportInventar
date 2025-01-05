@@ -35,6 +35,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-bottom: 20px;
 }
 
 .button:hover {
@@ -109,6 +110,7 @@ h2 {
 }
 
 .inventory-item {
+    position: relative;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -157,7 +159,8 @@ h2 {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-bottom: 20px;
+    margin-top: 11px;
+    margin-bottom: 10px;
 }
 
 .toggle-view-button:hover {
@@ -197,4 +200,58 @@ h2 {
     border-radius: 4px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.checkbox-container {
+    position: absolute; /* Абсолютное позиционирование */
+    top: 10px; /* Отступ сверху */
+    right: 10px; /* Отступ справа */
+}
+
+.inventory-checkbox {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.select-all-button {
+    margin-top: 0px; /* Отступ сверху */
+    margin-bottom: 0px;
+}
+
+.hidden {
+    display: none;
+}
+
+.inventory-header {
+    width: 70%;
+}
+
+.delite-header {
+    width: 30%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+}
+
+.remove-button {
+    background-color: #ab2432;
+    color: white;
+    margin-bottom: 5px;
+    margin-top: 0px; /* Отступ сверху */
+    width: 100%;
+
+}
+
+.remove-button:hover {
+    background-color: #8b1a1a;
 }

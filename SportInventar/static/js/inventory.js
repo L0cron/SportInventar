@@ -103,7 +103,6 @@ $(document).ready(function() {
 
 function toggleInventoryView() {
     const inventoryList = document.querySelector('.inventory-list');
-    const toggleButton = document.querySelector('.toggle-view-button');
 
     if (inventoryList.classList.contains('grid-view')) {
         // Переключаем на вид списка
@@ -114,4 +113,43 @@ function toggleInventoryView() {
         inventoryList.classList.remove('list-view');
         inventoryList.classList.add('grid-view');
     }
+}
+
+function toggleCheckboxes() {
+    const checkboxes = document.querySelectorAll('.checkbox-container');
+    const deleteButton = document.querySelector('.delete-button');
+    const selectAllButton = document.querySelector('.select-all-button');
+    const removeButton = document.querySelector('.remove-button');
+
+    // Переключение видимости чекбоксов
+    checkboxes.forEach(checkboxContainer => {
+        checkboxContainer.classList.toggle('hidden');
+    });
+
+    // Переключение видимости кнопки "Выделить все"
+    selectAllButton.classList.toggle('hidden');
+    removeButton.classList.toggle('hidden');
+
+    // Изменение текста кнопки "Удалить"
+    if (deleteButton.textContent === 'Удалить') {
+        deleteButton.textContent = 'Отмена';
+    } else {
+        deleteButton.textContent = 'Удалить';
+    }
+}
+
+function selectAllItems() {
+    const checkboxes = document.querySelectorAll('.inventory-checkbox');
+    const selectAllButton = document.querySelector('.select-all-button');
+
+    // Проверка, все ли чекбоксы уже выделены
+    const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+    // Выделение или снятие выделения всех чекбоксов
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = !allChecked;
+    });
+
+    // Изменение текста кнопки "Выделить все"
+    selectAllButton.textContent = allChecked ? 'Выделить все' : 'Снять выделение';
 }
