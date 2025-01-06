@@ -21,13 +21,13 @@
                 </div>
                             
                 <div class="delite-header">
-                    <button class="remove-button hidden">Удалить</button>
+                    <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
                     <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
                 </div>  
             </div>
 
 
-            <div class="inventory-list list-view">
+            <div class="inventory-list grid-view">
                 {% for i in items %}
                 <div class="inventory-item">
                     <div class="checkbox-container hidden">
@@ -58,6 +58,25 @@
             <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
     </div>
+
+    <div id="NotChosenItemModal" class="NotChosenItemModal">
+        <div class="NotChosenItemModal-content">
+            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
+            <h2>Ошибка</h2>
+            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
+        </div>
+    </div>
+
+<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
+    <div class="ConfirmItemDelitionModal-content">
+        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
+        <h2>Подтверждение удаления</h2>
+        <br />
+        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
+        <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+        <button class="confirm-del-button confirm-button" id="confirm-button" onclick="confirmDelete()">Удалить</button>
+    </div>
+</div>
 
     <div id="myModal" class="modal">
         <form id="addItemForm">

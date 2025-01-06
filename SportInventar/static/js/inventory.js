@@ -55,8 +55,8 @@ function addInventory() {
 
 // Закрытие модального окна при клике вне его
 window.onclick = function(event) {
-    const modal = document.getElementById("myModal");
-    if (event.target === modal) {
+    const mymodal = document.getElementById("myModal");
+    if (event.target === mymodal) {
         closeModal();
     }
 }
@@ -152,4 +152,38 @@ function selectAllItems() {
 
     // Изменение текста кнопки "Выделить все"
     selectAllButton.textContent = allChecked ? 'Выделить все' : 'Снять выделение';
+}
+
+function openNotChosenItemModal() {
+    const modal = document.getElementById("NotChosenItemModal");
+    modal.style.display = "block";
+}
+
+function closeNotChosenItemModal() {
+    const modal = document.getElementById("NotChosenItemModal");
+    modal.style.display = "none";
+}
+
+function openConfirmItemDelitionModal() {
+    const modal = document.getElementById("ConfirmItemDelitionModal");
+    modal.style.display = "block";
+}
+
+function closeConfirmItemDelitionModal() {
+    const modal = document.getElementById("ConfirmItemDelitionModal");
+    modal.style.display = "none";
+}
+
+
+function deleteInventory() {
+    const checkboxes = document.querySelectorAll('.inventory-checkbox');
+    const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+
+    if (checkedCheckboxes.length === 0) {
+        openNotChosenItemModal();
+        return;
+    }
+
+    openConfirmItemDelitionModal();
+    // AJAX
 }
