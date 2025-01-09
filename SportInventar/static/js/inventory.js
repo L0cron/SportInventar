@@ -67,7 +67,7 @@ window.onclick = function(event) {
 let dataset = document.currentScript.dataset
 
 // Функция, выполняемая после загрузки страницы
-$(document).ready(function() {
+$(function() {
     // Обработчик клика по кнопке добавления
     $('#addButton').on('click', function(e) {
         // Предотвращение стандартного поведения кнопки

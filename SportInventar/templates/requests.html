@@ -2,21 +2,116 @@
 {% load static %}
 
 {% block title %}
-    <title>index</title>
+    <title>Requests</title>
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/' %}">
+    <link rel="stylesheet" href="{% static 'css/inventory.css' %}">
 {% endblock %}
 
 {% block body %}
-
     {% include 'inc/topnav.html' %}
-    
-    
 
+    <div class="container">
+        <div class="main-content">
+            <div class="header-container">
+                <div class="inventory-header"> 
+                    <h2>Список заявок</h2>
+                    <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
+                </div>
+                            
+                <div class="delite-header">
+                    <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
+                    <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
+                </div>  
+            </div>
+
+
+            <div class="inventory-list grid-view">
+                {% for i in requests %}
+                <div class="inventory-item">
+                    <div class="checkbox-container hidden">
+                        <input type="checkbox" class="inventory-checkbox" data-id="{{ i.id }}">
+                    </div>
+                    <h3>{{ i.requestedItem }}</h3>
+                    <p>Тип заявки: 
+                        {% if i.requestedType == 0 %}
+                            Приобретение
+                        {% elif i.requestedType == 1 %}
+                            Замена
+                        {% elif i.requestedType == 2 %}
+                            Получение
+                        {% else %}
+                            неизвестно
+                        {% endif %}
+                    </p>
+                    <p>Создатель заявки: {{ i.author.first_name }} {{ i.author.last_name }}</p>
+                    <p>Описание: {{ i.text }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <div class="sidebar">
+            <h2>Создать заявку</h2>
+            <button class="button" onclick="openModal()">Создать</button>
+            <h2>Удалить заявку</h2>
+            <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
+        </div>
+    </div>
+
+    <div id="NotChosenItemModal" class="NotChosenItemModal">
+        <div class="NotChosenItemModal-content">
+            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
+            <h2>Ошибка</h2>
+            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
+        </div>
+    </div>
+
+<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
+    <div class="ConfirmItemDelitionModal-content">
+        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
+        <h2>Подтверждение удаления</h2>
+        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
+        <div class="button-container">
+            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+            <button class="confirm-del-button confirm-button" id="confirm-button" onclick="confirmDelete()">Удалить</button>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <form id="addItemForm">
+        {% csrf_token %}
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Введите данные для заявки</h2>
+            <div class="input-group">
+                <label for="inventoryName">Тип заявки:</label>
+                <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря">
+                <label for="requestType">Тип заявки:</label>
+                <input hidden name="requestType">
+                <select name="requestType" id="requestType" required>
+                    <option value="-1" disabled selected>Выберите тип</option>
+                    <option value=0>Приобретение</option>
+                    <option value=1>Замена</option>
+                    <option value=2>Получение</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="requestedItem">Инвентарь:</label>
+                <input name='requestedItem' type="text" id="requestedItem" placeholder="Укажите требуемый предмет">
+            </div>
+            <div class="input-group">
+                <label for="requestDesc">Причина:</label>
+                <input name='requestDesc' type="text" id="requestDesc" placeholder="Причина создания заявки">
+            </div>
+            <button id="addButton" class="add-button">Создать</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block script %}
-
+    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'requests:index' %}"></script>
 {% endblock %}
