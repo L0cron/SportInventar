@@ -71,45 +71,45 @@
     <div class="ConfirmItemDelitionModal-content">
         <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
         <h2>Подтверждение удаления</h2>
-        <br />
         <p>Вы уверены, что хотите удалить выбранные элементы?</p>
-        <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
-        <button class="confirm-del-button confirm-button" id="confirm-button" onclick="confirmDelete()">Удалить</button>
+        <div class="button-container">
+            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+            <button class="confirm-del-button confirm-button" id="confirm-button" onclick="confirmDelete()">Удалить</button>
+        </div>
     </div>
 </div>
 
-    <div id="myModal" class="modal">
-        <form id="addItemForm">
-            {% csrf_token %}
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Введите данные инвентаря</h2>
-                <div class="input-group">
-                    <label for="inventoryName">Название инвентаря:</label>
-                    <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря" required>
-                </div>
-                <div class="input-group">
-                    <label for="inventoryStatus">Статус инвентаря:</label>
-                    <input hidden name="itemStatus">
-                    <select name="itemStatus" id="inventoryStatus" required>
-                        <option value="-1" disabled selected>Выберите статус</option>
-                        <option value="0">сломано</option>
-                        <option value="1">в норме</option>
-                        <option value="2">новое</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                    <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
-                </div>
-                <div class="confirm">
-                    <span class="error-message" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
-                    <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
-                </div>
+<div id="myModal" class="modal">
+    <form id="addItemForm">
+        {% csrf_token %}
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Введите данные инвентаря</h2>
+            <div class="input-group">
+                <label for="inventoryName">Название инвентаря:</label>
+                <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря" required>
             </div>
-        </form>
-    </div>
- 
+            <div class="input-group">
+                <label for="inventoryStatus">Статус инвентаря:</label>
+                <input hidden name="itemStatus">
+                <select name="itemStatus" id="inventoryStatus" required>
+                    <option value="-1" disabled selected>Выберите статус</option>
+                    <option value="0">сломано</option>
+                    <option value="1">в норме</option>
+                    <option value="2">новое</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="inventoryOwner">Имя владельца инвентаря:</label>
+                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+            </div>
+            <div class="confirm">
+                <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
+            </div>
+        </div>
+    </form>
+</div>х
 {% endblock %}
 
 {% block script %}

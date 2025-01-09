@@ -44,6 +44,7 @@ function addInventory() {
     // Если есть ошибки, выводим сообщение
     if (hasError) {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
+        errorMessageElement.style.display = 'block';
         return;
     } else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
