@@ -74,7 +74,7 @@
         <p>Вы уверены, что хотите удалить выбранные элементы?</p>
         <div class="button-container">
             <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
-            <button class="confirm-del-button confirm-button" id="confirm-button" onclick="confirmDelete()">Удалить</button>
+            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
         </div>
     </div>
 </div>
@@ -103,15 +103,17 @@
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
                 <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
             </div>
-            <div class="confirm">
-                <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
-                <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
-            </div>
+            <form>
+                <div class="confirm">
+                    <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                    <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
+                </div>
+            </form>
         </div>
     </form>
-</div>х
+</div>
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'inventory:index' %}"></script>
+    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'inventory:index' %}" data-remurl="{% url 'inventory:del' %}"></script>
 {% endblock %}

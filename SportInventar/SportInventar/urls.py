@@ -24,5 +24,5 @@ urlpatterns = [
     path('user/', include(('user_handler.urls','user_handler'),namespace='user')),
     path('setup/',setup,name='setup'),
     path('inventory/', include(('inventory.urls','inventory'),namespace='inventory')),
-    path('requests/', include(('requests.urls','requests'),namespace='requests'))
+    path('requests/', include(('requests.urls', 'requests'), namespace='requests'))
 ]

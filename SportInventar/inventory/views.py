@@ -29,3 +29,26 @@ def inventory_view(request:HttpRequest):
 
         # print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
         return JsonResponse({"status":status})
+    
+def del_view(request:HttpRequest)->JsonResponse:
+    if request.method == 'POST':
+        status = {
+            "item_deleted":0
+        }
+        
+        c = 0
+        ids = []
+        for i in request.POST:
+            if i == f'items[{c}]':
+                ids.append(request.POST[f"items[{c}]"])
+                c+=1
+        deleted = 0 
+        for i in ids:
+            try:
+                item = Item.objects.get(id=int(i))
+                item.delete()
+                deleted+=1
+            except:
+                pass
+        status['item_deleted'] = deleted
+        return JsonResponse(status)
