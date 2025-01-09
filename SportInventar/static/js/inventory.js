@@ -66,8 +66,10 @@ window.onclick = function(event) {
 // Получение данных из атрибутов тега script
 let dataset = document.currentScript.dataset
 
+let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
+
 // Функция, выполняемая после загрузки страницы
-$(document).ready(function() {
+$(function() {
     // Обработчик клика по кнопке добавления
     $('#addButton').on('click', function(e) {
         // Предотвращение стандартного поведения кнопки
@@ -75,6 +77,7 @@ $(document).ready(function() {
         
         // Сериализация данных формы в строку
         let data = $("#addItemForm").serialize();
+        console.log(data);
         
         // AJAX-запрос на добавление элемента
         $.ajax({
@@ -100,6 +103,32 @@ $(document).ready(function() {
             }
         })
     })
+
+    $("#confirm-button").on('click', function(e) {
+
+        let data = {
+            "csrfmiddlewaretoken": csrftoken.value,
+            "items": {
+
+            }
+        }
+        const checkboxes = document.querySelectorAll('.inventory-checkbox');
+        const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+        for(let i = 0; i < checkedCheckboxes.length; i++) {
+            data['items'][i]=checkedCheckboxes[i].getAttribute('data-id');
+        }
+        console.log(data)
+       
+        $.ajax({
+            type: "POST",
+            url: dataset['remurl'],
+            data: data,
+            success: function(response) {
+                
+                window.location.reload();
+            }
+        });
+    });
 })
 
 function toggleInventoryView() {
@@ -188,3 +217,4 @@ function deleteInventory() {
     openConfirmItemDelitionModal();
     // AJAX
 }
+
