@@ -11,9 +11,42 @@
 
 .nav-right {
     margin-left: auto; /* Отодвигаем правую часть вправо */
-    margin-right: 0px; /* Отступ слева для отделения от других кнопок */
+    margin-right: 15px; /* Отступ слева для отделения от других кнопок */
 }
 
 .nav-left {
     display: flex; /* Используем Flexbox для левой части */
+    float: right;
+}
+
+.topusername {
+    margin-right: 1rem;
+    height: 40px;
+    line-height: 40px; /* Ensures text is vertically centered */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    
+}
+
+.userblock {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    padding-left: 15px;
+    padding-right: 5px;
+    border-radius: 4px;
+    color: white;
+}
+
+.userblock:hover {
+    cursor: pointer;
+    background-color: #0056b3; /* Более темный цвет при наведении */
+
 }

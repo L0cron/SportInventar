@@ -4,9 +4,9 @@ from django.db import models
 from user_handler.models import *
 
 inventory_status = (
-        (0, 'сломано'),
-        (1, 'в норме'),
-        (2, 'новое'),
+        (0, 'Новый'),
+        (1, 'Используемый'),
+        (2, 'Сломанный'),
     )
 
 

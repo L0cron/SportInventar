@@ -5,6 +5,7 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+
 }
 
 button {
@@ -20,4 +21,8 @@ button {
 
 button:hover {
     background-color: #0056b3; /* Более темный цвет при наведении */
+}
+
+p {
+    user-select: none;
 }
