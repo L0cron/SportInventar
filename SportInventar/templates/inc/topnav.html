@@ -16,7 +16,14 @@
             <button onclick="window.location.href=`{% url 'requests:index' %}`">Заявки</button>
         </div>
         <div class="nav-right">
-            <button onclick="window.location.href=`{% url 'user:login' %}`">Авторизация</button>
+            {% if user.is_authenticated %}
+                <div class="userblock" onclick="window.location.href=`{% url 'user:profile' %}`">
+                    <p class="topusername">{{ user.username }}</p>
+                    <img class="user-avatar" src="{% static 'img/user-avatar.png' %}" alt=" ">
+                </div>
+            {% else %}
+                <button onclick="window.location.href=`{% url 'user:login' %}`">Авторизация</button>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

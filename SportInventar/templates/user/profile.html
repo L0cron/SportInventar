@@ -1,0 +1,48 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title></title>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'inc/topnav.html' %}
+
+    <div class="profile-container">
+        <div class="user-info">
+            <img src="avatar.jpg" alt="User  Avatar" class="avatar">
+            <h1 class="username">Username123</h1>
+            <p class="real-name">John Doe</p>
+            <p class="register-date">Registered on: January 1, 2020</p>
+        </div>
+        <div class="details-container">
+            <div class="inventory">
+                <h2>Inventory</h2>
+                <ul>
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                    <li>Item 4</li>
+                </ul>
+            </div>
+            <div class="usage-history">
+                <h2>Usage History</h2>
+                <ul>
+                    <li>Used Item 1 on March 1, 2023</li>
+                    <li>Used Item 2 on March 5, 2023</li>
+                    <li>Used Item 3 on March 10, 2023</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

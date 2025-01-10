@@ -124,7 +124,6 @@ $(function() {
             url: dataset['remurl'],
             data: data,
             success: function(response) {
-                
                 window.location.reload();
             }
         });

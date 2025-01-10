@@ -12,20 +12,22 @@
 {% block body %}
     <div class="container">
         <div class="title">Регистрация</div>
-        <form class="form" method="post" action="{% url 'user:profile' %}">
+        <form id="regform" class="form" method="post" action="{% url 'user:profile' %}">
             {% csrf_token %}
-            <input type="text" placeholder="Логин" required>
-            <input type="email" placeholder="Почта" required>
-            <input type="password" placeholder="Пароль" required>
-            <button class="login-button" type="submit">Зарегистрироваться</button>
+            <input name="username" type="text" placeholder="Логин" required>
+            <input name="password" type="password" placeholder="Пароль" required>
+            <input name="rpassword" type="password" placeholder="Повторите пароль" required>
+            <button id="reg" class="login-button" type="submit">Зарегистрироваться</button>
         </form>
         <p class="no-account">Уже есть аккаунт? <a href='{% url "user:login" %}'>Авторизоваться</a>.</p>
     </div>
 
     <div class="back-button-container">
         <button class="back-button" onclick="window.location.href='/'">В начало</button>
+    </div>
 {% endblock %}
 
 {% block script %}
-
+    <script src="{% static 'js/user_handler.js' %}"
+    data-url="{% url 'user:register' %}"=""></script>
 {% endblock %}
