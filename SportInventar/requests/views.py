@@ -27,3 +27,26 @@ def requests_view(request:HttpRequest):
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
+
+def del_view(request:HttpRequest)->JsonResponse:
+    if request.method == 'POST':
+        status = {
+            "item_deleted":0
+        }
+        
+        c = 0
+        ids = []
+        for i in request.POST:
+            if i == f'items[{c}]':
+                ids.append(request.POST[f"items[{c}]"])
+                c+=1
+        deleted = 0 
+        for i in ids:
+            try:
+                request = Request.objects.get(id=int(i))
+                request.delete()
+                deleted+=1
+            except:
+                pass
+        status['item_deleted'] = deleted
+        return JsonResponse(status)

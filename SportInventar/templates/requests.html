@@ -27,11 +27,11 @@
             </div>
 
 
-            <div class="inventory-list grid-view">
+            <div class="requests-list grid-view">
                 {% for i in requests %}
-                <div class="inventory-item">
+                <div class="requests-item">
                     <div class="checkbox-container hidden">
-                        <input type="checkbox" class="inventory-checkbox" data-id="{{ i.id }}">
+                        <input type="checkbox" class="request-checkbox" data-id="{{ i.id }}">
                     </div>
                     <h3>{{ i.requestedItem }}</h3>
                     <p>Тип заявки: 
@@ -81,7 +81,7 @@
 </div>
 
 <div id="myModal" class="modal">
-    <form id="addItemForm">
+    <form id="createRequest">
         {% csrf_token %}
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -113,5 +113,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'requests:index' %}"></script>
+    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  data-remurl="{% url 'requests:del' %}"></script>
 {% endblock %}
