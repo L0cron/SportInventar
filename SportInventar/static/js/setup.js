@@ -211,9 +211,6 @@ $(document).ready(function() {
                 }
             }
         })
-        data1['migrate']=1;
-        data2['migrate']=1;
-        data3['migrate']=1;
         
         $.ajax({
             method: 'post',
@@ -260,6 +257,33 @@ $(document).ready(function() {
         if(!backButton.classList.contains('disabled')) {
             backButton.classList.add('disabled')
         }
+
+        $.ajax({
+            method: 'post',
+            url: dataurls['setup_url'],
+            data: data3,
+            success: function(e) {
+                status6.textContent = e.status
+                if(e.status == 'ok') {
+                    status6.style.color = 'green'
+                    // checksPassed+=1;
+                }
+            }
+        })
+
+        let csrf = document.getElementsByName('csrfmiddlewaretoken')[0];
+        let data = {
+            'csrfmiddlewaretoken': csrf.value,
+            "migrate":"1"
+        }
+        $.ajax({
+            method: 'post',
+            url: dataurls['setup_url'],
+            data: data,
+            success: function(e) {
+                console.log("Succes!")
+            }
+        })
 
         
         // if(checksPassed != 6) {

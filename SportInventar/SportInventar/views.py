@@ -4,15 +4,40 @@ import ipaddress as ipaddr
 import os
 import psycopg2 as psy
 import re
+import json
 from urllib.parse import parse_qs
 def index(request:HttpRequest)->HttpResponse:
     return render(request,'index.html')
 
 
+basic_config = {
+    "db_name": "",
+    "db_ip": "127.0.0.1",
+    "db_port": "5432",
+    "db_user": "",
+    "db_password": "",
+    "super_username": "",
+    "super_password": "",
+    "super_name": "",
+    "super_lastname": "",
+    "projectName": "",
+    "serverIP": "127.0.0.1",
+    "serverPort": "8000"
+}
+
 def checkInit():
-    if os.path.isfile('./SportInven tar/.env'):
-        return True
+    if os.path.isfile('./config.json'):
+        with open('./config.json', 'r', encoding='utf-8') as fp:
+            cfg = json.load(fp)
+            if cfg['db_name'] != '':
+                return True
     return False
+
+configuration = {}
+def migrate():
+    print(configuration)
+    with open('./config.json', 'w', encoding='utf-8') as fp:
+        json.dump(configuration, fp,indent=4,ensure_ascii=False)
 
 def setup(request:HttpRequest):
     if checkInit():
@@ -23,7 +48,6 @@ def setup(request:HttpRequest):
         if 'db' in request.POST:
             db = parse_qs(request.POST['db'])
             try:
-                # engine = db['db_engine'][0]
                 name = db['dbname'][0]
                 ip = db['ip'][0]
                 port = db['port'][0]
@@ -36,10 +60,17 @@ def setup(request:HttpRequest):
                 try:
                     connection = psy.connect(connection_string)
                     status = 'ok'
+                    configuration['db_name'] = name
+                    configuration['db_ip'] = ip
+                    configuration['db_port'] = port
+                    configuration['db_user'] = user
+                    configuration['db_password'] = pwd
                 except psy.OperationalError as e:
                     status = 'Ошибка во время подключения базы: '+str(e)
                 except TimeoutError as e:
                     status = 'Ошибка, время отведённое на подключение истекло.'
+                except:
+                    status = 'Неверное имя пользователя и/или пароль.'
                 finally:
                     if 'connection' in locals():
                         connection.close()
@@ -49,7 +80,6 @@ def setup(request:HttpRequest):
                 username = user['username'][0]
                 pwd = user['password'][0]
                 rpwd = user['rpassword'][0]
-                # email = user['email'][0]
                 name = user['name'][0]
                 last_name = user['lastname'][0]
             except:
@@ -68,6 +98,10 @@ def setup(request:HttpRequest):
                                 status = 'Имя пользователя должно состоять хотя бы из 4 символов'
                             else:
                                 status = 'ok'
+                                configuration["super_username"] = username
+                                configuration["super_password"] = pwd
+                                configuration["super_name"] = name
+                                configuration["super_lastname"] = last_name
                 else:
                     status = 'Пароли не совпадают!'
         if 'config' in request.POST:
@@ -86,9 +120,14 @@ def setup(request:HttpRequest):
                 else:
                     if serverport.isdigit() and int(serverport) > 0 and int(serverport) < 65536:
                             status = 'ok'
+                            configuration["projectName"] = servername
+                            configuration["serverIP"] = serverip
+                            configuration["serverPort"] = serverport
+
                     else:
                         status = 'Некорректный порт сервера'
-                    
+        if 'migrate' in request.POST:
+            migrate()
                     
         return JsonResponse({"status":status})
     else:

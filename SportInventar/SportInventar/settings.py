@@ -15,10 +15,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-from dotenv import load_dotenv
-import os 
-load_dotenv()
-
+from .views import basic_config
+import os
+import json
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -81,14 +80,19 @@ WSGI_APPLICATION = 'SportInventar.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+if os.path.isfile('./config.json'):
+    with open('./config.json', 'r', encoding='utf-8') as fp:
+        cfg = json.load(fp)
+        basic_config =cfg
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE'),
-        'NAME': os.environ.get("DB_NAME"),
-        'USER': os.environ.get("DB_USER"),
-        'PASSWORD': os.environ.get("DB_PASSWORD"),
-        'HOST': os.environ.get("DB_HOST"),
-        'PORT': os.environ.get("DB_PORT")
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': basic_config['db_name'],
+        'USER': basic_config['db_user'],
+        'PASSWORD': basic_config['db_password'],
+        'HOST': basic_config['db_ip'],
+        'PORT': basic_config['db_port']
     }
 }
 

@@ -1,0 +1,14 @@
+{
+    "db_name": "SportInventar",
+    "db_ip": "127.0.0.1",
+    "db_port": "5432",
+    "db_user": "locron",
+    "db_password": "mIvgjklserdfjk2kler6dfjjiowsdhfjiklwehnrJIK:ASKfhjJK:4RFHjk;ashfj9oi;sedjrio;ASHEiorftjk;HSjk;fhnweri0;jkthassejlko;fhnJI5K:SDFhjui3opH893EPHR988WPQ3HJRo:hjf9PU8OW4YURT89PWSASEJFIO;J",
+    "super_username": "Locron",
+    "super_password": "qwe123r4qwe123r4",
+    "super_name": "Александр",
+    "super_lastname": "Горбач",
+    "projectName": "ГАОУ Школа 548",
+    "serverIP": "127.0.0.1",
+    "serverPort": "8000"
+}

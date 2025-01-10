@@ -6,11 +6,15 @@ import subprocess
 import webbrowser
 import time
 from colorama import Fore as c
+import colorama
+import json
 def checkInit():
-    if os.path.isfile('./SportInventar/.env'):
-        return True
+    if os.path.isfile('./config.json'):
+        with open('./config.json', 'r', encoding='utf-8') as fp:
+            cfg = json.load(fp)
+            if cfg['db_name'] != '':
+                return True
     return False
-
 
 
 def runapp():
@@ -19,8 +23,9 @@ def runapp():
 arguments = sys.argv
 if len(arguments) > 1:
     if arguments[1] == 'init':
+        colorama.init()
         if checkInit():
-            print(c.RED+"ERROR: Project is already initialized. Delete "+c.CYAN+".env"+c.RED+" file from 'SportInventar' directory to re-setup project!"+c.RESET)
+            print(c.RED+"Project is already initialized. Delete config.json to re-setup." + c.RESET)
             exit()
         runapp()
         
