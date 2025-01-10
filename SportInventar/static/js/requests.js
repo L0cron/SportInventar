@@ -26,11 +26,11 @@ function addInventory() {
         document.getElementById('requestType').style.border = '1px solid red';
         hasError = true;
     }
-    if (inventoryStatus === '') {
+    if (requestedItem === '') {
         document.getElementById('requestedItem').style.border = '1px solid red';
         hasError = true;
     } else {
-        const select = document.getElementById('requestDesc');
+        const select = document.getElementById('requestedItem');
         if (select.selectedIndex === 0) {
             select.style.border = '1px solid red';
             hasError = true;
@@ -71,7 +71,7 @@ let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 // Функция, выполняемая после загрузки страницы
 $(function() {
     // Обработчик клика по кнопке добавления
-    $('#createRequest').on('click', function(e) {
+    $('#createRequestBtn').on('click', function(e) {
         // Предотвращение стандартного поведения кнопки
         e.preventDefault();
         
@@ -89,6 +89,7 @@ $(function() {
             data: data,
             // Функция, выполняемая при успешном ответе сервера
             success: function(response) {
+                console.log(response)
                 // Проверка статуса ответа
                 if(response['status'] == 'ok') {
                     // Добавление элемента в инвентарь

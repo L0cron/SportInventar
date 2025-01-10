@@ -21,6 +21,8 @@ def requests_view(request:HttpRequest):
                 request = Request(requested_item=requestedItem, 
                                   text=requestedItem,
                                   request_type=requestType,
+                                  author='123',
+                                  status=0
                                   )
                 request.save()
                 status = 'ok'
