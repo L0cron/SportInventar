@@ -8,7 +8,7 @@ function closeModal() {
     modal.style.display = "none";
 }
 
-function addInventory() {
+function createRequest() {
     const requestType = document.getElementById('requestType').value;
     const requestedItem = document.getElementById('requestedItem').value;
     const requestDesc = document.getElementById('requestDesc').value;
@@ -23,21 +23,21 @@ function addInventory() {
 
     // Проверка каждого поля и выделение красным, если оно пустое
     if (!inventoryName) {
-        document.getElementById('requestType').style.border = '1px solid red';
+        document.getElementById('requestDesc').style.border = '1px solid red';
         hasError = true;
     }
     if (requestedItem === '') {
-        document.getElementById('requestedItem').style.border = '1px solid red';
+        document.getElementById('requestType').style.border = '1px solid red';
         hasError = true;
     } else {
-        const select = document.getElementById('requestedItem');
+        const select = document.getElementById('requestType');
         if (select.selectedIndex === 0) {
             select.style.border = '1px solid red';
             hasError = true;
         }
     }
     if (!requestDesc) {
-        document.getElementById('requestDesc').style.border = '1px solid red';
+        document.getElementById('requestedItem').style.border = '1px solid red';
         hasError = true;
     }
 
@@ -71,7 +71,7 @@ let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 // Функция, выполняемая после загрузки страницы
 $(function() {
     // Обработчик клика по кнопке добавления
-    $('#createRequestBtn').on('click', function(e) {
+    $('#createRequest').on('click', function(e) {
         // Предотвращение стандартного поведения кнопки
         e.preventDefault();
         
@@ -113,7 +113,7 @@ $(function() {
 
             }
         }
-        const checkboxes = document.querySelectorAll('.request-checkbox');
+        const checkboxes = document.querySelectorAll('.requests-checkbox');
         const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
         for(let i = 0; i < checkedCheckboxes.length; i++) {
             data['items'][i]=checkedCheckboxes[i].getAttribute('data-id');
@@ -170,7 +170,7 @@ function toggleCheckboxes() {
 }
 
 function selectAllItems() {
-    const checkboxes = document.querySelectorAll('.request-checkbox');
+    const checkboxes = document.querySelectorAll('.requests-checkbox');
     const selectAllButton = document.querySelector('.select-all-button');
 
     // Проверка, все ли чекбоксы уже выделены
@@ -207,7 +207,7 @@ function closeConfirmItemDelitionModal() {
 
 
 function deleteInventory() {
-    const checkboxes = document.querySelectorAll('.request-checkbox');
+    const checkboxes = document.querySelectorAll('.requests-checkbox');
     const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
 
     if (checkedCheckboxes.length === 0) {

@@ -31,29 +31,29 @@
                 {% for i in requests %}
                 <div class="requests-item">
                     <div class="checkbox-container hidden">
-                        <input type="checkbox" class="request-checkbox" data-id="{{ i.id }}">
+                        <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
                     </div>
                     <h3>{{ i.requested_item }}</h3>
                     <p>Тип заявки: 
-                        {% if i.requested_type == 0 %}
+                        {% if i.request_type == 0 %}
                             Приобретение
-                        {% elif i.requested_type == 1 %}
+                        {% elif i.request_type == 1 %}
                             Замена
-                        {% elif i.requested_type == 2 %}
+                        {% elif i.request_type == 2 %}
                             Получение
                         {% else %}
                             неизвестно
                         {% endif %}
                     </p>
                     <p>Описание: {{ i.text }}</p>
-                    <p>Тип заявки: 
-                        {% if i.requested_type == 0 %}
+                    <p>Статус: 
+                        {% if i.status == 0 %}
                             Создана
-                        {% elif i.requested_type == 1 %}
+                        {% elif i.status == 1 %}
                             На рассмотрении
-                        {% elif i.requested_type == 2 %}
+                        {% elif i.status == 2 %}
                             Принята
-                        {% elif i.requested_type == 3 %}
+                        {% elif i.status == 3 %}
                             Отклонена
                         {% else %}
                             неизвестно
@@ -99,13 +99,13 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Введите данные для заявки</h2>
             <div class="input-group">
-                <label for="requestType">Тип заявки:</label>
-                <input hidden name="requestType">
-                <select name="requestType" id="requestType" required>
+                <label for="requestedType">Тип заявки:</label>
+                <input hidden name="requestedType">
+                <select name="requestedType" id="requestedType" required>
                     <option value="-1" disabled selected>Выберите тип</option>
-                    <option value=0>Приобретение</option>
-                    <option value=1>Замена</option>
-                    <option value=2>Получение</option>
+                    <option value="0">Приобретение</option>
+                    <option value="1">Замена</option>
+                    <option value="2">Получение</option>
                 </select>
             </div>
             <div class="input-group">

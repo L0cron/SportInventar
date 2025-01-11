@@ -11,7 +11,7 @@ def requests_view(request:HttpRequest):
     elif request.method == 'POST':
         status = 'ok'
         try:
-            requestType = request.POST.get('requestType')
+            requestType = request.POST.get('requestedType')
             requestedItem = request.POST.get('requestedItem')
             requestDesc = request.POST.get('requestDesc')
 

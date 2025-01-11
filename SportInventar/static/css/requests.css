@@ -258,7 +258,7 @@ h2 {
     display: block;
 }
 
-.requests-list.list-view .request-item {
+.requests-list.list-view .requests-item {
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -274,7 +274,7 @@ h2 {
     right: 10px; /* Отступ справа */
 }
 
-.request-checkbox {
+.requests-checkbox {
     cursor: pointer;
     width: 16px;
     height: 16px;
