@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/inventory.css' %}">
+    <link rel="stylesheet" href="{% static 'css/requests.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
     <div class="container">
         <div class="main-content">
             <div class="header-container">
-                <div class="inventory-header"> 
+                <div class="requests-header"> 
                     <h2>Список заявок</h2>
                     <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
                 </div>
@@ -33,20 +33,32 @@
                     <div class="checkbox-container hidden">
                         <input type="checkbox" class="request-checkbox" data-id="{{ i.id }}">
                     </div>
-                    <h3>{{ i.requestedItem }}</h3>
+                    <h3>{{ i.requested_item }}</h3>
                     <p>Тип заявки: 
-                        {% if i.requestedType == 0 %}
+                        {% if i.requested_type == 0 %}
                             Приобретение
-                        {% elif i.requestedType == 1 %}
+                        {% elif i.requested_type == 1 %}
                             Замена
-                        {% elif i.requestedType == 2 %}
+                        {% elif i.requested_type == 2 %}
                             Получение
                         {% else %}
                             неизвестно
                         {% endif %}
                     </p>
-                    <p>Создатель заявки: {{ i.author.first_name }} {{ i.author.last_name }}</p>
                     <p>Описание: {{ i.text }}</p>
+                    <p>Тип заявки: 
+                        {% if i.requested_type == 0 %}
+                            Создана
+                        {% elif i.requested_type == 1 %}
+                            На рассмотрении
+                        {% elif i.requested_type == 2 %}
+                            Принята
+                        {% elif i.requested_type == 3 %}
+                            Отклонена
+                        {% else %}
+                            неизвестно
+                        {% endif %}
+                    </p>
                 </div>
                 {% endfor %}
             </div>
@@ -75,7 +87,7 @@
         <p>Вы уверены, что хотите удалить выбранные элементы?</p>
         <div class="button-container">
             <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
-            <button class="confirm-del-button confirm-button" id="confirm-button" onclick="confirmDelete()">Удалить</button>
+            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
         </div>
     </div>
 </div>
@@ -87,8 +99,6 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Введите данные для заявки</h2>
             <div class="input-group">
-                <label for="inventoryName">Тип заявки:</label>
-                <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря">
                 <label for="requestType">Тип заявки:</label>
                 <input hidden name="requestType">
                 <select name="requestType" id="requestType" required>
@@ -106,6 +116,12 @@
                 <label for="requestDesc">Причина:</label>
                 <input name='requestDesc' type="text" id="requestDesc" placeholder="Причина создания заявки">
             </div>
+            <form>
+                <div class="confirm">
+                    <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                    <button id="addButton" class="add-button" type="button" onclick="createRequest()">Добавить</button>
+                </div>
+            </form>
             <button id="createRequestBtn" class="add-button">Создать</button>
         </div>
     </form>
