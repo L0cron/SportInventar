@@ -9,12 +9,12 @@ function closeModal() {
 }
 
 function createRequest() {
-    const requestType = document.getElementById('requestType').value;
+    const requestType = document.getElementById('requestedType').value;
     const requestedItem = document.getElementById('requestedItem').value;
     const requestDesc = document.getElementById('requestDesc').value;
 
     // Очистка предыдущих выделений
-    document.getElementById('requestType').style.border = '';
+    document.getElementById('requestedType').style.border = '';
     document.getElementById('requestedItem').style.border = '';
     document.getElementById('requestDesc').style.border = '';
 
@@ -22,15 +22,15 @@ function createRequest() {
     const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
 
     // Проверка каждого поля и выделение красным, если оно пустое
-    if (!inventoryName) {
+    if (!requestedItem) {
         document.getElementById('requestDesc').style.border = '1px solid red';
         hasError = true;
     }
-    if (requestedItem === '') {
-        document.getElementById('requestType').style.border = '1px solid red';
+    if (requestType === '') {
+        document.getElementById('requestedType').style.border = '1px solid red';
         hasError = true;
     } else {
-        const select = document.getElementById('requestType');
+        const select = document.getElementById('requestedType');
         if (select.selectedIndex === 0) {
             select.style.border = '1px solid red';
             hasError = true;
@@ -71,13 +71,12 @@ let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 // Функция, выполняемая после загрузки страницы
 $(function() {
     // Обработчик клика по кнопке добавления
-    $('#createRequest').on('click', function(e) {
+    $('#createRequestBtn').on('click', function(e) {
         // Предотвращение стандартного поведения кнопки
         e.preventDefault();
         
         // Сериализация данных формы в строку
         let data = $("#createRequest").serialize();
-        console.log(data);
         
         // AJAX-запрос на добавление элемента
         $.ajax({
@@ -89,11 +88,10 @@ $(function() {
             data: data,
             // Функция, выполняемая при успешном ответе сервера
             success: function(response) {
-                console.log(response)
                 // Проверка статуса ответа
                 if(response['status'] == 'ok') {
                     // Добавление элемента в инвентарь
-                    addInventory();
+                    createRequest();
                     // Перезагрузка страницы
                     window.location.reload();
 

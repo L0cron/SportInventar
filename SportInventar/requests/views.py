@@ -19,7 +19,7 @@ def requests_view(request:HttpRequest):
                 status = 'Присутствуют незаполненные поля'
             else:
                 request = Request(requested_item=requestedItem, 
-                                  text=requestedItem,
+                                  text=requestDesc,
                                   request_type=requestType,
                                   author='123',
                                   status=0
