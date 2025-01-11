@@ -404,3 +404,26 @@ h2 {
     gap: 10px;
     margin-top: 10px;
 }
+
+.more-info-icon {
+    position: absolute; /* Абсолютное позиционирование внутри inventory-item */
+    bottom: 10px; /* Отступ снизу */
+    right: 10px; /* Отступ справа */
+    cursor: pointer;
+    font-size: 16px;
+    color: #007bff;
+    transition: color 0.3s;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.more-info-icon:hover {
+    color: #0056b3;
+    background-color: rgba(0, 123, 255, 0.1);
+}

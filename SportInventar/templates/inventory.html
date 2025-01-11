@@ -30,6 +30,9 @@
             <div class="inventory-list grid-view">
                 {% for i in items %}
                 <div class="inventory-item">
+                    <span class="more-info-icon" onclick="window.location.href='{% url 'inventory:item_view' item_id=i.id %}'" style="cursor: pointer;">
+                        i<i class="fas fa-info-circle"></i>
+                    </span>
                     <div class="checkbox-container hidden">
                         <input type="checkbox" class="inventory-checkbox" data-id="{{ i.id }}">
                     </div>

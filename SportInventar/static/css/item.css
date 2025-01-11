@@ -1,0 +1,128 @@
+.container {
+    display: flex;
+    flex-direction: column; /* Элементы располагаются вертикально */
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px #0000001a;
+    background-color: #f9f9f9;
+}
+
+.qr-and-button-container {
+    display: flex;
+    flex-direction: column; /* Элементы располагаются вертикально */
+    border-radius: 12px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.qr-container {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    margin-top: auto;
+    background-color: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.item-content {
+    display: flex;
+    gap: 20px;
+}
+
+.item-photo {
+    width: 300px;
+    height: 300px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.item-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease; /* Плавный переход для эффекта увеличения */
+}
+
+.item-specs {
+    flex: 1; /* Занимает всё доступное пространство */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Элементы внутри располагаются вертикально */
+    margin-bottom: 20px;
+}
+
+.item-specs h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.item-specs ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item-specs ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.sidebar {
+    width: 15%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.item-comments {
+    width: 100%;
+    max-width: 1160px;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.item-comments h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.edit-button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 200px;
+    margin-bottom: 20px;
+    height: 15%;
+}
+
+.edit-button:hover {
+    background-color: #3e8e41;
+}

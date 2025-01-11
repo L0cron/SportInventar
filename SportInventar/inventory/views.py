@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
 
 from urllib.parse import parse_qs
 
+def item_view(request:HttpRequest, item_id:int):
+    item = get_object_or_404(Item, id=item_id)
+    return render(request, 'item.html', context={'item': item})
 
 def inventory_view(request:HttpRequest):
     if request.method == 'GET':
