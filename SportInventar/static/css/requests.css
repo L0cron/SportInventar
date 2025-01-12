@@ -25,6 +25,50 @@
     margin-bottom: 10px;
 }
 
+.statusButton {
+    bottom: 10;
+    width: 100%;
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.apply-status-button {
+    bottom: 10;
+    width: 49%;
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 4px;
+}
+
+.cancel-status-button {
+    bottom: 10;
+    width: 49%;
+    padding: 8px;
+    background-color: #dd4150;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.cancel-status-button:hover {
+    background-color: #8b1a1a;
+}
+
 .button {
     width: 100%;
     padding: 10px;

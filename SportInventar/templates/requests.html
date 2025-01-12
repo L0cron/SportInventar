@@ -59,6 +59,19 @@
                             неизвестно
                         {% endif %}
                     </p>
+                    <div class="input-group">
+                        <button class="statusButton" onclick="toggleStatusSelect(this)">Изменить статус</button>
+                        <select name="status" id="status-{{ i.id }}" data-id="{{ i.id }}" style="display: none;">
+                            <option value="0" {% if i.status == 0 %}selected{% endif %}>Создана</option>
+                            <option value="1" {% if i.status == 1 %}selected{% endif %}>На рассмотрении</option>
+                            <option value="2" {% if i.status == 2 %}selected{% endif %}>Принята</option>
+                            <option value="3" {% if i.status == 3 %}selected{% endif %}>Отклонена</option>
+                        </select>
+                        <div class="status-buttons" style="display: none;">
+                            <button class="cancel-status-button" onclick="cancelStatusChange(this)">Отменить</button>
+                            <button class="apply-status-button" onclick="applyStatusChange(this)">Применить</button>
+                        </div>
+                    </div>    
                 </div>
                 {% endfor %}
             </div>

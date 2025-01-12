@@ -217,3 +217,92 @@ function deleteInventory() {
     // AJAX
 }
 
+function toggleStatusSelect(button) {
+    var select = button.nextElementSibling;
+    var statusButtons = select.nextElementSibling;
+    if (select.style.display === 'none') {
+        select.style.display = 'block';
+        statusButtons.style.display = "block";
+        button.style.display = 'none';
+    } else {
+        select.style.display = 'none';
+    }
+    
+    // Обработчик изменения статуса
+    select.addEventListener('change', function() {
+        const statusId = select.value;
+        const itemId = button.getAttribute('data-id');
+        
+        // AJAX-запрос на изменение статуса
+        $.ajax({
+            type: "POST",
+            url: dataset['statusurl'],
+            data: {
+                "csrfmiddlewaretoken": csrftoken.value,
+                "status_id": statusId,
+                "item_id": itemId
+            },
+            success: function(response) {
+                if(response['status'] == 'ok') {
+                    window.location.reload();
+                }
+            }
+        });
+    });
+}
+
+function cancelStatusChange(element) {
+    var statusSelect = element.parentNode.previousElementSibling;
+    var statusButton = statusSelect.previousElementSibling;
+    statusSelect.style.display = "none";
+    element.parentNode.style.display = "none";
+    statusButton.style.display = "block";
+}
+
+function applyStatusChange(element) {
+    var statusSelect = element.parentNode.parentNode.querySelector('select');
+    var requestId = statusSelect.getAttribute('data-id');
+    var newStatus = statusSelect.value;
+    var url = document.querySelector('script[data-url]').getAttribute('data-url');
+    var remUrl = document.querySelector('script[data-remurl]').getAttribute('data-remurl');
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+        },
+        body: JSON.stringify({
+            'request_id': requestId,
+            'new_status': newStatus
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            statusSelect.style.display = 'none';
+            element.parentNode.style.display = 'none';
+            element.parentNode.parentNode.querySelector('.statusButton').style.display = 'block';
+            element.parentNode.parentNode.querySelector('.statusButton').textContent = 'Изменить статус';
+            element.parentNode.parentNode.querySelector('p[style*="Статус: "]').textContent = 'Статус: ' + getStatusText(newStatus);
+        } else {
+            alert('Ошибка при изменении статуса');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function getStatusText(status) {
+    switch (status) {
+        case '0':
+            return 'Создана';
+        case '1':
+            return 'На рассмотрении';
+        case '2':
+            return 'Принята';
+        case '3':
+            return 'Отклонена';
+        default:
+            return 'Неизвестно';
+    }
+}
