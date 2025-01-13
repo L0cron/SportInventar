@@ -141,5 +141,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  data-remurl="{% url 'requests:del' %}"></script>
+    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"></script>
 {% endblock %}

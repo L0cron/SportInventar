@@ -21,3 +21,6 @@ class Request(models.Model):
     text = models.TextField(verbose_name='Описание запроса(причина запроса)',max_length=255)
     request_type = models.IntegerField(choices=REQ_TYPE, verbose_name='Тип запроса')
     status = models.IntegerField(choices=STATUS, verbose_name='Статус запроса')
+
+    class Meta:
+        ordering = ['id']

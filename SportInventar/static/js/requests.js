@@ -260,36 +260,43 @@ function cancelStatusChange(element) {
 }
 
 function applyStatusChange(element) {
+    // Получение элемента select и его атрибутов
     var statusSelect = element.parentNode.parentNode.querySelector('select');
     var requestId = statusSelect.getAttribute('data-id');
     var newStatus = statusSelect.value;
     var url = document.querySelector('script[data-url]').getAttribute('data-url');
-    var remUrl = document.querySelector('script[data-remurl]').getAttribute('data-remurl');
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+    console.log(statusSelect);
+
+    // AJAX-запрос на изменение статуса
+    $.ajax({
+        // Тип запроса
+        type: "POST",
+        // URL, на который отправляется запрос
+        url: dataset['change'],
+        // Данные, отправляемые с запросом
+        data: {
+            "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+            "request_id": requestId,
+            "new_status": newStatus
         },
-        body: JSON.stringify({
-            'request_id': requestId,
-            'new_status': newStatus
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            statusSelect.style.display = 'none';
-            element.parentNode.style.display = 'none';
-            element.parentNode.parentNode.querySelector('.statusButton').style.display = 'block';
-            element.parentNode.parentNode.querySelector('.statusButton').textContent = 'Изменить статус';
-            element.parentNode.parentNode.querySelector('p[style*="Статус: "]').textContent = 'Статус: ' + getStatusText(newStatus);
-        } else {
-            alert('Ошибка при изменении статуса');
+        // Функция, выполняемая при успешном ответе сервера
+        success: function(response) {
+            console.log(response);
+            // Проверка статуса ответа
+            if(response['status'] == 'ok') {
+                // Обновление элементов страницы после изменения статуса
+                statusSelect.style.display = 'none';
+                element.parentNode.style.display = 'none';
+                element.parentNode.parentNode.querySelector('.statusButton').style.display = 'block';
+                element.parentNode.parentNode.querySelector('.statusButton').textContent = 'Изменить статус';
+                //element.parentNode.parentNode.querySelector('p[style*="Статус: "]').textContent = 'Статус: ' + getStatusText(newStatus);
+            } else {
+                // Вывод сообщения об ошибке
+                alert('Ошибка при изменении статуса');
+            }
         }
-    })
-    .catch(error => console.error('Error:', error));
+    });
 }
 
 function getStatusText(status) {

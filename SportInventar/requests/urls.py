@@ -20,5 +20,6 @@ from .views import *
 
 urlpatterns = [
     path('', requests_view, name='index'),
+    path('change',change_request_view,name="change"),
     path('del',del_view,name='del')
 ]
