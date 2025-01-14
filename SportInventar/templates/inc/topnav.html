@@ -12,6 +12,10 @@
 {% block body %}
     <div class="topnav">
         <div class="nav-left">
+            <div class="nav-left-decorator">
+                
+            <p>{{projectName}}</p>
+            </div>
             <button onclick="window.location.href=`{% url 'inventory:index' %}`">Инвентарь</button>
             <button onclick="window.location.href=`{% url 'requests:index' %}`">Заявки</button>
         </div>
@@ -22,7 +26,7 @@
                     <img class="user-avatar" src="{% static 'img/user-avatar.png' %}" alt=" ">
                 </div>
             {% else %}
-                <button onclick="window.location.href=`{% url 'user:login' %}`">Авторизация</button>
+                <button onclick="window.location.href=`{% url 'user:login' %}`">Войти</button>
             {% endif %}
         </div>
     </div>

@@ -11,4 +11,4 @@ class User(AbstractUser):
     }
     status = models.CharField(max_length=1, choices=statuses.items(), default="0")
     
-    
+

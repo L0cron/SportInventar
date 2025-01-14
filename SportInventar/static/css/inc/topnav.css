@@ -19,6 +19,17 @@
     float: right;
 }
 
+.nav-left-decorator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+.nav-left-decorator p {
+    color:white;
+}
+
 .topusername {
     margin-right: 1rem;
     height: 40px;
