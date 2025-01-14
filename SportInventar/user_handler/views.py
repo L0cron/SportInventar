@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
+
+
 def check_auth(request):
     if request.user.is_authenticated:
         return 1#HttpResponse("Пользователь авторизован", status=200)

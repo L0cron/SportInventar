@@ -6,6 +6,7 @@ import psycopg2 as psy
 import re
 import json
 from urllib.parse import parse_qs
+import subprocess as sp
 def index(request:HttpRequest)->HttpResponse:
     return render(request,'index.html')
 
@@ -31,6 +32,8 @@ def checkInit():
             cfg = json.load(fp)
             if cfg['db_name'] != '':
                 return True
+            print(cfg)
+    print(os.path.isfile('./config.json'))
     return False
 
 configuration = {}
@@ -38,6 +41,8 @@ def migrate():
     print(configuration)
     with open('./config.json', 'w', encoding='utf-8') as fp:
         json.dump(configuration, fp,indent=4,ensure_ascii=False)
+
+    exit()    
 
 def setup(request:HttpRequest):
     if checkInit():
