@@ -32,7 +32,6 @@ def auth(request:HttpRequest)->JsonResponse:
             
             try:
                 user = User.objects.get(username=username)
-                
                 passcheck = user.check_password(password)
                 if passcheck:
                     log_in(request,user)
@@ -60,7 +59,7 @@ def register(request:HttpRequest)->HttpResponse|JsonResponse:
         u=request.POST.get('username')
         p=request.POST.get('password')
         rp=request.POST.get('rpassword')
-        print(len(u))
+        
         if p != rp:
             return JsonResponse({'error':'Passwords do not match'})
         if len(u) < 3:
