@@ -5,4 +5,4 @@ from .models import *
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'text','status')
+    list_display = ('id', 'request_type', 'author', 'requested_item', 'text','status')

@@ -37,6 +37,9 @@
                     <p>Тип заявки: 
                         {% if i.request_type == 0 %}
                             Приобретение
+                            <div class="input-group">
+                                <button class="addProcur" onclick="procurRedirect()">Создать запрос на покупку</button>
+                            </div>
                         {% elif i.request_type == 1 %}
                             Замена
                         {% elif i.request_type == 2 %}

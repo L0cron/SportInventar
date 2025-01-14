@@ -264,9 +264,6 @@ function applyStatusChange(element) {
     var statusSelect = element.parentNode.parentNode.querySelector('select');
     var requestId = statusSelect.getAttribute('data-id');
     var newStatus = statusSelect.value;
-    var url = document.querySelector('script[data-url]').getAttribute('data-url');
-
-    console.log(statusSelect);
 
     // AJAX-запрос на изменение статуса
     $.ajax({
@@ -282,7 +279,10 @@ function applyStatusChange(element) {
         },
         // Функция, выполняемая при успешном ответе сервера
         success: function(response) {
-            console.log(response);
+            
+            console.log(response)
+            console.log(newStatus)
+
             // Проверка статуса ответа
             if(response['status'] == 'ok') {
                 // Обновление элементов страницы после изменения статуса
@@ -290,7 +290,6 @@ function applyStatusChange(element) {
                 element.parentNode.style.display = 'none';
                 element.parentNode.parentNode.querySelector('.statusButton').style.display = 'block';
                 element.parentNode.parentNode.querySelector('.statusButton').textContent = 'Изменить статус';
-                //element.parentNode.parentNode.querySelector('p[style*="Статус: "]').textContent = 'Статус: ' + getStatusText(newStatus);
             } else {
                 // Вывод сообщения об ошибке
                 alert('Ошибка при изменении статуса');
@@ -312,4 +311,8 @@ function getStatusText(status) {
         default:
             return 'Неизвестно';
     }
+}
+
+function procurRedirect() {
+    window.location.href = '/procur/';
 }
