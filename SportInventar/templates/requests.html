@@ -2,21 +2,147 @@
 {% load static %}
 
 {% block title %}
-    <title>index</title>
+    <title>Requests</title>
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/' %}">
+    <link rel="stylesheet" href="{% static 'css/requests.css' %}">
 {% endblock %}
 
 {% block body %}
-
     {% include 'inc/topnav.html' %}
-    
-    
 
+    <div class="container">
+        <div class="main-content">
+            <div class="header-container">
+                <div class="requests-header"> 
+                    <h2>Список заявок</h2>
+                    <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
+                </div>
+                            
+                <div class="delite-header">
+                    <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
+                    <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
+                </div>  
+            </div>
+
+
+            <div class="requests-list grid-view">
+                {% for i in requests %}
+                <div class="requests-item">
+                    <div class="checkbox-container hidden">
+                        <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
+                    </div>
+                    <h3>{{ i.requested_item }}</h3>
+                    <p>Тип заявки: 
+                        {% if i.request_type == 0 %}
+                            Приобретение
+                            <div class="input-group">
+                                <button class="addProcur" onclick="procurRedirect()">Создать запрос на покупку</button>
+                            </div>
+                        {% elif i.request_type == 1 %}
+                            Замена
+                        {% elif i.request_type == 2 %}
+                            Получение
+                        {% else %}
+                            неизвестно
+                        {% endif %}
+                    </p>
+                    <p>Описание: {{ i.text }}</p>
+                    <p>Статус: 
+                        {% if i.status == 0 %}
+                            Создана
+                        {% elif i.status == 1 %}
+                            На рассмотрении
+                        {% elif i.status == 2 %}
+                            Принята
+                        {% elif i.status == 3 %}
+                            Отклонена
+                        {% else %}
+                            неизвестно
+                        {% endif %}
+                    </p>
+                    <div class="input-group">
+                        <button class="statusButton" onclick="toggleStatusSelect(this)">Изменить статус</button>
+                        <select name="status" id="status-{{ i.id }}" data-id="{{ i.id }}" style="display: none;">
+                            <option value="0" {% if i.status == 0 %}selected{% endif %}>Создана</option>
+                            <option value="1" {% if i.status == 1 %}selected{% endif %}>На рассмотрении</option>
+                            <option value="2" {% if i.status == 2 %}selected{% endif %}>Принята</option>
+                            <option value="3" {% if i.status == 3 %}selected{% endif %}>Отклонена</option>
+                        </select>
+                        <div class="status-buttons" style="display: none;">
+                            <button class="cancel-status-button" onclick="cancelStatusChange(this)">Отменить</button>
+                            <button class="apply-status-button" onclick="applyStatusChange(this)">Применить</button>
+                        </div>
+                    </div>    
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <div class="sidebar">
+            <h2>Создать заявку</h2>
+            <button class="button" onclick="openModal()">Создать</button>
+            <h2>Удалить заявку</h2>
+            <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
+        </div>
+    </div>
+
+    <div id="NotChosenItemModal" class="NotChosenItemModal">
+        <div class="NotChosenItemModal-content">
+            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
+            <h2>Ошибка</h2>
+            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
+        </div>
+    </div>
+
+<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
+    <div class="ConfirmItemDelitionModal-content">
+        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
+        <h2>Подтверждение удаления</h2>
+        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
+        <div class="button-container">
+            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <form id="createRequest">
+        {% csrf_token %}
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Введите данные для заявки</h2>
+            <div class="input-group">
+                <label for="requestedType">Тип заявки:</label>
+                <input hidden name="requestedType">
+                <select name="requestedType" id="requestedType" required>
+                    <option value="-1" disabled selected>Выберите тип</option>
+                    <option value="0">Приобретение</option>
+                    <option value="1">Замена</option>
+                    <option value="2">Получение</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="requestedItem">Инвентарь:</label>
+                <input name='requestedItem' type="text" id="requestedItem" placeholder="Укажите требуемый предмет">
+            </div>
+            <div class="input-group">
+                <label for="requestDesc">Причина:</label>
+                <input name='requestDesc' type="text" id="requestDesc" placeholder="Причина создания заявки">
+            </div>
+            <form>
+                <div class="confirm">
+                    <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                    <button id="createRequestBtn" class="add-button" type="button" onclick="createRequest()">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block script %}
-
+    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"></script>
 {% endblock %}
