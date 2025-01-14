@@ -81,6 +81,8 @@ if len(arguments) > 1:
         print(c.BLUE+'===================================='+c.RESET)
         webbrowser.open('http://127.0.0.1:8000/setup')
     elif arguments[1] == 'run':
+        if not checkInit():
+            print(c.RED+"Проект не инициализирован. Запустите setup.bat")
         print("Подождите, происходит миграция базы данных!")
         
         migrate()
