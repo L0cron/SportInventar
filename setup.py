@@ -42,6 +42,26 @@ def migrate():
             print("An error occurred while making migrations:")
             print(e.stderr)  
 
+def createsuperuser():
+    cfg = getConfig()
+    current_dir = os.getcwd()
+    manage_py_path = os.path.join(current_dir, './SportInventar/manage.py')
+
+    os.environ['DJANGO_SUPERUSER_USERNAME'] = cfg['super_username']
+    os.environ['DJANGO_SUPERUSER_PASSWORD'] = cfg['super_password']
+    os.environ['DJANGO_SUPERUSER_FIRST_NAME'] = cfg['super_name']
+    os.environ['DJANGO_SUPERUSER_LAST_NAME'] = cfg['super_lastname']
+
+    try:
+        result = subprocess.run(['python', manage_py_path, 'createsuperuser', '--email', '', '--noinput'], check=True, capture_output=True, text=True)
+        print(result.stdout)  
+        print("Супер пользователь создан.")
+    except subprocess.CalledProcessError as e:
+        if "username is already taken" in e.stderr:
+            print("Супер пользователь уже создан.")
+        else:
+            print("An error occurred while creating the superuser:")
+            print(e.stderr)
 
 def runapp():
     subprocess.Popen(f'python SportInventar\\manage.py runserver {cfg["serverIP"]}:{cfg['serverPort']}')
@@ -66,8 +86,12 @@ if len(arguments) > 1:
         migrate()
 
         print()
-        print("Миграция прошла успешно! Запуск...")
+        print("Миграция прошла успешно!")
         print()
+        print("Создание супер пользователя...")
+        createsuperuser()
+        print()
+        print("Готово. Запуск...")
         cfg = getConfig()
         runapp()
 
