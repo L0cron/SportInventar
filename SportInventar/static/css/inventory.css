@@ -427,3 +427,14 @@ h2 {
     color: #0056b3;
     background-color: rgba(0, 123, 255, 0.1);
 }
+
+.text-container {
+    width: 85%;
+    margin-left: 0;
+}
+
+.icons-container {
+    width: 15%;
+    display: flex;
+    margin-left: auto;
+}

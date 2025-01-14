@@ -12,55 +12,106 @@
 {% block body %}
     {% include 'inc/topnav.html' %}
 
-    <div class="container">
-        <div class="item-content">
-            <!-- Фотография предмета -->
-            <div class="item-photo">
-                <img src="{% static 'images/item.jpg' %}" alt="Item Photo">
-            </div>
-
-            <!-- Характеристики предмета -->
-            <div class="item-specs">
-                <h2>Характеристики предмета</h2>
-                <ul>
-                    <li>Название: {{item.name}} </li>
-                    <li>Состояние:                         
-                    {% if item.status == 0 %}
-                        сломано
-                    {% elif item.status == 1 %}
-                        в норме
-                    {% elif item.status == 2 %}
-                        новое
-                    {% else %}
-                        неизвестно
-                    {% endif %}</li>
-                    <li>Владелец: {{item.current_holder}}</li>
-                </ul>
-            </div>
-
-            <!-- Боковая панель -->
-            <div class="sidebar">
-                <h2>История владельцев</h2>
-                <p></p>
-            </div>
-
-            <div class="qr-and-button-container">
-                <button class="edit-button">Редактировать</button>
-                <p>QR-код предмета</p>
-                <div class="qr-container">
-                    <img src="{% static 'images/qr-code.png' %}" alt="QR Code">
-                </div>
-            </div>
-    
+<div class="container">
+    <div class="item-content">
+        <!-- Фотография предмета -->
+        <div class="item-photo">
+            {% if item.photo_path %}
+                <img src="{{ item.photo_path }}" alt="Фотография предмета">
+            {% else %}
+                Фото отсутствует
+            {% endif %}
         </div>
 
-        <!-- Комментарии -->
-        <div class="item-comments">
-            <h2>Комментарии</h2>
-            <p>Здесь будут отображаться комментарии.</p>
+        <!-- Характеристики предмета -->
+        <div class="item-specs">
+            <h2>Характеристики предмета</h2>
+            <ul>
+                <li>Название: {{ item.name }} </li>
+                <li>Состояние: 
+                {% if item.status == 0 %}
+                    Сломано
+                {% elif item.status == 1 %}
+                    В норме
+                {% elif item.status == 2 %}
+                    Новое
+                {% else %}
+                    Неизвестно
+                {% endif %}</li>
+                <li>Владелец: {{ item.current_holder }}</li>
+            </ul>
         </div>
+
+        <!-- Боковая панель -->
+        <div class="sidebar">
+            <h2>История владельцев</h2>
+            <p></p>
+        </div>
+
+        <div class="qr-and-button-container">
+            <button class="edit-button" onclick="openEditWindow()">Редактировать</button>
+            <div class="qr-container">
+                {% if item.qr_path %}
+                    <img src="{{ item.qr_path }}" alt="QR-код">
+                {% else %}
+                    QR-код отсутствует
+                {% endif %}
+            </div>
+        </div>
+
     </div>
+
+    <!-- Комментарии -->
+    <div class="item-comments">
+        <h2>Комментарии</h2>
+        <p>Здесь будут отображаться комментарии.</p>
+    </div>
+</div>
+
+<div id="editModal" class="edit-window">
+    <div class="edit-modal-content">
+        <form id="itemForm">
+            {%csrf_token%}
+            <span class="close" onclick="closeEditWindow()">&times;</span>
+            <input name="itemId" hidden value="{{item.id}}">
+            <h2>Редактирование инвентаря</h2>
+            <div class="input-group">
+                <label for="inventoryName">Название инвентаря:</label>
+                <input name="itemName" type="text" id="inventoryName" value="{{ item.name }}" placeholder="Название инвентаря" required>
+            </div>
+            <div class="input-group">
+                <label for="inventoryStatus">Статус инвентаря:</label>
+                <input hidden name="itemStatus">
+                <select name="itemStatus" id="inventoryStatus" required>
+                    <option value="-1" disabled>Выберите статус</option>
+                    <option value="0" {% if item.status == 0 %}selected{% endif %}>сломано</option>
+                    <option value="1" {% if item.status == 1 %}selected{% endif %}>в норме</option>
+                    <option value="2" {% if item.status == 2 %}selected{% endif %}>новое</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="inventoryOwner">Имя владельца инвентаря:</label>
+                <input name="itemOwner" type="text" id="inventoryOwner" value="{{ item.current_holder }}" placeholder="владелец инвентаря" required>
+            </div>
+            <div class="input-group">
+                <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
+                <input name="itemPhoto" type="text" id="inventoryPhoto" value="{{ item.photo_path|default:'' }}" placeholder="фото инвентаря">
+            </div>
+
+            <div class="input-group">
+                <label for="inventoryQr">Путь до QR-кода (это поле не обязательное для заполнения):</label>
+                <input name="itemQr" type="text" id="inventoryQr" value="{{ item.qr_path|default:'' }}" placeholder="qr-код инвентаря">
+            </div>
+
+            
+            <div class="confirm">
+                <button id="addButton" class="add-button" type="button" onclick="editInventory()">Изменить</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}
+    <script src="{% static 'js/item.js' %}" defer data-url="{% url 'inventory:edit' %}"></script>
 {% endblock %}
