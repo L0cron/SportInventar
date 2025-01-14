@@ -64,7 +64,11 @@ def createsuperuser():
             print(e.stderr)
 
 def runapp():
-    subprocess.Popen(f'python SportInventar\\manage.py runserver {cfg["serverIP"]}:{cfg['serverPort']}')
+    cfg = getConfig()
+    if cfg == {}:
+        cfg['serverIP'] = '127.0.0.1'
+        cfg['serverPort'] = '8000'
+    subprocess.Popen(f'python SportInventar\\manage.py runserver {cfg["serverIP"]}:{cfg["serverPort"]}')
 
 arguments = sys.argv
 if len(arguments) > 1:
@@ -98,7 +102,7 @@ if len(arguments) > 1:
         cfg = getConfig()
         runapp()
 
-        webbrowser.open(f'http://{cfg['serverIP']}:{cfg['serverPort']}')
+        webbrowser.open(f'http://{cfg["serverIP"]}:{cfg["serverPort"]}')
 else:
     print("Arguments are not specified.")
     print("To initialize server run 'setup.bat' or 'python setup.py init'")

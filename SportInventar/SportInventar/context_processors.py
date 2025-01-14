@@ -8,6 +8,9 @@ def getConfig()->dict:
     return {}
 
 def projectName(request):
+    cfg = getConfig()
+    if cfg == {}:
+        cfg['projectName'] = '...'
     return {
-        'projectName': getConfig()['projectName'],
+        'projectName': cfg['projectName'],
     }

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'user_handler',
     'inventory',
     'requests',
-    'settings'
+    'settings',
+    'procurements'
 ]
 
 MIDDLEWARE = [
