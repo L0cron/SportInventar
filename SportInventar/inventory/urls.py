@@ -19,5 +19,7 @@ from .views import *
 
 urlpatterns = [
     path('', inventory_view, name='index'),  # Убедитесь, что путь правильный
-    path('del',del_view,name='del')
+    path('del',del_view,name='del'),
+    path('edit', edit_view,name='edit'),
+    path('item/<int:item_id>/', item_view, name='item_view'),  # Correct pattern
 ]

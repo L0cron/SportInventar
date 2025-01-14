@@ -214,6 +214,5 @@ function deleteInventory() {
     }
 
     openConfirmItemDelitionModal();
-    // AJAX
 }
 
