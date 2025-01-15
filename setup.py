@@ -32,9 +32,9 @@ def migrate():
         print("manage.py not found in the ./SportInventar directory.")
     else:
         try:
-            migrations = subprocess.run(['python', manage_py_path, 'makemigrations'], shell=True, check=True, capture_output=True, text=True)
+            migrations = subprocess.run(['python', manage_py_path, 'makemigrations'], cwd=os.path.join(current_dir,'./SportInventar'),shell=True, check=True, capture_output=True, text=True)
             print(migrations.stdout)
-            result = subprocess.run(['python', manage_py_path, 'migrate'], shell=True, check=True, capture_output=True, text=True)
+            result = subprocess.run(['python', manage_py_path, 'migrate'],  cwd=os.path.join(current_dir,'./SportInventar'), shell=True, check=True, capture_output=True, text=True)
             print(result.stdout)
             print("Migrations created successfully:")
             

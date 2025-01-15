@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-from .views import basic_config
 import os
 import json
 
@@ -31,6 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = '/user/login/'
+
+
 
 # Application definition
 
@@ -83,11 +84,41 @@ WSGI_APPLICATION = 'SportInventar.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if os.path.isfile('./config.json'):
-    with open('./config.json', 'r', encoding='utf-8') as fp:
-        cfg = json.load(fp)
-        basic_config =cfg
 
+basic_config = {
+    "db_name": "",
+    "db_ip": "127.0.0.1",
+    "db_port": "5432",
+    "db_user": "",
+    "db_password": "",
+    "super_username": "",
+    "super_password": "",
+    "super_name": "",
+    "super_lastname": "",
+    "projectName": "",
+    "serverIP": "127.0.0.1",
+    "serverPort": "8000"
+}
+
+
+def get_main_path():
+    return os.getcwd()
+
+if os.path.exists(os.path.join(get_main_path(), 'config.json')): 
+    with open(os.path.join(get_main_path(), '.\\config.json'), 'r', encoding='utf-8') as fp:     
+        try:
+            basic_config = json.load(fp)
+        except:
+            print("Not found.")
+else:
+    with open(os.path.join(get_main_path(), '..\\config.json'), 'r', encoding='utf-8') as fp:     
+        try:
+            basic_config = json.load(fp)
+        except:
+            print("Not found.")
+
+
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

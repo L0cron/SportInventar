@@ -43,13 +43,20 @@
     border-radius: 4px; /* Закругленные углы */
     font-size: 16px; /* Размер шрифта */
     cursor: pointer; /* Курсор при наведении */
-    transition: background-color 0.3s; /* Плавный переход цвета фона */
+    transition: background-color 0.2s; /* Плавный переход цвета фона */
+    transition: opacity 0.2s; /* Плавный переход цвета фона */
 }
 
 /* Эффект при наведении на кнопку */
-.login-button:hover {
-    background-color: #0056b3; /* Более темный цвет при наведении */
+.login-button:disabled {
+    background-color: #3a3f46;
+    opacity: 0.75;
+    color:#ccc;
+    transition: background-color 0.2s; /* Плавный переход цвета фона */
+    transition: opacity 0.2s; /* Плавный переход цвета фона */
+    cursor: default;
 }
+
 
 /* Стили для ссылки */
 .no-account {

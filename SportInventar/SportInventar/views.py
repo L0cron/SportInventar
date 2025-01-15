@@ -27,22 +27,25 @@ basic_config = {
 }
 
 def checkInit():
-    if os.path.isfile('./config.json'):
-        with open('./config.json', 'r', encoding='utf-8') as fp:
+    if os.path.isfile(os.path.join(getMainPath(),'config.json')):
+        with open(os.path.join(getMainPath(),'config.json'), 'r', encoding='utf-8') as fp:
             cfg = json.load(fp)
             if cfg['db_name'] != '':
                 return True
             print(cfg)
-    print(os.path.isfile('./config.json'))
     return False
+
+def getMainPath():
+    return os.path.dirname(os.path.abspath(__file__))
+
 
 configuration = {}
 def migrate():
+    print(getMainPath())
     print(configuration)
-    with open('./config.json', 'w', encoding='utf-8') as fp:
+    with open(os.path.join(getMainPath(),'config.json'), 'w', encoding='utf-8') as fp:
         json.dump(configuration, fp,indent=4,ensure_ascii=False)
-
-    exit()    
+    
 
 def setup(request:HttpRequest):
     if checkInit():
@@ -133,6 +136,7 @@ def setup(request:HttpRequest):
                         status = 'Некорректный порт сервера'
         if 'migrate' in request.POST:
             migrate()
+            exit()
                     
         return JsonResponse({"status":status})
     else:

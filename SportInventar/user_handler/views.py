@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib.auth import login as log_in
-
+from django.contrib.auth import logout as log_out
 def check_auth(request):
     if request.user.is_authenticated:
         return 1#HttpResponse("Пользователь авторизован", status=200)
@@ -71,3 +71,8 @@ def register(request:HttpRequest)->HttpResponse|JsonResponse:
             return JsonResponse({'success':'User created'})
         except:
             return JsonResponse({'error':'Username creation failed'})
+        
+def logout(request:HttpRequest)->HttpResponse:
+    if request.user.is_authenticated:
+        log_out(request)
+    return redirect('user:login')
