@@ -11,7 +11,34 @@
 
 {% block body %}
     {% include 'inc/topnav.html' %}
-
+    <div class="container">
+        <h1>Поиск</h1>
+        <div class="search-form">
+            <input type="text" placeholder="Введите запрос...">
+            <button type="button">Искать</button>
+        </div>
+        
+        <div class="rectangles">
+            <div class="rectangle-row">
+                <div class="rectangle">Прямоугольник 1</div>
+                <div class="rectangle">Прямоугольник 2</div>
+                <div class="rectangle">Прямоугольник 3</div>
+                <button class="more-button" type="button">Больше</button>
+            </div>
+            <div class="rectangle-row">
+                <div class="rectangle">Прямоугольник 4</div>
+                <div class="rectangle">Прямоугольник 5</div>
+                <div class="rectangle">Прямоугольник 6</div>
+                <button class="more-button" type="button">Больше</button>
+            </div>
+            <div class="rectangle-row">
+                <div class="rectangle">Прямоугольник 7</div>
+                <div class="rectangle">Прямоугольник 8</div>
+                <div class="rectangle">Прямоугольник 9</div>
+                <button class="more-button" type="button">Больше</button>   
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}

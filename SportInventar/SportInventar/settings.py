@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'SportInventar.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if os.path.isfile('./config.json'):
-    with open('./config.json', 'r', encoding='utf-8') as fp:
+if os.path.isfile('../config.json'):
+    with open('../config.json', 'r', encoding='utf-8') as fp:
         cfg = json.load(fp)
-        basic_config =cfg
-
+        basic_config = cfg
+        
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
