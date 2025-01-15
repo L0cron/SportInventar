@@ -105,12 +105,12 @@ def get_main_path():
     return os.getcwd()
 
 if os.path.exists(os.path.join(get_main_path(), 'config.json')): 
-    with open(os.path.join(get_main_path(), '.\\config.json'), 'r', encoding='utf-8') as fp:     
+    with open(os.path.join(get_main_path(), 'config.json'), 'r', encoding='utf-8') as fp:     
         try:
             basic_config = json.load(fp)
         except:
             print("Not found.")
-else:
+elif os.path.exists(os.path.join(get_main_path(), '..\\config.json')):
     with open(os.path.join(get_main_path(), '..\\config.json'), 'r', encoding='utf-8') as fp:     
         try:
             basic_config = json.load(fp)
@@ -129,6 +129,7 @@ DATABASES = {
         'PORT': basic_config['db_port']
     }
 }
+
 
 # :)
 
