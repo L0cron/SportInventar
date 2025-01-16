@@ -1,66 +1,83 @@
-
-
 .profile-container {
-    margin: auto;
-    background: rgb(251, 251, 251);
-    padding: 40px;
-    border-radius: 8px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    height: 150px;
-    justify-self: center;
 }
 
 .user-info {
-    justify-self: center;
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
 }
 
 .avatar {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.user-details {
+    flex-grow: 1;
 }
 
 .username {
     font-size: 24px;
-    margin: 10px 0;
+    font-weight: bold;
+    margin-top: 0;
 }
 
 .real-name {
     font-size: 18px;
-    color: #555;
-}
-
-.register-date {
-    font-size: 14px;
-    color: #888;
+    color: #666;
 }
 
 .details-container {
     display: flex;
     justify-content: space-between;
+    padding: 20px;
 }
 
-.inventory, .usage-history {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    width: 48%;
+.inventory {
+    width: 70%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.usage-history {
+    width: 25%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.inventory h2, .usage-history h2 {
     margin-top: 0;
+    font-size: 18px;
 }
 
-ul {
+.inventory ul, .usage-history ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
-li {
-    padding: 5px 0;
+.inventory li, .usage-history li {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.inventory li:last-child, .usage-history li:last-child {
+    border-bottom: none;
 }

@@ -77,7 +77,7 @@ $(function() {
         
         // Сериализация данных формы в строку
         let data = $("#addItemForm").serialize();
-        console.log(data);
+        // console.log(data);
         
         // AJAX-запрос на добавление элемента
         $.ajax({
@@ -91,15 +91,18 @@ $(function() {
             success: function(response) {
                 // Проверка статуса ответа
                 if(response['status'] == 'ok') {
+                    console.log(response)
                     // Добавление элемента в инвентарь
                     addInventory();
                     // Перезагрузка страницы
                     window.location.reload();
 
                 } else {
-                    // TODO: обработка ошибки
+                    console.log(response['status'])
                 }
-                
+            },
+            error: function() {
+                console.log('pzdc');
             }
         })
     })

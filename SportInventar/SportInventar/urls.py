@@ -25,5 +25,5 @@ urlpatterns = [
     path('setup/',setup,name='setup'),
     path('inventory/', include(('inventory.urls','inventory'),namespace='inventory')),
     path('requests/', include(('requests.urls', 'requests'), namespace='requests')),
-    path('procur/', include(('procurements.urls', 'procurements'), namespace='procurments'))
+    path('procur/', include(('procurements.urls', 'procurements'), namespace='procurments')),
 ]

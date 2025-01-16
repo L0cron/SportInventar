@@ -25,14 +25,15 @@ def inventory_view(request:HttpRequest):
 
             if len(itemName) == 0 or len(itemStatus) == 0 or len(itemOwner) == 0:
                 status = 'Присутствуют незаполненные поля'
+            elif not User.objects.filter(username=itemOwner).exists():
+                status = 'Пользователь с таким именем не существует'
             else:
-                item = Item(name=itemName,status=int(itemStatus),current_holder=itemOwner, photo_path=itemPhoto, qr_path=itemQr)
+                item = Item(name=itemName,status=int(itemStatus),current_holder=User.objects.get(username=itemOwner), photo_path=itemPhoto, qr_path=itemQr)
                 item.save()
                 status = 'ok'
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
 
-        # print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
         return JsonResponse({"status":status})
     
 def del_view(request:HttpRequest)->JsonResponse:
