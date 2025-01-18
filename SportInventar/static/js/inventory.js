@@ -36,10 +36,10 @@ function addInventory() {
             hasError = true;
         }
     }
-    if (!inventoryOwner) {
-        document.getElementById('inventoryOwner').style.border = '1px solid red';
-        hasError = true;
-    }
+// if (!inventoryOwner) {
+//     document.getElementById('inventoryOwner').style.border = '1px solid red';
+//     hasError = true;
+// }
 
     // Если есть ошибки, выводим сообщение
     if (hasError) {
@@ -120,7 +120,6 @@ $(function() {
         for(let i = 0; i < checkedCheckboxes.length; i++) {
             data['items'][i]=checkedCheckboxes[i].getAttribute('data-id');
         }
-        console.log(data)
        
         $.ajax({
             type: "POST",
@@ -219,3 +218,28 @@ function deleteInventory() {
     openConfirmItemDelitionModal();
 }
 
+
+function elasticSearch() {
+    input_value = document.getElementById('search')
+
+    let data = {
+        "csrfmiddlewaretoken": csrftoken.value,
+    }
+
+    $.ajax({
+        url: dataset['searchurl'],
+        // dataType: 'json',
+        type: 'GET',
+        data: data,
+
+        success: function(data) {
+            users_list = data['users']
+            console.log(input_value)
+            console.log(users_list)
+        },
+        error: function(xhr, status, error) {
+            console.log('Ошибка поиска: ' + error);
+        }
+    });
+    
+}

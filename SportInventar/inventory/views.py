@@ -59,10 +59,18 @@ def del_view(request:HttpRequest)->JsonResponse:
         status['item_deleted'] = deleted
         return JsonResponse(status)
     
+
+
+def search_view(request:HttpRequest):
+    if request.method == 'GET':
+        users = list(User.objects.values_list('username', flat=True))
+        context = {"users":users}
+        # return render(request, 'inventory.html',context=context)
+        return JsonResponse(context)
+
+
+
 def edit_view(request:HttpRequest):
-    print(request)
-    print(request.method)
-    print(request.POST)
     status = {
         "item_edited": 0,
         "message": ""
