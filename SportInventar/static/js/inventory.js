@@ -220,10 +220,12 @@ function deleteInventory() {
 
 
 function elasticSearch() {
-    input_value = document.getElementById('search')
-
     let data = {
         "csrfmiddlewaretoken": csrftoken.value,
+    }
+
+    const userList = {
+        users: []
     }
 
     $.ajax({
@@ -233,13 +235,15 @@ function elasticSearch() {
         data: data,
 
         success: function(data) {
-            users_list = data['users']
-            console.log(input_value)
-            console.log(users_list)
+            userList.users = data["users"]
+            // users_list = data['users']
+            // console.log(users_list)
         },
         error: function(xhr, status, error) {
             console.log('Ошибка поиска: ' + error);
         }
     });
+
+    console.log(userList);
     
 }
