@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
-
+import socket
+import requests
+from bs4 import BeautifulSoup
 from urllib.parse import parse_qs
 
 def procurement_view(request:HttpRequest):
@@ -10,6 +12,25 @@ def procurement_view(request:HttpRequest):
         procurements = Procurement.objects.all()
         context = {"procurements":procurements}
         return render(request, 'procurements.html',context=context)
+    elif request.method == 'POST':
+        status = 'ok'
+        try:
+            itemName = request.POST.get('itemName')
+            itemOwner = request.POST.get('itemOwner')
+            itemPhoto = request.POST.get('itemPhoto')
+
+            if len(itemName) == 0 or len(itemOwner) == 0:
+                status = 'Присутствуют незаполненные поля'
+            else:
+                proc = Procurement(name=itemName,current_holder=itemOwner, photoPath=itemPhoto)
+                proc.save()
+                status = 'ok'
+        except Exception as e:
+            status = 'Ошибка записи данных в базу данных: ' + str(e)
+
+        # print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
+        return JsonResponse({"status":status})
+    
 
 def del_view(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':
@@ -90,3 +111,7 @@ def edit_view(request:HttpRequest):
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Procurement, id=item_id)
     return render(request, 'proc.html', context={'item': item})
+
+def parce_view(request:HttpRequest, search:str):
+    response = requests.get("https://starfitshop.ru/search/?query=" + str(bytes(search.encode("utf-8"))).replace('x','%').replace("\\","").strip("b'").upper(), sep="")
+    soup = BeautifulSoup(response.text, 'html.parser')

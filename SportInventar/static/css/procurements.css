@@ -8,6 +8,19 @@
 
 }
 
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    flex-direction: column;
+}
+
 button {
     padding: 10px; /* Внутренние отступы */
     background-color: #007bff; /* Цвет фона кнопки */
@@ -27,16 +40,35 @@ p {
     user-select: none;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    padding: 20px;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s;
 }
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+
 h1 {
+    margin-top: 30px;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 .search-form {
     display: flex;
@@ -53,10 +85,10 @@ h1 {
     padding: 10px 20px;
 }
 .rectangles {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+    margin-bottom: 0;
+    padding: 10px;
+    border-radius: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 .rectangle-row {
     display: flex;
@@ -64,15 +96,48 @@ h1 {
     align-items: center;
 }
 .rectangle {
-    width: 30%;
+    margin-bottom: 10px;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 28%;
     height: 100px;
-    background-color: lightblue;
-    border: 1px solid #007BFF;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
+
+.rectangle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.rectangle h3 {
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 20px;
+}
+
+.rectangle p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 16px;
+}
+
 .more-button {
     margin-left: 10px;
     padding: 10px 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
