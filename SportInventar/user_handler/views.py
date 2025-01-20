@@ -76,3 +76,28 @@ def logout(request:HttpRequest)->HttpResponse:
     if request.user.is_authenticated:
         log_out(request)
     return redirect('user:login')
+
+
+def search(reqest:HttpRequest)->JsonResponse:
+    if reqest.user.is_authenticated:
+        if reqest.user.is_staff:
+            print(reqest.GET)
+            query = reqest.GET.get('query')
+            if query == None or query == '':
+                return JsonResponse({"status":"query is not provided"})
+            print(query)
+            print(query[0])
+            users = User.objects.filter(username__icontains=query).all()
+            usersList = []
+            for user in users:
+                usr = {}
+                usr['username'] = user.username
+                usr['first_name'] = user.first_name
+                usr['last_name'] = user.last_name
+                usersList.append(usr)
+            return JsonResponse({"users":usersList})
+            
+        else:
+            return JsonResponse({"status":"not enough previliges"})
+    else:
+        return JsonResponse({"status":"not logged in"})

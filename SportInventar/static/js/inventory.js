@@ -220,30 +220,45 @@ function deleteInventory() {
 
 
 function elasticSearch() {
+    
+    let val = document.getElementById('elastic').value;
+    console.log(val);
+
     let data = {
         "csrfmiddlewaretoken": csrftoken.value,
-    }
-
-    const userList = {
-        users: []
+        "query": val
     }
 
     $.ajax({
         url: dataset['searchurl'],
-        // dataType: 'json',
         type: 'GET',
         data: data,
 
-        success: function(data) {
-            userList.users = data["users"]
-            // users_list = data['users']
-            // console.log(users_list)
-        },
-        error: function(xhr, status, error) {
-            console.log('Ошибка поиска: ' + error);
+    success: function(data) {
+        if (data.length != 0) {
+            top_users = (data['users'].slice(0, 5).map(user => user['username']));
+            console.log(top_users);
+            displayResults(top_users);
         }
-    });
+    },
+    error: function(xhr, status, error) {
+        console.log('Ошибка поиска: ' + error);
+    }
 
-    console.log(userList);
+    });
     
+}
+
+function displayResults(resultsArray) {
+    
+    const elastic = document.getElementById('elastic');
+    if (elastic.value === '') {
+        return
+    }
+    results.innerHTML = '';
+    resultsArray.forEach(result => {
+        const li = document.createElement('li');
+        li.textContent = result;
+        results.appendChild(li);
+    });
 }
