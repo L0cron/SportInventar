@@ -3,11 +3,13 @@ from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
 import socket
-import requests
+from django.db.models import QuerySet, Max
+import requests as rqst
+import http.client
 from bs4 import BeautifulSoup
 from urllib.parse import parse_qs
 
-def procurement_view(request:HttpRequest):
+def procurements_view(request:HttpRequest):
     if request.method == 'GET':
         procurements = Procurement.objects.all()
         context = {"procurements":procurements}
@@ -113,5 +115,26 @@ def item_view(request:HttpRequest, item_id:int):
     return render(request, 'proc.html', context={'item': item})
 
 def parce_view(request:HttpRequest, search:str):
-    response = requests.get("https://starfitshop.ru/search/?query=" + str(bytes(search.encode("utf-8"))).replace('x','%').replace("\\","").strip("b'").upper(), sep="")
-    soup = BeautifulSoup(response.text, 'html.parser')
+    if request.method == "GET":
+        conn = http.client.HTTPSConnection("starfitshop.ru")
+        conn.request("GET","/search/?query=" + str(bytes(search.encode("utf-8"))).replace('x','%').replace("\\","").strip("b' ").upper())
+        response = conn.getresponse().read()
+        soup = BeautifulSoup(response, 'html.parser')
+        if soup.__contains__('По Вашему запросу ничего не найдено'):
+            return redirect("Nothing found")
+        c = 9
+        Displayer.objects.all().delete()
+        for row in soup.find_all('form',class_='item cat-item__purchase'):
+            href = "https://starfitshop.ru" + row.find('a',class_='item__title')['href']
+            name = row.find('span',itemprop='name').get_text()
+            price = row.find('span',class_='prc-val').get_text()
+            supplier = row.find('td',class_='chars__value').get_text()
+            photoPath = ""
+            obj = Displayer(url=href,name=name,price=price,supplier=supplier,photoPath=photoPath)
+            obj.save()
+            if not(c): break
+            c -= 1
+        displayers = Displayer.objects.all()
+        context = {'displayers':displayers}
+        conn.close()
+        return render(request,'findProcurs.html',context=context)

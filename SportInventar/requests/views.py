@@ -6,7 +6,9 @@ from .models import *
 def requests_view(request:HttpRequest):
     if request.method == 'GET':
         requests = Request.objects.all()
+        print(requests)
         context = {"requests":requests}
+        print(context)
         return render(request, 'requests.html',context=context)
     elif request.method == 'POST':
         status = 'ok'

@@ -1,0 +1,31 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Закупки</title>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/procurements.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% include 'inc/topnav.html' %}
+    <div class="container">
+        <div class="change-view">
+            <button type="button" onclick="window.location.href=`{% url 'procurements:index' %}`">Посмотреть закупки</button>
+        </div>
+        <h1>Поиск в магазинах</h1>
+        <div class="search-form">
+            <input type="text" id="search" placeholder="Введите запрос...">
+            <button type="button" onclick="search()">Искать</button>
+        </div>
+        
+        <div class="rectangles">
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/procurements.js' %}" data-url="{% url 'procurements:index' %}"></script>
+{% endblock %}
