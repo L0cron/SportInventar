@@ -12,9 +12,6 @@
 {% block body %}
     {% include 'inc/topnav.html' %}
 
-    <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите название инвентаря">
-    <div id="results"></div>
-
     <div class="container">
         <div class="main-content">
             <div class="header-container">
@@ -111,9 +108,17 @@
                     <option value="2">новое</option>
                 </select>
             </div>
+<!-- 
+<div class="input-group">
+    <label for="inventoryOwner">Имя владельца инвентаря:</label>
+    <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+</div>
+-->
+
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="'itemOwner">
+                <div id="results"></div>
             </div>
 
             <div class="input-group">

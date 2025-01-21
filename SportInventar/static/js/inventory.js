@@ -11,12 +11,12 @@ function closeModal() {
 function addInventory() {
     const inventoryName = document.getElementById('inventoryName').value;
     const inventoryStatus = document.getElementById('inventoryStatus').value;
-    const inventoryOwner = document.getElementById('inventoryOwner').value;
+    const inventoryOwner = document.getElementById('elastic').value;
 
     // Очистка предыдущих выделений
     document.getElementById('inventoryName').style.border = '';
     document.getElementById('inventoryStatus').style.border = '';
-    document.getElementById('inventoryOwner').style.border = '';
+    document.getElementById('elastic').style.border = '';
 
     let hasError = false; // Флаг для отслеживания наличия ошибок
     const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
@@ -36,10 +36,10 @@ function addInventory() {
             hasError = true;
         }
     }
-// if (!inventoryOwner) {
-//     document.getElementById('inventoryOwner').style.border = '1px solid red';
-//     hasError = true;
-// }
+   if (!inventoryOwner) {
+       document.getElementById('elastic').style.border = '1px solid red';
+       hasError = true;
+    }
 
     // Если есть ошибки, выводим сообщение
     if (hasError) {
