@@ -12,12 +12,17 @@
 {% block body %}
     <div class="container">
         <div class="title">Регистрация</div>
-        <form id="regform" class="form" method="post" action="{% url 'user:profile' %}">
+        <form id="authform" class="form" method="post" action="{% url 'user:profile' %}">
             {% csrf_token %}
             <input name="username" type="text" placeholder="Логин" required>
             <input name="password" type="password" placeholder="Пароль" required>
             <input name="rpassword" type="password" placeholder="Повторите пароль" required>
-            <button id="reg" class="login-button" type="submit">Зарегистрироваться</button>
+            <input name="first" type="text" placeholder="Имя" required>
+            <input name="last" type="text" placeholder="Фамилия" required>
+            <div class="error">
+                <p></p>
+            </div>
+            <button id="sendauth" class="login-button" type="submit">Зарегистрироваться</button>
         </form>
         <p class="no-account">Уже есть аккаунт? <a href='{% url "user:login" %}'>Авторизоваться</a>.</p>
     </div>

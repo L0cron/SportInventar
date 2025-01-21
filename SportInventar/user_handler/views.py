@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.db.utils import IntegrityError
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib.auth import login as log_in
@@ -59,7 +60,14 @@ def register(request:HttpRequest)->HttpResponse|JsonResponse:
         u=request.POST.get('username')
         p=request.POST.get('password')
         rp=request.POST.get('rpassword')
+        fn=request.POST.get('first')
+        ln=request.POST.get('last')
         
+        if fn == None or fn == '':
+            return JsonResponse({"status":"Имя должно быть заполнено"})
+        if ln == None or ln == '':
+            return JsonResponse({"status":"Фамилия должна быть заполнена"})
+
         if p != rp:
             return JsonResponse({'error':'Passwords do not match'})
         if len(u) < 3:
@@ -67,8 +75,12 @@ def register(request:HttpRequest)->HttpResponse|JsonResponse:
         if len(p) < 8:
             return JsonResponse({'error':'Password is too short'})
         try:
-            User(username=u, password=p,email='').save()
-            return JsonResponse({'success':'User created'})
+            User(username=u, password=p,email='',first_name=fn,last_name=ln).save()
+            user = User.objects.get(username=u)
+            log_in(request,user)
+            return JsonResponse({'status':'ok'})
+        except IntegrityError:
+            return JsonResponse({'error':'Username already exists'})
         except:
             return JsonResponse({'error':'Username creation failed'})
         

@@ -43,7 +43,7 @@ configuration = {}
 def migrate():
     print(getMainPath())
     print(configuration)
-    with open(os.path.join(getMainPath(),'config.json'), 'w', encoding='utf-8') as fp:
+    with open(os.path.join(getMainPath(),'../config.json'), 'w', encoding='utf-8') as fp:
         json.dump(configuration, fp,indent=4,ensure_ascii=False)
     
 
