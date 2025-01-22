@@ -22,7 +22,11 @@
         </div>
         <div class="nav-right">
             {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <button onclick="window.location.href=`{% url 'adminp:index' %}`">Администрирование</button>
+                {% endif %}
                 <div class="userblock" onclick="window.location.href=`{% url 'user:profile' %}`">
+                    
                     <p class="topusername">{{ user.username }}</p>
                     <img class="user-avatar" src="{% static 'img/user-avatar.png' %}" alt=" ">
                 </div>

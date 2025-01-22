@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 import ipaddress as ipaddr
 import os
 import psycopg2 as psy
@@ -141,3 +142,4 @@ def setup(request:HttpRequest):
         return JsonResponse({"status":status})
     else:
         return render(request,'setup.html') 
+

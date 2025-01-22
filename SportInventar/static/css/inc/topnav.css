@@ -12,6 +12,8 @@
 .nav-right {
     margin-left: auto; /* Отодвигаем правую часть вправо */
     margin-right: 15px; /* Отступ слева для отделения от других кнопок */
+    display: flex;
+    flex-direction: row;
 }
 
 .nav-left {
