@@ -1,0 +1,112 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Закупки</title>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/procurements.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% include 'inc/topnav.html' %}
+    <div class="container">
+        <div class="change-view">
+            <button type="button" onclick="window.location.href=`{% url 'procurements:index' %}`">Посмотреть закупки</button>
+        </div>
+        <h1>Поиск в магазинах</h1>
+        <div class="search-form">
+            <input type="text" id="search" placeholder="Введите запрос...">
+            <button type="button" onclick="search()">Искать</button>
+        </div>
+        <!--
+        author = CharField(username)
+        author = ForeignKey(User)
+
+        Model(author=username)
+        Model(author=Model.objects.get(username=username))
+
+        Мяч
+
+        Item.objects.filter(name__contains).all()
+        context = {}
+        items = [] <- заполнить квери сетом
+        context['items'] = items
+    -->
+        <div class="rectangles">
+            {% for i in displayers %}
+                <div class="inventory-item">
+                    <div class="text-container" id="{{ i.id }}">
+                        <h3>{{ i.name }}</h3>
+                        <p>Цена: {{ i.price }}</p>  
+                        <p>Поставщик: starfitshop</p>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" onclick="window.location.href='{{ i.href }}'">Посмотреть товар</button>
+                        <button type="button_two" onclick="openModal()">Создать закупку</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="NotChosenItemModal" class="NotChosenItemModal">
+        <div class="NotChosenItemModal-content">
+            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
+            <h2>Ошибка</h2>
+            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
+        </div>
+    </div>
+
+    <div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
+        <div class="ConfirmItemDelitionModal-content">
+            <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
+            <h2>Подтверждение удаления</h2>
+            <p>Вы уверены, что хотите удалить выбранные элементы?</p>
+            <div class="button-container">
+                <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+                <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="myModal" class="modal">
+        <form id="createRequest">
+            {% csrf_token %}
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Введите данные для заказа</h2>
+                <div class="input-group">
+                    <label for="requestedType">Тип заявки:</label>
+                    <input hidden name="requestedType">
+                    <select name="requestedType" id="requestedType" required>
+                        <option value="-1" disabled selected>Выберите тип</option>
+                        <option value="0">Приобретение</option>
+                        <option value="1">Замена</option>
+                        <option value="2">Получение</option>
+                        <!-- возможный выбор поставщика(определиться как это будет) -->
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="requestedItem">Инвентарь:</label>
+                    <input name='requestedItem' type="text" id="requestedItem" placeholder="Укажите требуемый предмет">
+                </div>
+                <div class="input-group">
+                    <label for="requestDesc">Причина:</label>
+                    <input name='requestDesc' type="text" id="requestDesc" placeholder="Причина создания заявки">
+                </div>
+                <form>
+                    <div class="confirm">
+                        <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                        <button id="createRequestBtn" class="add-button" type="button" onclick="createRequest()">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/procurements.js' %}" data-url="{% url 'procurements:index' %}"></script>
+{% endblock %}

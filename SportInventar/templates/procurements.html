@@ -12,35 +12,128 @@
 {% block body %}
     {% include 'inc/topnav.html' %}
     <div class="container">
-        <h1>Поиск</h1>
-        <div class="search-form">
-            <input type="text" placeholder="Введите запрос...">
-            <button type="button">Искать</button>
+        <div class="change-view">
+            <input type="text" id="search" placeholder="Введите запрос...">
+            <button type="button" onclick="searchMain()">Поиск товаров</button>
         </div>
-        
-        <div class="rectangles">
-            <div class="rectangle-row">
-                <div class="rectangle">Прямоугольник 1</div>
-                <div class="rectangle">Прямоугольник 2</div>
-                <div class="rectangle">Прямоугольник 3</div>
-                <button class="more-button" type="button">Больше</button>
+        <div class="main-content">
+            <div class="header-container">
+                <div class="inventory-header"> 
+                    <h2>Список закупок</h2>
+                </div>
+                            
+                <div class="delite-header">
+                    <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
+                    <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
+                </div>  
             </div>
-            <div class="rectangle-row">
-                <div class="rectangle">Прямоугольник 4</div>
-                <div class="rectangle">Прямоугольник 5</div>
-                <div class="rectangle">Прямоугольник 6</div>
-                <button class="more-button" type="button">Больше</button>
+
+
+            <div class="inventory-list grid-view">
+                {% for i in items %}
+                <div class="inventory-item">
+                    <div class="icons-container">
+                        <span class="more-info-icon" onclick="window.location.href=`{% url 'inventory:item_view' item_id=i.id %}`" style="cursor: pointer;">
+                            i<i class="fas fa-info-circle"></i>
+                        </span>
+                        <div class="checkbox-container hidden">
+                            <input type="checkbox" class="inventory-checkbox" data-id="{{ i.id }}">
+                        </div>
+                    </div>
+
+                    <div class="text-container"> 
+                        <h3>{{ i.name }}</h3>
+                        <p>Статус: 
+                            {% if i.status == 0 %}
+                                сломано
+                            {% elif i.status == 1 %}
+                                в норме
+                            {% elif i.status == 2 %}
+                                новое
+                            {% else %}
+                                неизвестно
+                            {% endif %}
+                        </p>
+                        <p>Владелец: {{ i.current_holder }}</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            <div class="rectangle-row">
-                <div class="rectangle">Прямоугольник 7</div>
-                <div class="rectangle">Прямоугольник 8</div>
-                <div class="rectangle">Прямоугольник 9</div>
-                <button class="more-button" type="button">Больше</button>   
+        </div>
+    
+        <div class="sidebar">
+            <h2>Добавить инвентарь</h2>
+            <button class="button" onclick="openModal()">Добавить</button>
+            <h2>Удалить инвентарь</h2>
+            <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
+        </div>
+    </div>
+
+    <div id="NotChosenItemModal" class="NotChosenItemModal">
+        <div class="NotChosenItemModal-content">
+            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
+            <h2>Ошибка</h2>
+            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
+        </div>
+    </div>
+
+<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
+    <div class="ConfirmItemDelitionModal-content">
+        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
+        <h2>Подтверждение удаления</h2>
+        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
+        <div class="button-container">
+            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <form id="addItemForm">
+        {% csrf_token %}
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Введите данные инвентаря</h2>
+            <div class="input-group">
+                <label for="inventoryName">Название инвентаря:</label>
+                <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря" required>
             </div>
+            <div class="input-group">
+                <label for="inventoryStatus">Статус инвентаря:</label>
+                <input hidden name="itemStatus">
+                <select name="itemStatus" id="inventoryStatus" required>
+                    <option value="-1" disabled selected>Выберите статус</option>
+                    <option value="0">сломано</option>
+                    <option value="1">в норме</option>
+                    <option value="2">новое</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="inventoryOwner">Имя владельца инвентаря:</label>
+                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+            </div>
+
+            <div class="input-group">
+                <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
+                <input name="itemPhoto" type="text" id="inventoryPhoto" placeholder="фото инвентаря" required>
+            </div>
+
+            <div class="input-group">
+                <label for="inventoryQr">Путь до фото (это поле не обязательное для заполнения):</label>
+                <input name="itemQr" type="text" id="inventoryQr" placeholder="qr-код инвентаря" required>
+            </div>
+
+            <form>
+                <div class="confirm">
+                    <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                    <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}
 
 {% block script %}
-
+    <script src="{% static 'js/procurements.js' %}" data-url="{% url 'procurements:index' %}"></script>
 {% endblock %}

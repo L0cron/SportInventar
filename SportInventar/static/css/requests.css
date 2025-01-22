@@ -10,6 +10,10 @@
     background-color: #f9f9f9;
 }
 
+.category {
+    margin-top: 15px;
+}
+
 .main-content {
     width: 70%;
 }
@@ -25,9 +29,30 @@
     margin-bottom: 10px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Выравнивание кнопок вправо */
+    display: table-column;
+    margin-top: 10px; /* Отступ сверху для кнопок */
+}
+
+hr {
+    border: none; /* Убираем стандартные границы */
+    height: 2px; /* Высота линии */
+    background-color: #000; /* Цвет линии */
+    margin: 20px 0; /* Отступы сверху и снизу */
+}
+
+.cancel-button {
+    margin-left: 5px;
+}
+
+.complete-button  {
+    margin-right: auto;
+}
+
 .statusButton {
     bottom: 10;
-    width: 100%;
     padding: 8px;
     background-color: #007bff;
     color: white;
@@ -36,6 +61,8 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 2px;
+    margin-bottom: 7px;
 }
 
 .apply-status-button {
@@ -63,6 +90,7 @@
     font-size: 16px;
     cursor: pointer;
     margin-top: 4px;
+    margin-bottom: 6px;
 }
 
 .cancel-status-button:hover {
@@ -204,7 +232,7 @@ h2 {
 }
 
 .input-group {
-    margin-bottom: 10px;
+    margin-bottom: 7px;
 }
 
 .input-group label {

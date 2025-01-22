@@ -21,5 +21,6 @@ from .views import *
 urlpatterns = [
     path('', requests_view, name='index'),
     path('change',change_request_view,name="change"),
+    path('accept',accept_request_view,name="accept"),
     path('del',del_view,name='del')
 ]

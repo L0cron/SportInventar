@@ -6,7 +6,9 @@ from .models import *
 def requests_view(request:HttpRequest):
     if request.method == 'GET':
         requests = Request.objects.all()
+        print(requests)
         context = {"requests":requests}
+        print(context)
         return render(request, 'requests.html',context=context)
     elif request.method == 'POST':
         status = 'ok'
@@ -39,6 +41,22 @@ def change_request_view(request:HttpRequest):
             requestStatus = request.POST.get('new_status')
             _request = Request.objects.get(id=int(requestId))
             _request.status = int(requestStatus)
+            _request.save()
+        except Exception as e:
+            status = 'Ошибка записи данных в базу данных: ' + str(e)
+        return JsonResponse({"status":status})
+
+def accept_request_view(request:HttpRequest):
+    if request.method == 'POST':
+        status = 'ok'
+        try:
+            requestId = request.POST.get('request_id')
+            requestStatus = request.POST.get('new_status')
+            request_display_type = request.POST.get('new_type')
+            _request = Request.objects.get(id=int(requestId))
+            _request.status = int(requestStatus)
+            _request.request_display_type = int(request_display_type)
+            print('ya tut \n')
             _request.save()
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)

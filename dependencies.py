@@ -7,7 +7,9 @@ required = {
     'colorama',
     'python-dotenv',
     'psycopg',
-    'psycopg2'
+    'psycopg2',
+    'requests',
+    'beautifulsoup4'
 }
 
 installed = {pkg.metadata['Name'].lower() for pkg in importlib.metadata.distributions()}

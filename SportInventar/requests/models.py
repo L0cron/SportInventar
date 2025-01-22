@@ -15,12 +15,20 @@ class Request(models.Model):
         (1,'Замена'),
         (2,'Получение')
     )
+    DISPLAYS = (
+        (0,'Новая'),
+        (1,'Активная'),
+        (2,'Архивная')
+    )
+
 
     author = models.CharField(verbose_name='Создатель заявки', max_length=255) # models.ForeignKey(User, verbose_name='Текущий владелец', on_delete=models.CASCADE)
     requested_item = models.CharField(verbose_name='Запрошенный инвентарь', max_length=255) # models.ForeignKey(Item, verbose_name='Запрошенный инвентарь', on_delete=models.CASCADE)
-    text = models.TextField(verbose_name='Описание запроса(причина запроса)',max_length=255)
-    request_type = models.IntegerField(choices=REQ_TYPE, verbose_name='Тип запроса')
-    status = models.IntegerField(choices=STATUS, verbose_name='Статус запроса')
+    text = models.TextField(verbose_name='Описание заявки(причина заявки)',max_length=255)
+    request_type = models.IntegerField(choices=REQ_TYPE, verbose_name='Тип заявки')
+    status = models.IntegerField(choices=STATUS, verbose_name='Статус заявки')
+    completion = models.BooleanField(verbose_name="Выполнена ли заявка", default=False)
+    request_display_type = models.IntegerField(choices=DISPLAYS, verbose_name='Где отображать заявку',default=0)
 
     class Meta:
         ordering = ['id']
