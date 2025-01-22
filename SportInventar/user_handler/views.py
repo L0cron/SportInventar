@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
+from inventory.models import Item
+
+
 def check_auth(request):
     if request.user.is_authenticated:
         return 1#HttpResponse("Пользователь авторизован", status=200)
@@ -18,9 +21,12 @@ def index(request:HttpRequest)->HttpResponse:
     else:
         return redirect('user:login')"""
 
+
 @login_required
 def profile(request:HttpRequest)->HttpResponse:
-    return render(request,'user/profile.html')
+    items = Item.objects.filter(current_holder = request.user)
+    context = {"items": items}
+    return render(request,'user/profile.html', context=context)
 
 def auth(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':

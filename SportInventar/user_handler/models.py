@@ -10,5 +10,3 @@ class User(AbstractUser):
         "2":"Деактивирован",
     }
     status = models.CharField(max_length=1, choices=statuses.items(), default="0")
-    
-
