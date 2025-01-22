@@ -100,7 +100,7 @@
             </div>
             <div class="input-group">
                 <label for="inventoryStatus">Статус инвентаря:</label>
-                <input hidden name="itemStatus">
+                <!-- <input hidden name="itemStatus"> -->
                 <select name="itemStatus" id="inventoryStatus" required>
                     <option value="-1" disabled selected>Выберите статус</option>
                     <option value="0">сломано</option>
@@ -117,8 +117,8 @@
 
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="'itemOwner">
-                <div id="results"></div>
+                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList">
+                <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message hidden" id="owner-error-message"></span>
 

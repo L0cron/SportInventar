@@ -23,6 +23,12 @@ def inventory_view(request:HttpRequest):
             itemPhoto = request.POST.get('itemPhoto')
             itemQr = request.POST.get('itemQr')
 
+            print(itemName)
+            print(itemStatus)
+            print(itemOwner)
+            print(itemPhoto)
+            print(itemQr)
+
             if len(itemName) == 0 or len(itemStatus) == 0 or len(itemOwner) == 0:
                 status = 'Присутствуют незаполненные поля'
             elif not User.objects.filter(username=itemOwner).exists():

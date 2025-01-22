@@ -47,11 +47,6 @@ function addInventory() {
         errorMessageElement.style.display = 'block';
         return;
     } 
-
-    else if (inventoryOwner) {
-
-    }
-    
     else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
         closeModal();
@@ -81,8 +76,9 @@ $(function() {
         
         // Сериализация данных формы в строку
         let data = $("#addItemForm").serialize();
+        console.log($("#addItemForm"));
         // console.log(data);
-        
+        console.log(data);
         // AJAX-запрос на добавление элемента
         $.ajax({
             // Тип запроса
@@ -248,6 +244,7 @@ function elasticSearch() {
             top_users = (data['users'].slice(0, 5).map(user => user['username']));
             console.log(top_users);
             displayResults(top_users);
+            top_users = []
         } else {
             displayResults(top_users);
             errorMessageElement.style.display = 'block';
@@ -260,23 +257,30 @@ function elasticSearch() {
     }
 
     });
-    
-    }
+}
 
 function displayResults(resultsArray) {
-    results.innerHTML = '';
-    if (resultsArray.length == 0) {
+    const resultsList = document.getElementById('resultsList');
+    // Очищаем предыдущие результаты
+    resultsList.innerHTML = '';
+    
+    // Если массив результатов пуст, выходим из функции
+    if (resultsArray.length === 0) {
         return;
     }
     
     const elastic = document.getElementById('elastic');
+    // Если поле ввода пустое, выходим из функции
     if (elastic.value === '') {
-        return
+        return;
     }
-   
+    
     resultsArray.forEach(result => {
-        const li = document.createElement('li');
-        li.textContent = result;
-        results.appendChild(li);
+        const option = document.createElement('option'); // Создаем элемент option
+        option.value = result; // Устанавливаем значение option
+        resultsList.appendChild(option); // Добавляем option в datalist
     });
+
+    // Устанавливаем фокус на поле ввода, чтобы показать подсказки
+    elastic.focus();
 }
