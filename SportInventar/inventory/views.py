@@ -7,9 +7,9 @@ from urllib.parse import parse_qs
 
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Item, id=item_id)
+    hist = History.objects.get(item = item)
     
-    
-    return render(request, 'item.html', context={'item': item})
+    return render(request, 'item.html', context={'item': item, 'item_history': hist})
 
 def inventory_view(request:HttpRequest):
     if request.method == 'GET':

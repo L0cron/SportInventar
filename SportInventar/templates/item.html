@@ -38,14 +38,18 @@
                 {% else %}
                     Неизвестно
                 {% endif %}</li>
-                <li>Владелец: {{ item.current_holder }}</li>
+                <li>Владелец: {{ item.current_holder.username }}</li>
             </ul>
         </div>
 
         <!-- Боковая панель -->
         <div class="sidebar">
             <h2>Текущий владелец</h2>
-            <p>{ item_history.current_holder }</p>
+            {% if item_history.current_holder %}
+                <p>{{ item_history.current_holder }}</p>
+            {% else %}
+                <p>Ничейный</p>
+            {% endif %}
         </div>
 
         <div class="qr-and-button-container">
