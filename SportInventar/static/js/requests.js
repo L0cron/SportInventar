@@ -290,6 +290,7 @@ function applyStatusChange(element) {
                 element.parentNode.style.display = 'none';
                 element.parentNode.parentNode.querySelector('.statusButton').style.display = 'block';
                 element.parentNode.parentNode.querySelector('.statusButton').textContent = 'Изменить статус';
+                window.location.reload();
             } else {
                 // Вывод сообщения об ошибке
                 alert('Ошибка при изменении статуса');
@@ -315,4 +316,32 @@ function getStatusText(status) {
 
 function procurRedirect() {
     window.location.href = '/procur/';
+}
+
+function completeRequest(element) {
+    var buttonF = element.parentNode.parentElement.querySelector('button');
+    var requestId = buttonF.getAttribute('data-id');
+    var newStatus = 2;
+    var newCompletion = 1;
+    
+    $.ajax({
+            type: 'POST',
+            url: dataset['complete'],
+            data: {
+                "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+                "request_id": requestId,
+                "new_status": newStatus,
+                "new_completion": newCompletion
+                
+            },
+            success: function(response) {
+                if(response['status'] == 'ok') {
+                    console.log('arbuz')
+                }
+                else{
+                    alert('Ошибка при изменении статуса.');
+                }
+            }
+        }
+    )
 }

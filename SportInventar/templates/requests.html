@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Requests</title>
+    <title>Запросы</title>
 {% endblock %}
 
 {% block style %}
@@ -17,7 +17,6 @@
             <div class="header-container">
                 <div class="requests-header"> 
                     <h2>Список заявок</h2>
-                    <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
                 </div>
                             
                 <div class="delite-header">
@@ -26,20 +25,114 @@
                 </div>  
             </div>
 
-
-            <div class="requests-list grid-view">
-                {% for i in requests %}
+                <div class="category">
+                    <h3>Новые запросы</h3>
+                    <hr>
+                    <div class="requests-list list-view" >
+                        {% for i in requests %}
+                            {% if i.request_display_type == 0 %}
+                            <div class="requests-item">
+                                <div class="checkbox-container hidden">
+                                    <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
+                                </div>
+                                <h3>{{ i.requested_item }}</h3>
+                                <p>{{  i.author }}</p>
+                                <p> {% if i.request_type == 0 %}
+                                        Приобретение
+                                    {% elif i.request_type == 1 %}
+                                        Замена
+                                    {% elif i.request_type == 2 %}
+                                        Получение
+                                    {% else %}
+                                        неизвестно
+                                    {% endif %}
+                                </p>
+                                <p>Описание: {{ i.text }}</p>
+                                <div class="button-container">
+                                    <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
+                                    <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            
+                <div class="category">
+                    <h3>Активные запросы</h3>
+                    <hr>
+                    <div class="requests-list list-view">
+                        {% for i in requests %}
+                            {% if i.request_display_type == 1 %}
+                            <div class="requests-item">
+                                <div class="checkbox-container hidden">
+                                    <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
+                                </div>
+                                <h3>{{ i.requested_item }}</h3>
+                                <p>{{  i.author }}</p>
+                                <p> {% if i.request_type == 0 %}
+                                        Приобретение
+                                    {% elif i.request_type == 1 %}
+                                        Замена
+                                    {% elif i.request_type == 2 %}
+                                        Получение
+                                    {% else %}
+                                        неизвестно
+                                    {% endif %}
+                                </p>
+                                <p>Описание: {{ i.text }}</p>
+                                <div class="button-container">
+                                    <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
+                                    <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            
+                <div class="category">
+                    <h3>Архивированные запросы</h3>
+                    <hr>
+                    <div class="requests-list list-view">
+                        {% for i in requests %}
+                            {% if i.request_display_type == 2 %}
+                            <div class="requests-item">
+                                <div class="checkbox-container hidden">
+                                    <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
+                                </div>
+                                <h3>{{ i.requested_item }}</h3>
+                                <p>{{  i.author }}</p>
+                                <p> {% if i.request_type == 0 %}
+                                        Приобретение
+                                    {% elif i.request_type == 1 %}
+                                        Замена
+                                    {% elif i.request_type == 2 %}
+                                        Получение
+                                    {% else %}
+                                        неизвестно
+                                    {% endif %}
+                                </p>
+                                <p>Описание: {{ i.text }}</p>
+                                <div class="button-container">
+                                    <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
+                                    <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+<!--
+            <div class="requests-list list-view">
+            {% for i in requests %}
                 <div class="requests-item">
                     <div class="checkbox-container hidden">
                         <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
                     </div>
                     <h3>{{ i.requested_item }}</h3>
-                    <p>Тип заявки: 
-                        {% if i.request_type == 0 %}
+                    <p>{{  i.author }}</p>
+                    <p> {% if i.request_type == 0 %}
                             Приобретение
-                            <div class="input-group">
-                                <button class="addProcur" onclick="procurRedirect()">Создать запрос на покупку</button>
-                            </div>
                         {% elif i.request_type == 1 %}
                             Замена
                         {% elif i.request_type == 2 %}
@@ -49,6 +142,13 @@
                         {% endif %}
                     </p>
                     <p>Описание: {{ i.text }}</p>
+                    <div class="button-container">
+                        <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
+                        <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                    </div>
+                </div>
+            {% endfor %}
+                    
                     <p>Статус: 
                         {% if i.status == 0 %}
                             Создана
@@ -60,6 +160,13 @@
                             Отклонена
                         {% else %}
                             неизвестно
+                        {% endif %}
+                    </p>
+                    <p>Выполнено:
+                        {% if i.completion == False %}
+                            Нет
+                        {% else %}
+                            Да 
                         {% endif %}
                     </p>
                     <div class="input-group">
@@ -74,9 +181,17 @@
                             <button class="cancel-status-button" onclick="cancelStatusChange(this)">Отменить</button>
                             <button class="apply-status-button" onclick="applyStatusChange(this)">Применить</button>
                         </div>
-                    </div>    
-                </div>
-                {% endfor %}
+                        {% if i.request_type == 0 and i.completion == False %}
+                            <div class="input-group">
+                                <button class="addProcur" onclick="procurRedirect()">Создать запрос на покупку</button>
+                            </div>
+                        {% endif %}
+                        {% if i.status == 1 and i.completion == False %}
+                            <div class="input-group">
+                                <button class="completeRequest" data-id="{{ i.id }}" onclick="completeRequest(this)">Закрыть запрос</button>
+                            </div>
+                        {% endif %}-->
+                        
             </div>
         </div>
     
@@ -144,5 +259,7 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"></script>
+    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
+    data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"
+    data-complet="{% url 'requests:complete' }"></script>
 {% endblock %}

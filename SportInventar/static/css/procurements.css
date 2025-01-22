@@ -32,6 +32,21 @@ button {
     transition: background-color 0.3s; /* Плавный переход цвета фона */
 }
 
+.button_two {
+    padding: 10px; /* Внутренние отступы */
+    background-color: #007bff; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
+    border: none; /* Без рамки */
+    border-radius: 4px; /* Закругленные углы */
+    font-size: 16px; /* Размер шрифта */
+    cursor: pointer; /* Курсор при наведении */
+    transition: background-color 0.3s; /* Плавный переход цвета фона */
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    float: left;
+}
+
 button:hover {
     background-color: #0056b3; /* Более темный цвет при наведении */
 }
@@ -85,7 +100,7 @@ h1 {
     padding: 10px 20px;
 }
 .rectangles {
-    margin-bottom: 0;
+    margin-bottom: 15px;
     padding: 10px;
     border-radius: 4px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -166,6 +181,7 @@ h1 {
     width: 25%;
     padding: 20px;
     border-left: 1px solid #ddd;
+    margin-left: auto;
 }
 
 .sidebar h2 {
@@ -330,6 +346,7 @@ h2 {
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 5px;
 }
 
 .inventory-item:hover {
@@ -548,7 +565,6 @@ h2 {
 
 .button-container {
     display: flex;
-    justify-content: space-between;
     gap: 10px;
     margin-top: 10px;
 }

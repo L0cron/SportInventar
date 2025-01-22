@@ -123,18 +123,29 @@ def parce_view(request:HttpRequest, search:str):
         if soup.__contains__('По Вашему запросу ничего не найдено'):
             return redirect("Nothing found")
         c = 9
-        Displayer.objects.all().delete()
+        #Displayer.objects.all().delete()
+        displayers = []
+        ind = 0
         for row in soup.find_all('form',class_='item cat-item__purchase'):
             href = "https://starfitshop.ru" + row.find('a',class_='item__title')['href']
             name = row.find('span',itemprop='name').get_text()
             price = row.find('span',class_='prc-val').get_text()
             supplier = row.find('td',class_='chars__value').get_text()
             photoPath = ""
-            obj = Displayer(url=href,name=name,price=price,supplier=supplier,photoPath=photoPath)
-            obj.save()
+            # obj = Displayer(url=href,name=name,price=price,supplier=supplier,photoPath=photoPath)
+            # obj.save()
+            item = {
+                'href':href,
+                'name':name,
+                'price':price,
+                'supplier':supplier,
+                'photoPath':photoPath
+            }
+
             if not(c): break
             c -= 1
-        displayers = Displayer.objects.all()
+            displayers.append(item)
+        #displayers = Displayer.objects.all()
         context = {'displayers':displayers}
         conn.close()
         return render(request,'findProcurs.html',context=context)

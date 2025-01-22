@@ -46,6 +46,22 @@ def change_request_view(request:HttpRequest):
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
 
+def complete_request_view(request:HttpRequest):
+    if request.method == 'POST':
+        status = 'ok'
+        try:
+            print(request.POST)
+            requestId = request.POST.get('request_id')
+            requestStatus = request.POST.get('new_status')
+            requestCompletion = request.POST.get('new_completion')
+            _request = Request.objects.get(id=int(requestId))
+            _request.status = int(requestStatus)
+            _request.completion = bool(requestCompletion)
+            _request.save()
+        except Exception as e:
+            status = 'Ошибка записи данных в базу данных: ' + str(e)
+        return JsonResponse({"status":status})
+
 def del_view(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':
         status = {
