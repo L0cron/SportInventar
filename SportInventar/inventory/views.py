@@ -7,6 +7,8 @@ from urllib.parse import parse_qs
 
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Item, id=item_id)
+    
+    
     return render(request, 'item.html', context={'item': item})
 
 def inventory_view(request:HttpRequest):
@@ -34,8 +36,14 @@ def inventory_view(request:HttpRequest):
             elif not User.objects.filter(username=itemOwner).exists():
                 status = 'Пользователь с таким именем не существует'
             else:
+                # Добавление нового предмета
                 item = Item(name=itemName,status=int(itemStatus),current_holder=User.objects.get(username=itemOwner), photo_path=itemPhoto, qr_path=itemQr)
                 item.save()
+
+                # Сохранение его истории
+                hist = History(item=item, current_holder=User.objects.get(username=itemOwner))
+                hist.save()
+
                 status = 'ok'
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
