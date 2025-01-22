@@ -46,11 +46,16 @@ function addInventory() {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
         errorMessageElement.style.display = 'block';
         return;
-    } else {
+    } 
+
+    else if (inventoryOwner) {
+
+    }
+    
+    else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
         closeModal();
     }
-
     // Если все поля заполнены, отправляем
 }
 
@@ -61,7 +66,6 @@ window.onclick = function(event) {
         closeModal();
     }
 }
-
 
 // Получение данных из атрибутов тега script
 let dataset = document.currentScript.dataset
@@ -102,7 +106,6 @@ $(function() {
                 }
             },
             error: function() {
-                console.log('pzdc');
             }
         })
     })
@@ -223,6 +226,10 @@ function elasticSearch() {
     
     let val = document.getElementById('elastic').value;
     console.log(val);
+    if(val == '') {
+        results.innerHTML = '';
+        return
+    }
 
     let data = {
         "csrfmiddlewaretoken": csrftoken.value,
@@ -235,11 +242,18 @@ function elasticSearch() {
         data: data,
 
     success: function(data) {
-        if (data.length != 0) {
+        let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
+        if (data['users'].length != 0) {
+            errorMessageElement.style.display = 'none';
             top_users = (data['users'].slice(0, 5).map(user => user['username']));
             console.log(top_users);
             displayResults(top_users);
+        } else {
+            displayResults(top_users);
+            errorMessageElement.style.display = 'block';
+            errorMessageElement.textContent = 'Пользователь не найден';
         }
+        ;
     },
     error: function(xhr, status, error) {
         console.log('Ошибка поиска: ' + error);
@@ -247,15 +261,19 @@ function elasticSearch() {
 
     });
     
-}
+    }
 
 function displayResults(resultsArray) {
+    results.innerHTML = '';
+    if (resultsArray.length == 0) {
+        return;
+    }
     
     const elastic = document.getElementById('elastic');
     if (elastic.value === '') {
         return
     }
-    results.innerHTML = '';
+   
     resultsArray.forEach(result => {
         const li = document.createElement('li');
         li.textContent = result;
