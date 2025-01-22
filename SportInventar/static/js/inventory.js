@@ -11,12 +11,12 @@ function closeModal() {
 function addInventory() {
     const inventoryName = document.getElementById('inventoryName').value;
     const inventoryStatus = document.getElementById('inventoryStatus').value;
-    const inventoryOwner = document.getElementById('inventoryOwner').value;
+    const inventoryOwner = document.getElementById('elastic').value;
 
     // Очистка предыдущих выделений
     document.getElementById('inventoryName').style.border = '';
     document.getElementById('inventoryStatus').style.border = '';
-    document.getElementById('inventoryOwner').style.border = '';
+    document.getElementById('elastic').style.border = '';
 
     let hasError = false; // Флаг для отслеживания наличия ошибок
     const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
@@ -36,9 +36,9 @@ function addInventory() {
             hasError = true;
         }
     }
-    if (!inventoryOwner) {
-        document.getElementById('inventoryOwner').style.border = '1px solid red';
-        hasError = true;
+   if (!inventoryOwner) {
+       document.getElementById('elastic').style.border = '1px solid red';
+       hasError = true;
     }
 
     // Если есть ошибки, выводим сообщение
@@ -46,11 +46,16 @@ function addInventory() {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
         errorMessageElement.style.display = 'block';
         return;
-    } else {
+    } 
+
+    else if (inventoryOwner) {
+
+    }
+    
+    else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
         closeModal();
     }
-
     // Если все поля заполнены, отправляем
 }
 
@@ -61,7 +66,6 @@ window.onclick = function(event) {
         closeModal();
     }
 }
-
 
 // Получение данных из атрибутов тега script
 let dataset = document.currentScript.dataset
@@ -77,7 +81,7 @@ $(function() {
         
         // Сериализация данных формы в строку
         let data = $("#addItemForm").serialize();
-        console.log(data);
+        // console.log(data);
         
         // AJAX-запрос на добавление элемента
         $.ajax({
@@ -91,15 +95,17 @@ $(function() {
             success: function(response) {
                 // Проверка статуса ответа
                 if(response['status'] == 'ok') {
+                    console.log(response)
                     // Добавление элемента в инвентарь
                     addInventory();
                     // Перезагрузка страницы
                     window.location.reload();
 
                 } else {
-                    // TODO: обработка ошибки
+                    console.log(response['status'])
                 }
-                
+            },
+            error: function() {
             }
         })
     })
@@ -117,7 +123,6 @@ $(function() {
         for(let i = 0; i < checkedCheckboxes.length; i++) {
             data['items'][i]=checkedCheckboxes[i].getAttribute('data-id');
         }
-        console.log(data)
        
         $.ajax({
             type: "POST",
@@ -216,3 +221,62 @@ function deleteInventory() {
     openConfirmItemDelitionModal();
 }
 
+
+function elasticSearch() {
+    
+    let val = document.getElementById('elastic').value;
+    console.log(val);
+    if(val == '') {
+        results.innerHTML = '';
+        return
+    }
+
+    let data = {
+        "csrfmiddlewaretoken": csrftoken.value,
+        "query": val
+    }
+
+    $.ajax({
+        url: dataset['searchurl'],
+        type: 'GET',
+        data: data,
+
+    success: function(data) {
+        let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
+        if (data['users'].length != 0) {
+            errorMessageElement.style.display = 'none';
+            top_users = (data['users'].slice(0, 5).map(user => user['username']));
+            console.log(top_users);
+            displayResults(top_users);
+        } else {
+            displayResults(top_users);
+            errorMessageElement.style.display = 'block';
+            errorMessageElement.textContent = 'Пользователь не найден';
+        }
+        ;
+    },
+    error: function(xhr, status, error) {
+        console.log('Ошибка поиска: ' + error);
+    }
+
+    });
+    
+    }
+
+function displayResults(resultsArray) {
+    results.innerHTML = '';
+    if (resultsArray.length == 0) {
+        return;
+    }
+    
+    const elastic = document.getElementById('elastic');
+    if (elastic.value === '') {
+        return
+    }
+   
+    resultsArray.forEach(result => {
+        const li = document.createElement('li');
+        li.textContent = result;
+        results.appendChild(li);
+    });
+}

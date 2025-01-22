@@ -12,6 +12,7 @@ function editInventory() {
     // Сбор данных из формы
     
     let data = $('#itemForm').serialize();
+
     // Отправка данных через AJAX
     $.ajax({
         type: "POST",

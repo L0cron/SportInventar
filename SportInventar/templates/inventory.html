@@ -108,10 +108,19 @@
                     <option value="2">новое</option>
                 </select>
             </div>
+<!-- 
+<div class="input-group">
+    <label for="inventoryOwner">Имя владельца инвентаря:</label>
+    <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+</div>
+-->
+
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="'itemOwner">
+                <div id="results"></div>
             </div>
+            <span class="error-message hidden" id="owner-error-message"></span>
 
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
@@ -135,5 +144,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'inventory:index' %}" data-remurl="{% url 'inventory:del' %}"></script>
+    <script src="{% static 'js/inventory.js' %}" data-url="{% url 'inventory:index' %}" data-remurl="{% url 'inventory:del' %}"  data-searchurl="{% url 'user:search' %}"></script>
 {% endblock %}

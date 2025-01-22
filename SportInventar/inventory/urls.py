@@ -22,4 +22,5 @@ urlpatterns = [
     path('del',del_view,name='del'),
     path('edit', edit_view,name='edit'),
     path('item/<int:item_id>/', item_view, name='item_view'),  # Correct pattern
+    path('search', search_view, name='search'),
 ]
