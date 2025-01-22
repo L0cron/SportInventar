@@ -318,20 +318,17 @@ function procurRedirect() {
     window.location.href = '/procur/';
 }
 
-function completeRequest(element) {
-    var buttonF = element.parentNode.parentElement.querySelector('button');
-    var requestId = buttonF.getAttribute('data-id');
-    var newStatus = 2;
-    var newCompletion = 1;
-    
+function acceptRequest(id) {
+    var newStatus = 1;
+    var new_type = 1;
     $.ajax({
             type: 'POST',
-            url: dataset['complete'],
+            url: dataset['accept'],
             data: {
                 "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
-                "request_id": requestId,
+                "request_id": id,
                 "new_status": newStatus,
-                "new_completion": newCompletion
+                "new_type": new_type
                 
             },
             success: function(response) {

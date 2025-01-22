@@ -49,8 +49,8 @@
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
-                                    <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                                    <button class="complete-button" onclick="acceptRequest('{{ i.id }}')">Принять</button>
+                                    <button class="cancel-button" onclick="cancelRequest('{{ i.id }}')">Отклонить</button>
                                 </div>
                             </div>
                             {% endif %}
