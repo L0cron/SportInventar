@@ -6,9 +6,11 @@ function openEditWindow() {
 function closeEditWindow() {
     const modal = document.getElementById("editModal");
     modal.style.display = "none";
+    
 }  
 let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 let dataset = document.currentScript.dataset;
+
 function editInventory() {
     
     const inventoryName = document.getElementById('inventoryName').value;
@@ -21,7 +23,7 @@ function editInventory() {
     document.getElementById('elastic').style.border = '';
 
     let hasError = false; // Флаг для отслеживания наличия ошибок
-    const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
+    let errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
 
     // Проверка каждого поля и выделение красным, если оно пустое
     if (!inventoryName) {
@@ -51,31 +53,27 @@ function editInventory() {
     } 
     else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
-        closeModal();
+        let data = $('#itemForm').serialize();
+        $.ajax({
+            type: "POST",
+            url: dataset['url'], // Убедитесь, что этот URL настроен на сервере
+            data: data,
+            headers: {
+                'X-CSRFToken': csrftoken.value
+            },
+            success: function(response) {
+                // Обработка успешного ответа
+                closeEditWindow(); // Закрытие модального окна
+                location.reload(); // Перезагрузка страницы для отображения обновленных данных
+            },
+            error: function(xhr, status, error) {
+                alert("Произошла ошибка при обновлении инвентаря: " + error);
+            }
+        });
     }
-    
-    let data = $('#itemForm').serialize();
-
-    // Отправка данных через AJAX
-    $.ajax({
-        type: "POST",
-        url: dataset['url'], // Убедитесь, что этот URL настроен на сервере
-        data: data,
-        headers: {
-            'X-CSRFToken': csrftoken.value
-        },
-        success: function(response) {
-            // Обработка успешного ответа
-            alert("Инвентарь успешно обновлен!");
-            closeEditWindow(); // Закрытие модального окна
-            location.reload(); // Перезагрузка страницы для отображения обновленных данных
-        },
-        error: function(xhr, status, error) {
-            // Обработка ошибки
-            alert("Произошла ошибка при обновлении инвентаря: " + error);
-        }
-    });
 }
+
+
 function elasticSearch() {
     
     let val = document.getElementById('elastic').value;
