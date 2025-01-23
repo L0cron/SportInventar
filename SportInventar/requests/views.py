@@ -3,12 +3,12 @@ from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
 
+# если тип заявки приоберетение-> поиска не будет, текст; замена -> поиск
+
 def requests_view(request:HttpRequest):
     if request.method == 'GET':
         requests = Request.objects.all()
-        print(requests)
         context = {"requests":requests}
-        print(context)
         return render(request, 'requests.html',context=context)
     elif request.method == 'POST':
         status = 'ok'
@@ -20,10 +20,10 @@ def requests_view(request:HttpRequest):
             if  len(requestedItem) == 0 or len(requestDesc) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
-                request = Request(requested_item=requestedItem, 
+                request = Request(requested_item=Item.objects.get(id=requestedItem), 
                                   text=requestDesc,
                                   request_type=requestType,
-                                  author='123',
+                                  author=User.objects.get(id=request.user.id),
                                   status=0
                                   )
                 request.save()
@@ -38,9 +38,8 @@ def change_request_view(request:HttpRequest):
         try:
             print(request.POST)
             requestId = request.POST.get('request_id')
-            requestStatus = request.POST.get('new_status')
+            requestItem = request.POST.get('request_type')
             _request = Request.objects.get(id=int(requestId))
-            _request.status = int(requestStatus)
             _request.save()
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)

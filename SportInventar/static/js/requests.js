@@ -340,13 +340,14 @@ function changeRequest(id,status,type) {
     )
 }
 
-function completeRequest(id) {
+function completeRequest(id,req_type) {
     $.ajax({
             type: 'POST',
             url: dataset['complete'],
             data: {
                 "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
-                "request_id": id
+                "request_id": id,
+                "request_type": req_type
             },
             success: function(response) {
                 if(response['status'] == 'ok') {

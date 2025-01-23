@@ -42,7 +42,7 @@
                                     {% elif i.request_type == 1 %}
                                         Замена
                                     {% elif i.request_type == 2 %}
-                                        Получение
+                                        Назначение
                                     {% else %}
                                         неизвестно
                                     {% endif %}
@@ -75,14 +75,15 @@
                                     {% elif i.request_type == 1 %}
                                         Замена
                                     {% elif i.request_type == 2 %}
-                                        Получение
+                                        Назначение
                                     {% else %}
                                         неизвестно
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="completeRequest('{{ i.id }}')">Выполнить</button>
+                                    <button class="complete-button" onclick="completeRequest('{{ i.id }}','{{ i.request_type }}')">Выполнить</button>
+                                    <button class="complete-button" onclick=""></button>
                                     <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)">Отменить</button>
                                 </div>
                             </div>
@@ -108,7 +109,7 @@
                                     {% elif i.request_type == 1 %}
                                         Замена
                                     {% elif i.request_type == 2 %}
-                                        Получение
+                                        Назначение
                                     {% else %}
                                         неизвестно
                                     {% endif %}
