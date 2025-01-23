@@ -18,7 +18,19 @@
         <h1>Поиск в магазинах</h1>
         <div class="search-form">
             <input type="text" id="search" placeholder="Введите запрос...">
+            <script>
+                document.getElementById('search').addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        search();
+                    }
+                });
+            </script>
             <button type="button" onclick="search()">Искать</button>
+        </div>
+        <div class="cantfound">
+            {% if isfound == 0 %}
+            По вашему запросу ничего не найдено
+            {% endif %}
         </div>
         <!--
         author = CharField(username)
@@ -76,7 +88,7 @@
             {% csrf_token %}
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Введите данные для заказа</h2>
+                <h2>Введите данные для закупки</h2>
                 <div class="input-group">
                     <label for="requestedType">Тип заявки:</label>
                     <input hidden name="requestedType">

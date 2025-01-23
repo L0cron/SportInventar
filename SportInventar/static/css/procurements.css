@@ -31,6 +31,14 @@ button {
     cursor: pointer; /* Курсор при наведении */
     transition: background-color 0.3s; /* Плавный переход цвета фона */
 }
+.input-button-style {
+    padding: 10px; /* Внутренние отступы */
+    border: 1px solid #ccc; /* Рамка */
+    border-radius: 4px; /* Закругленные углы */
+    font-size: 16px; /* Размер шрифта */
+    width: 50%; /* Ширина на 100% родительского элемента */
+    box-sizing: border-box; /* Учитывать отступы и рамки в ширине */
+}
 
 .button_two {
     padding: 10px; /* Внутренние отступы */
@@ -54,7 +62,13 @@ button:hover {
 p {
     user-select: none;
 }
-
+.cantfound {
+    display: flex;
+    flex-direction: row;
+    text-align :center;
+    align-items : center;
+    justify-content :center;
+}
 .modal {
     display: none;
     position: fixed;
@@ -460,6 +474,7 @@ h2 {
 }
 
 .inventory-header {
+    margin-top: 10px;
     width: 70%;
 }
 
