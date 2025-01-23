@@ -8,6 +8,7 @@ import requests as rqst
 import http.client
 from bs4 import BeautifulSoup
 from urllib.parse import parse_qs
+import re
 
 def procurements_view(request:HttpRequest):
     if request.method == 'GET':
@@ -122,7 +123,6 @@ def parce_view(request:HttpRequest, search:str):
         soup = BeautifulSoup(response, 'html.parser')
         found = 0
         c = 9
-        #Displayer.objects.all().delete()
         displayers = []
         ind = 0
         for row in soup.find_all('form',class_='item cat-item__purchase'):

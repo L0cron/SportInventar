@@ -318,22 +318,40 @@ function procurRedirect() {
     window.location.href = '/procur/';
 }
 
-function acceptRequest(id) {
-    var newStatus = 1;
-    var new_type = 1;
+function changeRequest(id,status,type) {
     $.ajax({
             type: 'POST',
-            url: dataset['accept'],
+            url: dataset['archive'],
             data: {
                 "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
                 "request_id": id,
-                "new_status": newStatus,
-                "new_type": new_type
-                
+                "request_status":status,
+                "disp_type":type
             },
             success: function(response) {
                 if(response['status'] == 'ok') {
-                    console.log('arbuz')
+                    window.location.reload()
+                }
+                else{
+                    alert('Ошибка при изменении статуса.');
+                }
+            }
+        }
+    )
+}
+
+function completeRequest(id,req_type) {
+    $.ajax({
+            type: 'POST',
+            url: dataset['complete'],
+            data: {
+                "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+                "request_id": id,
+                "request_type": req_type
+            },
+            success: function(response) {
+                if(response['status'] == 'ok') {
+                    window.location.reload()
                 }
                 else{
                     alert('Ошибка при изменении статуса.');

@@ -42,15 +42,15 @@
                                     {% elif i.request_type == 1 %}
                                         Замена
                                     {% elif i.request_type == 2 %}
-                                        Получение
+                                        Назначение
                                     {% else %}
                                         неизвестно
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="acceptRequest('{{ i.id }}')">Принять</button>
-                                    <button class="cancel-button" onclick="cancelRequest('{{ i.id }}')">Отклонить</button>
+                                    <button class="complete-button" onclick="changeRequest('{{ i.id }}',1,1)",1,1>Принять</button>
+                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)",3,3>Отклонить</button>
                                 </div>
                             </div>
                             {% endif %}
@@ -75,15 +75,16 @@
                                     {% elif i.request_type == 1 %}
                                         Замена
                                     {% elif i.request_type == 2 %}
-                                        Получение
+                                        Назначение
                                     {% else %}
                                         неизвестно
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
-                                    <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                                    <button class="complete-button" onclick="completeRequest('{{ i.id }}','{{ i.request_type }}')">Выполнить</button>
+                                    <button class="complete-button" onclick=""></button>
+                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)">Отменить</button>
                                 </div>
                             </div>
                             {% endif %}
@@ -108,15 +109,22 @@
                                     {% elif i.request_type == 1 %}
                                         Замена
                                     {% elif i.request_type == 2 %}
-                                        Получение
+                                        Назначение
                                     {% else %}
                                         неизвестно
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
+                                <p>Статус: 
+                                    {% if i.completion %}
+                                        Выполнено
+                                    {% else %}
+                                        Отказано
+                                    {% endif %}
+                                </p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
-                                    <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
+                                    <button class="complete-button" onclick="changeRequest('{{ i.id }}')">Принять</button>
+                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',4,3)">Удалить</button>
                                 </div>
                             </div>
                             {% endif %}
@@ -261,5 +269,5 @@
 {% block script %}
     <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
     data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"
-    data-complet="{% url 'requests:complete' }"></script>
+    data-complete="{% url 'requests:complete' %}" data-archive="{% url 'requests:archive' %}"></script>
 {% endblock %}
