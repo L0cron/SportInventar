@@ -24,3 +24,5 @@ class History(models.Model):
     item = models.ForeignKey(Item, verbose_name="Предмет", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(verbose_name="Время", auto_now=True)
     current_holder = models.ForeignKey(User, verbose_name="Текущий владелец", blank=True, null=True, on_delete=models.SET_NULL)
+
+# пасхалочка print("Привет, мир!")
