@@ -96,32 +96,22 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Введите данные закупки</h2>
             <div class="input-group">
-                <label for="inventoryName">Название закупки:</label>
-                <input name="itemName" type="text" id="inventoryName" placeholder="Название закупки" required>
-            </div>
-            <div class="input-group">
-                <label for="inventoryStatus">Статус закупки:</label>
-                <input hidden name="itemStatus">
-                <select name="itemStatus" id="inventoryStatus" required>
-                    <option value="-1" disabled selected>Выберите статус</option>
-                    <option value="0">сломано</option>
-                    <option value="1">в норме</option>
-                    <option value="2">новое</option>
-                </select>
+                <label for="inventoryName">Введите название товара:</label>
+                <input name="itemName" type="text" id="inventoryName" placeholder="название товара" required>
             </div>
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца закупки:</label>
-                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
+                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец закупки" required>
             </div>
 
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemPhoto" type="text" id="inventoryPhoto" placeholder="фото инвентаря" required>
+                <input name="itemPhoto" type="text" id="inventoryPhoto" placeholder="фото закупки" required>
             </div>
 
             <div class="input-group">
                 <label for="inventoryQr">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemQr" type="text" id="inventoryQr" placeholder="qr-код инвентаря" required>
+                <input name="itemQr" type="text" id="inventoryQr" placeholder="qr-код закупки" required>
             </div>
 
             <form>
