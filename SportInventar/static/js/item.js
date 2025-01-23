@@ -12,6 +12,7 @@ let dataset = document.currentScript.dataset;
 function editInventory() {
     // Сбор данных из формы
     
+    
     let data = $('#itemForm').serialize();
 
     // Отправка данных через AJAX

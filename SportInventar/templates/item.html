@@ -94,7 +94,8 @@
                 <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList">
                 <datalist id="resultsList"></datalist>
             </div>
-            <span class="error-message hidden" id="owner-error-message"></span>
+            <span class="error-message" id="owner-error-message"></span>
+
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
                 <input name="itemPhoto" type="text" id="inventoryPhoto" value="{{ item.photo_path|default:'' }}" placeholder="фото инвентаря">
