@@ -8,6 +8,7 @@ import requests as rqst
 import http.client
 from bs4 import BeautifulSoup
 from urllib.parse import parse_qs
+import re
 
 def procurements_view(request:HttpRequest):
     if request.method == 'GET':
@@ -120,13 +121,12 @@ def parce_view(request:HttpRequest, search:str):
         conn.request("GET","/search/?query=" + str(bytes(search.encode("utf-8"))).replace('x','%').replace("\\","").strip("b' ").upper())
         response = conn.getresponse().read()
         soup = BeautifulSoup(response, 'html.parser')
-        if soup.__contains__('По Вашему запросу ничего не найдено'):
-            return redirect("Nothing found")
+        found = 0
         c = 9
-        #Displayer.objects.all().delete()
         displayers = []
         ind = 0
         for row in soup.find_all('form',class_='item cat-item__purchase'):
+            found += 1
             href = "https://starfitshop.ru" + row.find('a',class_='item__title')['href']
             name = row.find('span',itemprop='name').get_text()
             price = row.find('span',class_='prc-val').get_text()
@@ -145,7 +145,6 @@ def parce_view(request:HttpRequest, search:str):
             if not(c): break
             c -= 1
             displayers.append(item)
-        #displayers = Displayer.objects.all()
-        context = {'displayers':displayers}
+        context = {'displayers':displayers,'isFound':found}
         conn.close()
         return render(request,'findProcurs.html',context=context)

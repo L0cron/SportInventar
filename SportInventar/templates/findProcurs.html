@@ -17,7 +17,7 @@
         </div>
         <h1>Поиск в магазинах</h1>
         <div class="search-form">
-            <input type="text" id="search" placeholder="Введите запрос...">
+            <input type="text" id="search" autofill="False" placeholder="Введите запрос...">
             <button type="button" onclick="search()">Искать</button>
         </div>
         <!--
@@ -34,6 +34,11 @@
         items = [] <- заполнить квери сетом
         context['items'] = items
     -->
+        <div>
+            {% if isFound == 1 %}
+            оваоыивоыажыатывп
+            {% endif %}
+        </div>
         <div class="rectangles">
             {% for i in displayers %}
                 <div class="inventory-item">

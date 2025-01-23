@@ -51,12 +51,9 @@ def accept_request_view(request:HttpRequest):
         status = 'ok'
         try:
             requestId = request.POST.get('request_id')
-            requestStatus = request.POST.get('new_status')
-            request_display_type = request.POST.get('new_type')
             _request = Request.objects.get(id=int(requestId))
-            _request.status = int(requestStatus)
-            _request.request_display_type = int(request_display_type)
-            print('ya tut \n')
+            _request.status = 1
+            _request.request_display_type = 1
             _request.save()
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
@@ -84,3 +81,32 @@ def del_view(request:HttpRequest)->JsonResponse:
                 pass
         status['item_deleted'] = deleted
         return JsonResponse(status)
+    
+def archive_request_view(request:HttpRequest):
+    if request.method == 'POST':
+        status = 'ok'
+        try:
+            requestId = request.POST.get('request_id')
+            requestStatus = request.POST.get('request_status')
+            requestType = request.POST.get('disp_type')
+            _request = Request.objects.get(id=int(requestId))
+            _request.status = requestStatus
+            _request.request_display_type = requestType 
+            _request.save()
+        except Exception as e:
+            status = 'Ошибка записи данных в базу данных: ' + str(e)
+        return JsonResponse({"status":status})
+
+def complete_request_view(request:HttpRequest):
+    if request.method == 'POST':
+        status = 'ok'
+        try:
+            requestId = request.POST.get('request_id')
+            _request = Request.objects.get(id=int(requestId))
+            _request.status = 2
+            _request.request_display_type = 2
+            _request.completion = True
+            _request.save()
+        except Exception as e:
+            status = 'Ошибка записи данных в базу данных: ' + str(e)
+        return JsonResponse({"status":status})
