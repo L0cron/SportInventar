@@ -10,8 +10,49 @@ function closeEditWindow() {
 let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 let dataset = document.currentScript.dataset;
 function editInventory() {
-    // Сбор данных из формы
     
+    const inventoryName = document.getElementById('inventoryName').value;
+    const inventoryStatus = document.getElementById('inventoryStatus').value;
+    const inventoryOwner = document.getElementById('elastic').value;
+
+    // Очистка предыдущих выделений
+    document.getElementById('inventoryName').style.border = '';
+    document.getElementById('inventoryStatus').style.border = '';
+    document.getElementById('elastic').style.border = '';
+
+    let hasError = false; // Флаг для отслеживания наличия ошибок
+    const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
+
+    // Проверка каждого поля и выделение красным, если оно пустое
+    if (!inventoryName) {
+        document.getElementById('inventoryName').style.border = '1px solid red';
+        hasError = true;
+    }
+    if (inventoryStatus === '') {
+        document.getElementById('inventoryStatus').style.border = '1px solid red';
+        hasError = true;
+    } else {
+        const select = document.getElementById('inventoryStatus');
+        if (select.selectedIndex === 0) {
+            select.style.border = '1px solid red';
+            hasError = true;
+        }
+    }
+   if (!inventoryOwner) {
+       document.getElementById('elastic').style.border = '1px solid red';
+       hasError = true;
+    }
+
+    // Если есть ошибки, выводим сообщение
+    if (hasError) {
+        errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
+        errorMessageElement.style.display = 'block';
+        return;
+    } 
+    else {
+        errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
+        closeModal();
+    }
     
     let data = $('#itemForm').serialize();
 
@@ -20,6 +61,9 @@ function editInventory() {
         type: "POST",
         url: dataset['url'], // Убедитесь, что этот URL настроен на сервере
         data: data,
+        headers: {
+            'X-CSRFToken': csrftoken.value
+        },
         success: function(response) {
             // Обработка успешного ответа
             alert("Инвентарь успешно обновлен!");
@@ -32,7 +76,6 @@ function editInventory() {
         }
     });
 }
-
 function elasticSearch() {
     
     let val = document.getElementById('elastic').value;
@@ -54,9 +97,9 @@ function elasticSearch() {
 
     success: function(data) {
         let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
+        top_users = (data['users'].slice(0, 5).map(user => user['username']));
         if (data['users'].length != 0) {
             errorMessageElement.style.display = 'none';
-            top_users = (data['users'].slice(0, 5).map(user => user['username']));
             console.log(top_users);
             displayResults(top_users);
             top_users = []
@@ -89,7 +132,7 @@ function displayResults(resultsArray) {
     if (elastic.value === '') {
         return;
     }
-    
+     queueMicrotask
     resultsArray.forEach(result => {
         const option = document.createElement('option'); // Создаем элемент option
         option.value = result; // Устанавливаем значение option

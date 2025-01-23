@@ -239,9 +239,9 @@ function elasticSearch() {
 
     success: function(data) {
         let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
+        top_users = (data['users'].slice(0, 5).map(user => user['username']));
         if (data['users'].length != 0) {
             errorMessageElement.style.display = 'none';
-            top_users = (data['users'].slice(0, 5).map(user => user['username']));
             console.log(top_users);
             displayResults(top_users);
             top_users = []
