@@ -13,7 +13,7 @@
     {% include 'inc/topnav.html' %}
     <div class="container">
         <div class="change-view">
-            <input type="text" id="search" placeholder="Введите запрос...">
+            <input type="text" class="input-button-style" id="search" placeholder="Введите запрос...">
             <button type="button" onclick="searchMain()">Поиск товаров</button>
         </div>
         <div class="main-content">
@@ -62,9 +62,9 @@
         </div>
     
         <div class="sidebar">
-            <h2>Добавить инвентарь</h2>
+            <h2>Добавить закупку</h2>
             <button class="button" onclick="openModal()">Добавить</button>
-            <h2>Удалить инвентарь</h2>
+            <h2>Удалить закупку</h2>
             <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
     </div>
@@ -94,13 +94,13 @@
         {% csrf_token %}
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Введите данные инвентаря</h2>
+            <h2>Введите данные закупки</h2>
             <div class="input-group">
-                <label for="inventoryName">Название инвентаря:</label>
-                <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря" required>
+                <label for="inventoryName">Название закупки:</label>
+                <input name="itemName" type="text" id="inventoryName" placeholder="Название закупки" required>
             </div>
             <div class="input-group">
-                <label for="inventoryStatus">Статус инвентаря:</label>
+                <label for="inventoryStatus">Статус закупки:</label>
                 <input hidden name="itemStatus">
                 <select name="itemStatus" id="inventoryStatus" required>
                     <option value="-1" disabled selected>Выберите статус</option>
@@ -110,7 +110,7 @@
                 </select>
             </div>
             <div class="input-group">
-                <label for="inventoryOwner">Имя владельца инвентаря:</label>
+                <label for="inventoryOwner">Имя владельца закупки:</label>
                 <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец инвентаря" required>
             </div>
 

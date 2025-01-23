@@ -18,7 +18,19 @@
         <h1>Поиск в магазинах</h1>
         <div class="search-form">
             <input type="text" id="search" placeholder="Введите запрос...">
+            <script>
+                document.getElementById('search').addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        search();
+                    }
+                });
+            </script>
             <button type="button" onclick="search()">Искать</button>
+        </div>
+        <div class="cantfound">
+            {% if isfound == 0 %}
+            По вашему запросу ничего не найдено
+            {% endif %}
         </div>
         <!--
         author = CharField(username)
