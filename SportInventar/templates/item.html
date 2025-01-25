@@ -97,7 +97,7 @@
 
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemPhoto" type="text" id="inventoryPhoto" value="{{ item.photo_path|default:'' }}" placeholder="фото инвентаря">
+                <input type="file" id="inventoryPhoto" name="itemPhoto" />
             </div>
             
             <div class="confirm">

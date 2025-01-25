@@ -116,15 +116,15 @@
 -->
 
             <div class="input-group">
-                <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList">
+                <label for="inventoryOwner">Назначить текущего владельца:</label>
+                <input type="text" id="elastic" oninput="elasticSearch()" name="itemOwner" list="resultsList" placeholder="Не назначено">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message hidden" id="owner-error-message"></span>
 
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input type="file" id="inventoryPhoto" name="itemPhoto" />
+                <input type="file" id="inventoryPhoto" name="itemPhoto" accept="image/*" />
             </div>
 
 

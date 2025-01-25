@@ -20,7 +20,8 @@ def inventory_view(request:HttpRequest):
             itemName = request.POST.get('itemName')
             itemStatus = request.POST.get('itemStatus')
             itemOwner = request.POST.get('itemOwner')
-            itemPhoto = request.POST.get('itemPhoto')
+            itemPhoto = request.FILES.get('itemPhoto')
+
 
             if len(itemName) == 0 or len(itemStatus) == 0 or len(itemOwner) == 0:
                 status = 'Присутствуют незаполненные поля'

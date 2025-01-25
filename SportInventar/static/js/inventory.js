@@ -74,11 +74,9 @@ $(function() {
         // Предотвращение стандартного поведения кнопки
         e.preventDefault();
         
-        // Сериализация данных формы в строку
-        let data = $("#addItemForm").serialize();
-        console.log($("#addItemForm"));
-        // console.log(data);
-        console.log(data);
+        // Создание объекта FormData из формы
+        let formData = new FormData($("#addItemForm")[0]);
+        
         // AJAX-запрос на добавление элемента
         $.ajax({
             // Тип запроса
@@ -86,25 +84,28 @@ $(function() {
             // URL, на который отправляется запрос
             url: dataset['url'],
             // Данные, отправляемые с запросом
-            data: data,
+            data: formData,
+            // Указываем, что это не стандартный запрос
+            processData: false, // Не обрабатываем данные
+            contentType: false, // Не устанавливаем заголовок Content-Type
             // Функция, выполняемая при успешном ответе сервера
             success: function(response) {
                 // Проверка статуса ответа
                 if(response['status'] == 'ok') {
-                    console.log(response)
+                    console.log(response);
                     // Добавление элемента в инвентарь
                     addInventory();
                     // Перезагрузка страницы
                     window.location.reload();
-
                 } else {
-                    console.log(response['status'])
+                    console.log(response['status']);
                 }
             },
             error: function() {
+                console.error("Ошибка при отправке данных");
             }
-        })
-    })
+        });
+    });
 
     $("#confirm-button").on('click', function(e) {
 
