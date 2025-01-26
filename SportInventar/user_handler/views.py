@@ -6,7 +6,7 @@ from .models import *
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from inventory.models import Item
-
+import json
 
 def check_auth(request):
     if request.user.is_authenticated:
@@ -21,11 +21,22 @@ def index(request:HttpRequest)->HttpResponse:
     else:
         return redirect('user:login')"""
 
+def getSettings():
+    settings = json.loads(open('./settings.json','r'))
+    return settings
+
 
 @login_required
 def profile(request:HttpRequest)->HttpResponse:
-    items = Item.objects.filter(current_holder = request.user)
-    context = {"items": items}
+    user = request.user
+    id = request.GET.get("id")
+    if id:
+        try:
+            user = User.objects.get(id=id)
+        except:
+            pass
+    items = Item.objects.filter(current_holder = user)
+    context = {"items": items,'show_user':user}
     return render(request,'user/profile.html', context=context)
 
 def auth(request:HttpRequest)->JsonResponse:

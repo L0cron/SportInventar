@@ -1,0 +1,61 @@
+{% extends 'admin/admin.html' %}
+{% block settings %}
+
+    <div class="content">
+        <h2>Управление пользователями</h2>
+        
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Username</th>
+                    <th>Статус</th>
+                    <th>Права</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    {% if user.first_name == ''%}
+                        <td class="unset">Не установлено</td>
+                    {%else%}
+                        <td>{{ user.first_name }}</td>
+                    {%endif%}
+                    {% if user.last_name == ''%}
+                        <td class="unset">Не установлено</td>
+                    {%else%}
+                        <td>{{ user.last_name }}</td>
+                    {%endif%}
+                    
+                    <td>{{ user.username }}</td>
+                    {% if user.status == 0 %}
+                        <td class="awaiting">Ожидает подтверждения</td>
+                        
+                    {% elif user.status == 1 %}
+                        <td>Активен</td>
+                    {% else %}
+                        <td>Заблокирован</td>
+                    {%endif%}
+                    
+                    {% if user.is_staff %}
+                        <td class="admin">Администратор</td>
+                    {% else %}
+                        <td>Пользователь</td>
+                    {%endif%}
+
+                    <td>
+                        <a class="btn btn-view btn-sm" onclick="window.location.href=`{%url 'user:profile' %}?id={{ user.id }}`">Перейти</a>
+                        <a class="btn btn-edit btn-sm">Редактировать</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        
+    </div>
+
+{% endblock %}

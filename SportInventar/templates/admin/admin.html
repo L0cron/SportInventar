@@ -17,8 +17,11 @@
         <div class="sidebar">
             <h2>Администрирование</h2>
             <ul>
-                <li><a href="#general">Основные</a></li>
-                <li><a href="#user-management">Управление пользователями</a></li>
+                <li><a onclick="window.location.href=`{% url 'adminp:index'%}`">Основные</a></li>
+                <li><a onclick="window.location.href=`{% url 'adminp:inventory'%}`">Инвентарь</a></li>
+                <li><a onclick="window.location.href=`{% url 'adminp:requests'%}`">Заявки</a></li>
+                <li><a onclick="window.location.href=`{% url 'adminp:procurs'%}`">Закупки</a></li>
+                <li><a onclick="window.location.href=`{% url 'adminp:users'%}`">Управление пользователями</a></li>
             </ul>
         </div>
 
@@ -31,5 +34,5 @@
 {% endblock %}
 
 {% block script %}
-    <script data-url-get="{% url 'adminp:get' %}" src="{% static 'js/admin_handler.js' %}"></script>
+    <script data-url-get="{% url 'adminp:get' %}" data-url-set="{% url 'adminp:set' %}" src="{% static 'js/admin_handler.js' %}"></script>
 {% endblock %}

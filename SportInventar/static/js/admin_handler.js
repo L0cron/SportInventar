@@ -3,25 +3,30 @@ let dataset =document.currentScript.dataset;
 $(function() {
     // Fill checkboxes
     var inputs = document.querySelectorAll('input');
-    let data = {}
-    inputs.forEach(function(input) {
-        if (input.type === 'checkbox') {
-            data[input.name] = input.checked;
-        }
+    
 
-        // add event listener
-        input.addEventListener('change', function(e) {
-            sendSetting(input);
-        })
-    });
     $.ajax({
         type: "GET",
-        data:data,
-        url:dataset['url-get'],
+        data:{},
+        url:dataset['urlGet'],
         success: function(response) {
-            console.log(response);
+            applySettings(response['settings']);
         }
     })
+
+    function applySettings(settings) {
+        inputs.forEach(function(input) {
+            if (input.type === 'checkbox') {
+                input.checked = settings[input.name];
+            }
+    
+            // add event listener
+            input.addEventListener('change', function(e) {
+                sendSetting(input);
+            })
+            
+        });
+    }
 
     function sendSetting(input) {
         let data = {}
@@ -33,7 +38,7 @@ $(function() {
         $.ajax({
             type: "GET",
             data:data,
-            url:dataset['url-set'],
+            url:dataset['urlSet'],
             success: function(response) {
                 console.log(response);
             }

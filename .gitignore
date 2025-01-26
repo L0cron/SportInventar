@@ -175,3 +175,4 @@ cython_debug/
 
 config.json
 **/migrations/*
+settings.json

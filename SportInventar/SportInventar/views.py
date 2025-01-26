@@ -20,8 +20,6 @@ basic_config = {
     "db_password": "",
     "super_username": "",
     "super_password": "",
-    "super_name": "",
-    "super_lastname": "",
     "projectName": "",
     "serverIP": "127.0.0.1",
     "serverPort": "8000"
@@ -89,8 +87,6 @@ def setup(request:HttpRequest):
                 username = user['username'][0]
                 pwd = user['password'][0]
                 rpwd = user['rpassword'][0]
-                name = user['name'][0]
-                last_name = user['lastname'][0]
             except:
                 status = 'Присутствуют незаполненные поля'
             else:
@@ -109,8 +105,6 @@ def setup(request:HttpRequest):
                                 status = 'ok'
                                 configuration["super_username"] = username
                                 configuration["super_password"] = pwd
-                                configuration["super_name"] = name
-                                configuration["super_lastname"] = last_name
                 else:
                     status = 'Пароли не совпадают!'
         if 'config' in request.POST:

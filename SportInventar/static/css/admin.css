@@ -17,6 +17,7 @@
 
 .sidebar ul {
     list-style-type: none;
+    padding-left: 20px;
 }
 
 .sidebar ul li {
@@ -105,4 +106,77 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(26px);
+}
+
+.user {
+    padding: 5px;
+
+}
+.user p {
+    font-size: 20px;
+}
+
+.table {
+    width: 100%; /* Make the table full width */
+    border-collapse: collapse; /* Collapse borders */
+    font-size: 0.6 em;
+}
+.table th, .table td {
+    max-width: 150px; /* Set your desired max width */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for clipped text */
+    white-space: nowrap; /* Prevent text from wrapping */
+    border: 1px solid #ddd; /* Add border to cells */
+    padding: 8px; /* Add padding for better spacing */
+}
+.table th {
+    background-color: #007bff; /* Header background color */
+    color: white; /* Header text color */
+    text-align: left; /* Align header text to the left */
+}
+.table tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Light gray for odd rows */
+}
+.table tr:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1; /* Light gray background on row hover */
+}
+.unset {
+    opacity: 0.6;
+    color:gray
+}
+.awaiting {
+    color: red;
+}
+
+
+.btn {
+    display: inline-block; /* Make buttons inline */
+    padding: 5px 8px; /* Reduced padding for smaller buttons */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none; /* Remove underline */
+    font-size: 0.8em; /* Slightly smaller font size */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    height: auto; /* Allow height to adjust automatically */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+.btn-view {
+    background-color: #28a745; /* Green for View */
+}
+.btn-edit {
+    background-color: #007bff; /* Blue for Edit */
+}
+
+.btn:hover {
+    opacity: 0.8; /* Slightly fade on hover */
+}
+
+.admin {
+    color: #28a745;
 }
