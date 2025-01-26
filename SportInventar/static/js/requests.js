@@ -8,6 +8,32 @@ function closeModal() {
     modal.style.display = "none";
 }
 
+function f1() {
+    // Получаем выбранное значение из select
+    const selectedValue = document.getElementById('requestedType').value;
+    // Скрываем все дополнительные поля с id, соответствующим выбранному типу
+    const types = document.querySelectorAll('[id^="type"]'); // Находим все элементы с id, начинающимся на "type"
+    types.forEach(type => {
+        type.classList.add('hidden'); // Скрываем все
+    });
+    // Очищаем поля ввода
+    const inputField = document.getElementById('elastic'); // Поле для типа 0
+    const selectField = document.querySelectorAll('select[name="requestedItem"]'); // Поля для типов 1 и 2
+    // Очищаем текстовое поле
+    inputField.value = '';
+    // Очищаем все выпадающие списки
+    selectField.forEach(select => {
+        select.selectedIndex = 0; // Сбрасываем выбор на первый элемент
+    });
+    // Показываем только выбранное поле
+    if (selectedValue !== "-1") {
+        const selectedType = document.getElementById(`type${selectedValue}`);
+        if (selectedType) {
+            selectedType.classList.remove('hidden'); // Показываем только выбранный тип
+        }
+    }
+}
+
 function createRequest() {
     const requestType = document.getElementById('requestedType').value;
     const requestedItem = document.getElementById('requestedItem').value;
@@ -359,4 +385,71 @@ function completeRequest(id,req_type) {
             }
         }
     )
+}
+
+
+function elasticSearch() {
+    
+    let val = document.getElementById('elastic').value;
+    console.log(val);
+    if(val == '') {
+        results.innerHTML = '';
+        return
+    }
+
+    let data = {
+        "csrfmiddlewaretoken": csrftoken.value,
+        "query": val
+    }
+
+    $.ajax({
+        url: dataset['searchurl'],
+        type: 'GET',
+        data: data,
+
+    success: function(data) {
+        let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
+        searches = (data['items'].slice(0, 5).map(user => user['name']));
+        if (data['items'].length != 0) {
+            errorMessageElement.style.display = 'none';
+            displayResults(searches);
+            searches = []
+        } else {
+            displayResults(searches);
+            errorMessageElement.style.display = 'block';
+            errorMessageElement.textContent = 'Экипировка не найдена';
+        }
+        ;
+    },
+    error: function(xhr, status, error) {
+        console.log('Ошибка поиска: ' + error);
+    }
+
+    });
+}
+
+function displayResults(resultsArray) {
+    const resultsList = document.getElementById('resultsList');
+    // Очищаем предыдущие результаты
+    resultsList.innerHTML = '';
+    
+    // Если массив результатов пуст, выходим из функции
+    if (resultsArray.length === 0) {
+        return;
+    }
+    
+    const elastic = document.getElementById('elastic');
+    // Если поле ввода пустое, выходим из функции
+    if (elastic.value === '') {
+        return;
+    }
+    
+    resultsArray.forEach(result => {
+        const option = document.createElement('option'); // Создаем элемент option
+        option.value = result; // Устанавливаем значение option
+        resultsList.appendChild(option); // Добавляем option в datalist
+    });
+
+    // Устанавливаем фокус на поле ввода, чтобы показать подсказки
+    elastic.focus();
 }
