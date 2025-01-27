@@ -25,4 +25,7 @@ class History(models.Model):
     timestamp = models.DateTimeField(verbose_name="Время", auto_now=True)
     current_holder = models.ForeignKey(User, verbose_name="Текущий владелец", blank=True, null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        ordering = ['-timestamp']
+
 # пасхалочка print("Привет, мир!")
