@@ -52,7 +52,10 @@ function addInventory() {
         closeModal();
     }
 
-    // Выполнение AJAX-запроса столько раз, сколько указано в поле times
+    if (times === '') {
+        times = 1;
+    }
+
     for (let i = 0; i < times; i++) {
         // Создание объекта FormData из формы
         let formData = new FormData($("#addItemForm")[0]);
