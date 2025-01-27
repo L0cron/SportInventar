@@ -28,6 +28,7 @@ def inventory_view(request:HttpRequest):
             elif not User.objects.filter(username=itemOwner).exists():
                 status = 'Пользователь с таким именем не существует'
             else:
+                print(type(itemPhoto))
                 item = Item(name=itemName,status=int(itemStatus),current_holder=User.objects.get(username=itemOwner), photo_path=itemPhoto)
                 item.save()
                 status = 'ok'
