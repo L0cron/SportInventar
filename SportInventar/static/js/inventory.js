@@ -12,6 +12,7 @@ function addInventory() {
     const inventoryName = document.getElementById('inventoryName').value;
     const inventoryStatus = document.getElementById('inventoryStatus').value;
     const inventoryOwner = document.getElementById('elastic').value;
+    const times = parseInt(document.getElementById('quantility').value) || 1; // Получаем количество добавлений
 
     // Очистка предыдущих выделений
     document.getElementById('inventoryName').style.border = '';
@@ -36,9 +37,9 @@ function addInventory() {
             hasError = true;
         }
     }
-   if (!inventoryOwner) {
-       document.getElementById('elastic').style.border = '1px solid red';
-       hasError = true;
+    if (!inventoryOwner) {
+        document.getElementById('elastic').style.border = '1px solid red';
+        hasError = true;
     }
 
     // Если есть ошибки, выводим сообщение
@@ -46,12 +47,37 @@ function addInventory() {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
         errorMessageElement.style.display = 'block';
         return;
-    } 
-    else {
+    } else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
         closeModal();
     }
-    // Если все поля заполнены, отправляем
+
+    // Выполнение AJAX-запроса столько раз, сколько указано в поле times
+    for (let i = 0; i < times; i++) {
+        // Создание объекта FormData из формы
+        let formData = new FormData($("#addItemForm")[0]);
+
+        // AJAX-запрос на добавление элемента
+        $.ajax({
+            type: "POST",
+            url: dataset['url'],
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response['status'] == 'ok') {
+                    console.log(response);
+                    // Перезагрузка страницы
+                    window.location.reload();
+                } else {
+                    console.log(response['status']);
+                }
+            },
+            error: function() {
+                console.error("Ошибка при отправке данных");
+            }
+        });
+    }
 }
 
 // Закрытие модального окна при клике вне его
@@ -67,45 +93,10 @@ let dataset = document.currentScript.dataset
 
 let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 
+times = document.getElementById('quantility')
+
 // Функция, выполняемая после загрузки страницы
 $(function() {
-    // Обработчик клика по кнопке добавления
-    $('#addButton').on('click', function(e) {
-        // Предотвращение стандартного поведения кнопки
-        e.preventDefault();
-        
-        // Создание объекта FormData из формы
-        let formData = new FormData($("#addItemForm")[0]);
-        
-        // AJAX-запрос на добавление элемента
-        $.ajax({
-            // Тип запроса
-            type: "POST",
-            // URL, на который отправляется запрос
-            url: dataset['url'],
-            // Данные, отправляемые с запросом
-            data: formData,
-            // Указываем, что это не стандартный запрос
-            processData: false, // Не обрабатываем данные
-            contentType: false, // Не устанавливаем заголовок Content-Type
-            // Функция, выполняемая при успешном ответе сервера
-            success: function(response) {
-                // Проверка статуса ответа
-                if(response['status'] == 'ok') {
-                    console.log(response);
-                    // Добавление элемента в инвентарь
-                    addInventory();
-                    // Перезагрузка страницы
-                    window.location.reload();
-                } else {
-                    console.log(response['status']);
-                }
-            },
-            error: function() {
-                console.error("Ошибка при отправке данных");
-            }
-        });
-    });
 
     $("#confirm-button").on('click', function(e) {
 
