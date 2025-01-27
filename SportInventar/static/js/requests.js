@@ -387,13 +387,19 @@ function completeRequest(id,req_type) {
     )
 }
 
+function finder(array, to_f) {
+    return array.filter(item => item.toLowerCase().includes(to_f.toLowerCase()));
+}
+
 function elasticSearch() {
-    
     let val = document.getElementById('elastic').value;
-    console.log(val);
-    if(val == '') {
-        results.innerHTML = '';
-        return
+    try {
+        if(val == '') {
+            results.innerHTML = '';
+            return
+        }
+    } catch (e) {
+        //console.log(e) // можно вывести ошибку если надо(нет)
     }
 
     let data = {
@@ -408,7 +414,7 @@ function elasticSearch() {
 
     success: function(data) {
         let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
-        searches = (data['items'].slice(0, 5).map(user => user['name']));
+        searches = finder(data['items'],val).slice(0,5);
         if (data['items'].length != 0) {
             errorMessageElement.style.display = 'none';
             displayResults(searches);
