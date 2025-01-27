@@ -178,24 +178,29 @@
             </div>
             <div class="input-group hidden" id="type0">
                 <label for="requestedItem">Экипировка:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Укажите требуемый предмет" name="requestedItem" list="resultsList">
+                <input type="text" id="elastic" autocomplete="off" oninput="elasticSearch()" placeholder="Укажите требуемый предмет" name="requestedItem" list="resultsList">
                 <datalist id="resultsList"></datalist>
             </div>
+            <span class="error-message hidden" id="owner-error-message"></span>
             <div class="input-group hidden" id="type1">
                 <label for="requestedItem">Экипировка для замены:</label>
                 <select name="requestedItem" id="requestedItem" required>
                     <option value="-1" disabled selected>Выберите экипировку</option>
                     {% for j in items %}
-                    <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% if j.current_holder_id == user.id %}
+                        <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div class="input-group hidden" id="type2">
-                <label for="requestedItem">Экипировка для замены:</label>
+                <label for="requestedItem">Экипировка для получения:</label>
                 <select name="requestedItem" id="requestedItem" required>
                     <option value="-1" disabled selected>Выберите экипировку</option>
                     {% for j in items %}
-                    <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% if j.current_holder_id == 1 %}
+                        <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

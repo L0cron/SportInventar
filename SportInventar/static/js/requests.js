@@ -387,7 +387,6 @@ function completeRequest(id,req_type) {
     )
 }
 
-
 function elasticSearch() {
     
     let val = document.getElementById('elastic').value;
