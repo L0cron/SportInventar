@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('django/', admin.site.urls),
@@ -27,4 +30,4 @@ urlpatterns = [
     path('inventory/', include(('inventory.urls','inventory'),namespace='inventory')),
     path('requests/', include(('requests.urls', 'requests'), namespace='requests')),
     path('procur/', include(('procurements.urls', 'procurements'), namespace='procurments')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
