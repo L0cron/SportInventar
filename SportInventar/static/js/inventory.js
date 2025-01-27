@@ -12,6 +12,7 @@ function addInventory() {
     const inventoryName = document.getElementById('inventoryName').value;
     const inventoryStatus = document.getElementById('inventoryStatus').value;
     const inventoryOwner = document.getElementById('elastic').value;
+    const times = parseInt(document.getElementById('quantility').value) || 1; // Получаем количество добавлений
 
     // Очистка предыдущих выделений
     document.getElementById('inventoryName').style.border = '';
@@ -36,9 +37,9 @@ function addInventory() {
             hasError = true;
         }
     }
-   if (!inventoryOwner) {
-       document.getElementById('elastic').style.border = '1px solid red';
-       hasError = true;
+    if (!inventoryOwner) {
+        document.getElementById('elastic').style.border = '1px solid red';
+        hasError = true;
     }
 
     // Если есть ошибки, выводим сообщение
@@ -46,12 +47,40 @@ function addInventory() {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
         errorMessageElement.style.display = 'block';
         return;
-    } 
-    else {
+    } else {
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
         closeModal();
     }
-    // Если все поля заполнены, отправляем
+
+    if (times === '') {
+        times = 1;
+    }
+
+    for (let i = 0; i < times; i++) {
+        // Создание объекта FormData из формы
+        let formData = new FormData($("#addItemForm")[0]);
+
+        // AJAX-запрос на добавление элемента
+        $.ajax({
+            type: "POST",
+            url: dataset['url'],
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response['status'] == 'ok') {
+                    console.log(response);
+                    // Перезагрузка страницы
+                    window.location.reload();
+                } else {
+                    console.log(response['status']);
+                }
+            },
+            error: function() {
+                console.error("Ошибка при отправке данных");
+            }
+        });
+    }
 }
 
 // Закрытие модального окна при клике вне его
@@ -67,44 +96,10 @@ let dataset = document.currentScript.dataset
 
 let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 
+times = document.getElementById('quantility')
+
 // Функция, выполняемая после загрузки страницы
 $(function() {
-    // Обработчик клика по кнопке добавления
-    $('#addButton').on('click', function(e) {
-        // Предотвращение стандартного поведения кнопки
-        e.preventDefault();
-        
-        // Сериализация данных формы в строку
-        let data = $("#addItemForm").serialize();
-        console.log($("#addItemForm"));
-        // console.log(data);
-        console.log(data);
-        // AJAX-запрос на добавление элемента
-        $.ajax({
-            // Тип запроса
-            type: "POST",
-            // URL, на который отправляется запрос
-            url: dataset['url'],
-            // Данные, отправляемые с запросом
-            data: data,
-            // Функция, выполняемая при успешном ответе сервера
-            success: function(response) {
-                // Проверка статуса ответа
-                if(response['status'] == 'ok') {
-                    console.log(response)
-                    // Добавление элемента в инвентарь
-                    addInventory();
-                    // Перезагрузка страницы
-                    window.location.reload();
-
-                } else {
-                    console.log(response['status'])
-                }
-            },
-            error: function() {
-            }
-        })
-    })
 
     $("#confirm-button").on('click', function(e) {
 
@@ -239,9 +234,9 @@ function elasticSearch() {
 
     success: function(data) {
         let errorMessageElement = document.getElementById('owner-error-message'); // Элемент для сообщения об ошибке
+        top_users = (data['users'].slice(0, 5).map(user => user['username']));
         if (data['users'].length != 0) {
             errorMessageElement.style.display = 'none';
-            top_users = (data['users'].slice(0, 5).map(user => user['username']));
             console.log(top_users);
             displayResults(top_users);
             top_users = []

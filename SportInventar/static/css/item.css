@@ -181,11 +181,12 @@
     font-size: 16px;
     transition: border-color 0.3s, box-shadow 0.3s;
     box-sizing: border-box; /* Учитывает padding и border в общей ширине */
+    margin-bottom: 15px;
 }
 
 .input-group label {
     display: block;
-    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 16px;
     color: #333;
 }
@@ -194,8 +195,6 @@
     border-color: #007bff;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
     outline: none;
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .add-button {
@@ -213,4 +212,16 @@
 
 .add-button:hover {
     background-color: #0056b3;
+}
+
+.error-message {
+    display: none;
+    color: #dc3545;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
 }

@@ -22,22 +22,16 @@ def inventory_view(request:HttpRequest):
             itemName = request.POST.get('itemName')
             itemStatus = request.POST.get('itemStatus')
             itemOwner = request.POST.get('itemOwner')
-            itemPhoto = request.POST.get('itemPhoto')
-            itemQr = request.POST.get('itemQr')
+            itemPhoto = request.FILES.get('itemPhoto')
 
-            print(itemName)
-            print(itemStatus)
-            print(itemOwner)
-            print(itemPhoto)
-            print(itemQr)
 
             if len(itemName) == 0 or len(itemStatus) == 0 or len(itemOwner) == 0:
                 status = 'Присутствуют незаполненные поля'
             elif not User.objects.filter(username=itemOwner).exists():
                 status = 'Пользователь с таким именем не существует'
             else:
-                # Добавление нового предмета
-                item = Item(name=itemName,status=int(itemStatus),current_holder=User.objects.get(username=itemOwner), photo_path=itemPhoto, qr_path=itemQr)
+                print(type(itemPhoto))
+                item = Item(name=itemName,status=int(itemStatus),current_holder=User.objects.get(username=itemOwner), photo_path=itemPhoto)
                 item.save()
 
                 # Сохранение его истории
@@ -98,7 +92,12 @@ def edit_view(request:HttpRequest):
             item_status = request.POST.get('itemStatus')
             item_owner = request.POST.get('itemOwner')
             item_photo = request.POST.get('itemPhoto')
-            item_qr = request.POST.get('itemQr')
+
+            print(item_id)
+            print(item_name)
+            print(item_status)
+            print(item_owner)
+            print(item_photo)
 
             # Проверяем, что item_id передан
             if not item_id:
@@ -118,13 +117,13 @@ def edit_view(request:HttpRequest):
             if item_status:
                 item.status = item_status
             if item_owner:
-                item.current_holder = item_owner
+                item.current_holder = User.objects.get(username=item_owner)
             if item_photo:
                 item.photo_path = item_photo
-            if item_qr:
-                item.qr_path = item_qr
 
             # Сохраняем изменения в базе данных
+            print("none")
+            print(item)
             item.save()
 
             # Устанавливаем статус успешного обновления

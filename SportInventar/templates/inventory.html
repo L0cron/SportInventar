@@ -46,7 +46,7 @@
                             {% if i.status == 0 %}
                                 сломано
                             {% elif i.status == 1 %}
-                                в норме
+                                используемый
                             {% elif i.status == 2 %}
                                 новое
                             {% else %}
@@ -116,21 +116,22 @@
 -->
 
             <div class="input-group">
-                <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList">
+                <label for="inventoryOwner">Назначить текущего владельца:</label>
+                <input type="text" id="elastic" oninput="elasticSearch()" name="itemOwner" list="resultsList" placeholder="Не назначено">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message hidden" id="owner-error-message"></span>
 
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemPhoto" type="text" id="inventoryPhoto" placeholder="фото инвентаря" required>
+                <input type="file" id="inventoryPhoto" name="itemPhoto" accept="image/*" />
             </div>
 
             <div class="input-group">
-                <label for="inventoryQr">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemQr" type="text" id="inventoryQr" placeholder="qr-код инвентаря" required>
+                <label for="quantility">Количество предметов (это поле не обязательное для заполнения):</label>
+                <input type="number" id="quantility" name="itemQuantity" value="1"/>
             </div>
+
 
             <form>
                 <div class="confirm">

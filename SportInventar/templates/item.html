@@ -15,9 +15,10 @@
 <div class="container">
     <div class="item-content">
         <!-- Фотография предмета -->
-        <div class="item-photo">
+        <div class="item-photo"> 
             {% if item.photo_path %}
-                <img src="{{ item.photo_path }}" alt="Фотография предмета">
+            
+                <img src="http://127.0.0.1:8000/media/{{ item.photo_path }}" alt="Фотография предмета">
             {% else %}
                 Фото отсутствует
             {% endif %}
@@ -85,7 +86,6 @@
             </div>
             <div class="input-group">
                 <label for="inventoryStatus">Статус инвентаря:</label>
-                <input hidden name="itemStatus">
                 <select name="itemStatus" id="inventoryStatus" required>
                     <option value="-1" disabled>Выберите статус</option>
                     <option value="0" {% if item.status == 0 %}selected{% endif %}>сломано</option>
@@ -95,20 +95,18 @@
             </div>
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input name="itemOwner" type="text" id="inventoryOwner" value="{{ item.current_holder }}" placeholder="владелец инвентаря" required>
+                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList" value="{{ item.current_holder }}">
+                <datalist id="resultsList"></datalist>
             </div>
+            <span class="error-message" id="owner-error-message"></span>
+
             <div class="input-group">
                 <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemPhoto" type="text" id="inventoryPhoto" value="{{ item.photo_path|default:'' }}" placeholder="фото инвентаря">
+                <input type="file" id="inventoryPhoto" name="itemPhoto" />
             </div>
-
-            <div class="input-group">
-                <label for="inventoryQr">Путь до QR-кода (это поле не обязательное для заполнения):</label>
-                <input name="itemQr" type="text" id="inventoryQr" value="{{ item.qr_path|default:'' }}" placeholder="qr-код инвентаря">
-            </div>
-
             
             <div class="confirm">
+                <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
                 <button id="addButton" class="add-button" type="button" onclick="editInventory()">Изменить</button>
             </div>
         </form>
@@ -117,5 +115,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/item.js' %}" defer data-url="{% url 'inventory:edit' %}"></script>
+    <script src="{% static 'js/item.js' %}" defer data-url="{% url 'inventory:edit' %}" data-searchurl="{% url 'user:search' %}"></script>
 {% endblock %}
