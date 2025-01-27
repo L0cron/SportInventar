@@ -83,7 +83,6 @@
                                 <p>Описание: {{ i.text }}</p>
                                 <div class="button-container">
                                     <button class="complete-button" onclick="completeRequest('{{ i.id }}','{{ i.request_type }}')">Выполнить</button>
-                                    <button class="complete-button" onclick=""></button>
                                     <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)">Отменить</button>
                                 </div>
                             </div>
@@ -129,77 +128,7 @@
                             </div>
                             {% endif %}
                         {% endfor %}
-                    </div>
-<!--
-            <div class="requests-list list-view">
-            {% for i in requests %}
-                <div class="requests-item">
-                    <div class="checkbox-container hidden">
-                        <input type="checkbox" class="requests-checkbox" data-id="{{ i.id }}">
-                    </div>
-                    <h3>{{ i.requested_item }}</h3>
-                    <p>{{  i.author }}</p>
-                    <p> {% if i.request_type == 0 %}
-                            Приобретение
-                        {% elif i.request_type == 1 %}
-                            Замена
-                        {% elif i.request_type == 2 %}
-                            Получение
-                        {% else %}
-                            неизвестно
-                        {% endif %}
-                    </p>
-                    <p>Описание: {{ i.text }}</p>
-                    <div class="button-container">
-                        <button class="complete-button" onclick="completeRequest('{{ request.id }}')">Принять</button>
-                        <button class="cancel-button" onclick="cancelRequest('{{ request.id }}')">Отклонить</button>
-                    </div>
-                </div>
-            {% endfor %}
-                    
-                    <p>Статус: 
-                        {% if i.status == 0 %}
-                            Создана
-                        {% elif i.status == 1 %}
-                            На рассмотрении
-                        {% elif i.status == 2 %}
-                            Принята
-                        {% elif i.status == 3 %}
-                            Отклонена
-                        {% else %}
-                            неизвестно
-                        {% endif %}
-                    </p>
-                    <p>Выполнено:
-                        {% if i.completion == False %}
-                            Нет
-                        {% else %}
-                            Да 
-                        {% endif %}
-                    </p>
-                    <div class="input-group">
-                        <button class="statusButton" onclick="toggleStatusSelect(this)">Изменить статус</button>
-                        <select name="status" id="status-{{ i.id }}" data-id="{{ i.id }}" style="display: none;">
-                            <option value="0" {% if i.status == 0 %}selected{% endif %}>Создана</option>
-                            <option value="1" {% if i.status == 1 %}selected{% endif %}>На рассмотрении</option>
-                            <option value="2" {% if i.status == 2 %}selected{% endif %}>Принята</option>
-                            <option value="3" {% if i.status == 3 %}selected{% endif %}>Отклонена</option>
-                        </select>
-                        <div class="status-buttons" style="display: none;">
-                            <button class="cancel-status-button" onclick="cancelStatusChange(this)">Отменить</button>
-                            <button class="apply-status-button" onclick="applyStatusChange(this)">Применить</button>
-                        </div>
-                        {% if i.request_type == 0 and i.completion == False %}
-                            <div class="input-group">
-                                <button class="addProcur" onclick="procurRedirect()">Создать запрос на покупку</button>
-                            </div>
-                        {% endif %}
-                        {% if i.status == 1 and i.completion == False %}
-                            <div class="input-group">
-                                <button class="completeRequest" data-id="{{ i.id }}" onclick="completeRequest(this)">Закрыть запрос</button>
-                            </div>
-                        {% endif %}-->
-                        
+                    </div>      
             </div>
         </div>
     
@@ -240,16 +169,40 @@
             <div class="input-group">
                 <label for="requestedType">Тип заявки:</label>
                 <input hidden name="requestedType">
-                <select name="requestedType" id="requestedType" required>
+                <select name="requestedType" id="requestedType" onclick="f1()" required>
                     <option value="-1" disabled selected>Выберите тип</option>
                     <option value="0">Приобретение</option>
                     <option value="1">Замена</option>
                     <option value="2">Получение</option>
                 </select>
             </div>
-            <div class="input-group">
-                <label for="requestedItem">Инвентарь:</label>
-                <input name='requestedItem' type="text" id="requestedItem" placeholder="Укажите требуемый предмет">
+            <div class="input-group hidden" id="type0">
+                <label for="requestedItem">Экипировка:</label>
+                <input type="text" id="elastic" autocomplete="off" oninput="elasticSearch()" placeholder="Укажите требуемый предмет" name="requestedItem" list="resultsList">
+                <datalist id="resultsList"></datalist>
+            </div>
+            <span class="error-message hidden" id="owner-error-message"></span>
+            <div class="input-group hidden" id="type1">
+                <label for="requestedItem">Экипировка для замены:</label>
+                <select name="requestedItem" id="requestedItem" required>
+                    <option value="-1" disabled selected>Выберите экипировку</option>
+                    {% for j in items %}
+                        {% if j.current_holder_id == user.id %}
+                        <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group hidden" id="type2">
+                <label for="requestedItem">Экипировка для получения:</label>
+                <select name="requestedItem" id="requestedItem" required>
+                    <option value="-1" disabled selected>Выберите экипировку</option>
+                    {% for j in items %}
+                        {% if j.current_holder_id == 1 %}
+                        <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
             </div>
             <div class="input-group">
                 <label for="requestDesc">Причина:</label>
@@ -269,5 +222,6 @@
 {% block script %}
     <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
     data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"
-    data-complete="{% url 'requests:complete' %}" data-archive="{% url 'requests:archive' %}"></script>
+    data-complete="{% url 'requests:complete' %}" data-archive="{% url 'requests:archive' %}"
+    data-searchurl="{% url 'requests:search' %}"></script>
 {% endblock %}

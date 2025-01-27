@@ -8,7 +8,8 @@ from .models import *
 def requests_view(request:HttpRequest):
     if request.method == 'GET':
         requests = Request.objects.all()
-        context = {"requests":requests}
+        items = Item.objects.all()
+        context = {"requests":requests, "items":items}
         return render(request, 'requests.html',context=context)
     elif request.method == 'POST':
         status = 'ok'
@@ -109,3 +110,9 @@ def complete_request_view(request:HttpRequest):
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
+    
+def search_view(request:HttpRequest):
+    if request.method == 'GET':
+        items = list(Item.objects.values_list('name', flat=True))
+        context = {"items":items}
+        return JsonResponse(context)

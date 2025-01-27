@@ -208,6 +208,7 @@ h2 {
 }
 
 .error-message {
+    display: none;
     color: #dc3545;
     padding: 10px;
     font-size: 14px;
@@ -270,13 +271,6 @@ h2 {
 .requests-item p {
     margin: 5px 0;
     color: #666;
-    font-size: 16px;
-}
-
-.error-message {
-    color: #ab2432;
-    padding: 5px;
-    font-family: Arial, sans-serif;
     font-size: 16px;
 }
 

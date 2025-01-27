@@ -24,5 +24,6 @@ urlpatterns = [
     path('accept',accept_request_view,name="accept"),
     path('del',del_view,name='del'),
     path('archive',archive_request_view,name="archive"),
-    path('complete',complete_request_view,name="complete")
+    path('complete',complete_request_view,name="complete"),
+    path('search', search_view, name='search')
 ]
