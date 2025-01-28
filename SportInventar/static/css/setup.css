@@ -161,3 +161,14 @@ input[type="password"] {
 .user-input-check {
     margin-top: 25px;
 }
+
+
+.checkbox-label {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center vertically */
+}
+
+.labele {
+    margin-left: 8px; /* Space between checkbox and text */
+    font-size: 16px; /* Change font size */
+}

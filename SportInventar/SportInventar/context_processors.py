@@ -18,12 +18,14 @@ def projectName(request):
     cfg = getConfig()
     settings = getSettings()
     data = {}
-    data['projectName'] = cfg['projectName']
     data['settings'] = settings
     if cfg == {}:
         data['projectName'] = '...'
+    else:    
+        data['projectName'] = cfg['projectName']
     if settings == {}:
         data['settings'] = {}
     return {
-        'projectName': cfg['projectName'],
+        'projectName': data['projectName'],
+        "settings":settings
     }

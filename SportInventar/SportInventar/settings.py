@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'user_handler',
     'inventory',
     'requests',
-    'settings',
     'procurements'
 ]
 
