@@ -121,9 +121,9 @@
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <p>Статус: 
-                                    {% if i.completion %}
+                                    {% if i.status == 2 %}
                                         Выполнено
-                                    {% else %}
+                                    {% elif i.status == 3 %}
                                         Отказано
                                     {% endif %}
                                 </p>

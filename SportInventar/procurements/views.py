@@ -18,20 +18,24 @@ def procurements_view(request:HttpRequest):
     elif request.method == 'POST':
         status = 'ok'
         try:
-            itemName = request.POST.get('itemName')
-            itemOwner = request.POST.get('itemOwner')
-            itemPhoto = request.POST.get('itemPhoto')
-
-            if len(itemName) == 0 or len(itemOwner) == 0:
+            productName = request.POST.get('productName')
+            quantility = request.POST.get('itemQuantity')
+            price = request.POST.get('itemPrice')
+            photoPath = request.POST.get('photoPathUsera')
+            # url = request.POST.get('urlka')
+            # print(url)
+            # photoPath = request.POST.get('photoPather')
+            # print(photoPath)
+            if len(productName) == 0 or len(quantility) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
-                proc = Procurement(name=itemName,current_holder=itemOwner, photoPath=itemPhoto)
+                proc = Procurement(name=productName,amount=quantility, price=(int(price)*int(quantility)))
+                print('save')
                 proc.save()
                 status = 'ok'
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
-
-        # print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
+        print(status)
         return JsonResponse({"status":status})
     
 
@@ -130,8 +134,9 @@ def parce_view(request:HttpRequest, search:str):
             href = "https://starfitshop.ru" + row.find('a',class_='item__title')['href']
             name = row.find('span',itemprop='name').get_text()
             price = row.find('span',class_='prc-val').get_text()
-            supplier = row.find('td',class_='chars__value').get_text()
-            photoPath = ""
+            supplier = 'starfitshop' #row.find('td',class_='chars__value').get_text()
+            photoPath = row.find('img')['data-src']
+            photoPath = 'https://starfitshop.ru' + photoPath
             # obj = Displayer(url=href,name=name,price=price,supplier=supplier,photoPath=photoPath)
             # obj.save()
             item = {

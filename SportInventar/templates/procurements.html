@@ -28,33 +28,18 @@
                 </div>  
             </div>
 
-
             <div class="inventory-list grid-view">
-                {% for i in items %}
+                {% for i in procurements %}
                 <div class="inventory-item">
-                    <div class="icons-container">
-                        <span class="more-info-icon" onclick="window.location.href=`{% url 'inventory:item_view' item_id=i.id %}`" style="cursor: pointer;">
-                            i<i class="fas fa-info-circle"></i>
-                        </span>
-                        <div class="checkbox-container hidden">
-                            <input type="checkbox" class="inventory-checkbox" data-id="{{ i.id }}">
+                    <div class="columns">
+                        <div class="text-container"> 
+                            <h3>{{ i.name }}</h3>
+                            <p>Количество: {{ i.amount }}</p>
+                            <p>Цена: {{ i.price }}</p>
                         </div>
-                    </div>
-
-                    <div class="text-container"> 
-                        <h3>{{ i.name }}</h3>
-                        <p>Статус: 
-                            {% if i.status == 0 %}
-                                сломано
-                            {% elif i.status == 1 %}
-                                в норме
-                            {% elif i.status == 2 %}
-                                новое
-                            {% else %}
-                                неизвестно
-                            {% endif %}
-                        </p>
-                        <p>Владелец: {{ i.current_holder }}</p>
+                        <div class="img-container">
+                            <img src="{{ i.photoPath }}" alt="{{ i.photoPath }}" width="100" height="100">
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -96,30 +81,25 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Введите данные закупки</h2>
             <div class="input-group">
-                <label for="inventoryName">Введите название товара:</label>
-                <input name="itemName" type="text" id="inventoryName" placeholder="название товара" required>
+                <label for="productName">Введите название товара:</label>
+                <input name="productName" type="text" id="productName" placeholder="Название товара" required>
             </div>
             <div class="input-group">
-                <label for="inventoryOwner">Имя владельца закупки:</label>
-                <input name="itemOwner" type="text" id="inventoryOwner" placeholder="владелец закупки" required>
+                <label for="quantility">Количество предметов:</label>
+                <input type="number" id="quantility" name="itemQuantity" value="1"/>
             </div>
-
             <div class="input-group">
-                <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemPhoto" type="text" id="inventoryPhoto" placeholder="фото закупки" required>
+                <label for="price">Цена (за шт):</label>
+                <input type="number" id="price" name="itemPrice" value="0"/>
             </div>
-
             <div class="input-group">
-                <label for="inventoryQr">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input name="itemQr" type="text" id="inventoryQr" placeholder="qr-код закупки" required>
+                <label for="photoPathUsera">Ссылка на фотографию:</label>
+                <input type="text" id="photoPathUsera" name="photoPathUsera" placeholder="Ссылка на фотографию"/>
             </div>
-
-            <form>
-                <div class="confirm">
-                    <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
-                    <button id="addButton" class="add-button" type="button" onclick="addInventory()">Добавить</button>
-                </div>
-            </form>
+            <div class="confirm">
+                <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
+                <button id="createProcurementBtn" class="add-button" type="button" onclick="openModal()">Создать</button>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -239,7 +239,6 @@ h2 {
     margin-bottom: 10px;
 }
 
-
 .modal {
     display: none;
     position: fixed;
@@ -272,6 +271,9 @@ h2 {
     from { transform: translateY(-50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
+
+
 
 .input-group input, .input-group select {
     width: 100%; /* Убедитесь, что ширина 100% */
@@ -352,7 +354,7 @@ h2 {
     gap: 15px;
 }
 
-.inventory-item {
+/* .inventory-item {
     position: relative;
     padding: 15px;
     border: 1px solid #ddd;
@@ -361,7 +363,7 @@ h2 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     margin-bottom: 5px;
-}
+} */
 
 .inventory-item:hover {
     transform: translateY(-2px);
@@ -609,8 +611,40 @@ h2 {
 
 .text-container {
     width: 85%;
-    margin-left: 0;
 }
+.inventory-item {
+    position: relative;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.img-container {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.img-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.columns {
+    display: flex;
+    flex-direction: row;
+}
+
+/* .img-container {
+    width: 15%;
+} */
 
 .icons-container {
     width: 15%;
