@@ -13,20 +13,37 @@ def requests_view(request:HttpRequest):
         return render(request, 'requests.html',context=context)
     elif request.method == 'POST':
         status = 'ok'
+        
         try:
             requestType = request.POST.get('requestedType')
             requestedItem = request.POST.get('requestedItem')
             requestDesc = request.POST.get('requestDesc')
-
+            print(list(Item.objects.values_list('id', flat=True)))
             if  len(requestedItem) == 0 or len(requestDesc) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
-                request = Request(requested_item=Item.objects.get(id=requestedItem), 
-                                  text=requestDesc,
-                                  request_type=requestType,
-                                  author=User.objects.get(id=request.user.id),
-                                  status=0
-                                  )
+                print(requestedItem)
+                print(requestedItem in Item.objects.values_list('id', flat=True))
+                print(Item.objects.values_list(flat=True))
+                if requestedItem in Item.objects.values_list('id', flat=True):
+                    request = Request(requested_item=Item.objects.get(id=requestedItem), 
+                                      text=requestDesc,
+                                      request_type=requestType,
+                                      author=User.objects.get(id=request.user.id),
+                                      status=0
+                                      )
+                else:
+                    newItem = Item(name=requestedItem,
+                                   status=2,
+                                   current_holder=User.objects.get(id=1))
+                    newItem.save()
+                    request = Request(requested_item=Item.objects.get(id=requestedItem), 
+                                      text=requestDesc,
+                                      request_type=requestType,
+                                      author=User.objects.get(id=request.user.id),
+                                      status=0
+                                      )
+                print(request)
                 request.save()
                 status = 'ok'
         except Exception as e:
