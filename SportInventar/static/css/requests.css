@@ -31,8 +31,7 @@
 
 .button-container {
     display: flex;
-    justify-content: flex-end; /* Выравнивание кнопок вправо */
-    display: table-column;
+    justify-content: flex-end; /* Выравнивание кнопок вправо */ 
     margin-top: 10px; /* Отступ сверху для кнопок */
 }
 

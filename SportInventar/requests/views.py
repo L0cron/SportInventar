@@ -24,20 +24,24 @@ def requests_view(request:HttpRequest):
             else:
                 print(requestedItem)
                 print(requestedItem in Item.objects.values_list('id', flat=True))
-                print(Item.objects.values_list(flat=True))
-                if requestedItem in Item.objects.values_list('id', flat=True):
-                    request = Request(requested_item=Item.objects.get(id=requestedItem), 
+                if Item.objects.filter(name=requestedItem).exists():
+                    print('ша')
+                    request = Request(requested_item=Item.objects.get(name=requestedItem), 
                                       text=requestDesc,
                                       request_type=requestType,
                                       author=User.objects.get(id=request.user.id),
                                       status=0
                                       )
+                    print('if')
                 else:
+                    print('else')
                     newItem = Item(name=requestedItem,
                                    status=2,
                                    current_holder=User.objects.get(id=1))
                     newItem.save()
-                    request = Request(requested_item=Item.objects.get(id=requestedItem), 
+                    print(newItem)
+                    
+                    request = Request(requested_item=Item.objects.get(name=requestedItem), 
                                       text=requestDesc,
                                       request_type=requestType,
                                       author=User.objects.get(id=request.user.id),
@@ -103,6 +107,7 @@ def archive_request_view(request:HttpRequest):
     if request.method == 'POST':
         status = 'ok'
         try:
+            print('rerwndognsknsngoirdtnjkrdlrmbkidnrkb moejfrvbkl')
             requestId = request.POST.get('request_id')
             requestStatus = request.POST.get('request_status')
             requestType = request.POST.get('disp_type')
