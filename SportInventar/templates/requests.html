@@ -238,7 +238,6 @@
 
 {% block script %}
     <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
-    data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"
-    data-complete="{% url 'requests:complete' %}" data-archive="{% url 'requests:archive' %}"
-    data-searchurl="{% url 'requests:search' %}"></script>
+    data-remurl="{% url 'requests:del' %}" data-complete="{% url 'requests:complete' %}"
+    data-archive="{% url 'requests:archive' %}" data-searchurl="{% url 'requests:search' %}"></script>
 {% endblock %}

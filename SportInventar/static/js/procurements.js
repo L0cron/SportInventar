@@ -18,26 +18,12 @@ function search() {
 }
 
 function openModalRed(itemJson = null) {
-    console.log('dfsdfsdsfddd');
     let item = null;
-
     $.ajax({
         type: "POST",
         url: dataset,
     })
 }
-
-// function openModal(item = null) {
-//     console.log('dfsdfsdsfddd   ')
-//     if (item !== null) {
-//         document.getElementById('productName').value = item.name;
-//         document.getElementById('quantility').value = 1;
-//         document.getElementById('urlka').value = item.url;
-//         document.getElementById('photoPather').value = item.photoPath;
-//     }
-//     const modal = document.getElementById("myModal");
-//     modal.style.display = "block";
-// }
 
 function closeModal() {
     const modal = document.getElementById("myModal");

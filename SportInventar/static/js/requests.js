@@ -156,20 +156,6 @@ $(function() {
     });
 })
 
-function toggleInventoryView() {
-    const inventoryList = document.querySelector('.requests-list');
-
-    if (inventoryList.classList.contains('grid-view')) {
-        // Переключаем на вид списка
-        inventoryList.classList.remove('grid-view');
-        inventoryList.classList.add('list-view');
-    } else {
-        // Переключаем на вид блоков
-        inventoryList.classList.remove('list-view');
-        inventoryList.classList.add('grid-view');
-    }
-}
-
 function toggleCheckboxes() {
     const checkboxes = document.querySelectorAll('.checkbox-container');
     const deleteButton = document.querySelector('.delete-button');
@@ -283,61 +269,6 @@ function cancelStatusChange(element) {
     statusSelect.style.display = "none";
     element.parentNode.style.display = "none";
     statusButton.style.display = "block";
-}
-
-function applyStatusChange(element) {
-    // Получение элемента select и его атрибутов
-    var statusSelect = element.parentNode.parentNode.querySelector('select');
-    var requestId = statusSelect.getAttribute('data-id');
-    var newStatus = statusSelect.value;
-
-    // AJAX-запрос на изменение статуса
-    $.ajax({
-        // Тип запроса
-        type: "POST",
-        // URL, на который отправляется запрос
-        url: dataset['change'],
-        // Данные, отправляемые с запросом
-        data: {
-            "csrfmiddlewaretoken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
-            "request_id": requestId,
-            "new_status": newStatus
-        },
-        // Функция, выполняемая при успешном ответе сервера
-        success: function(response) {
-            
-            console.log(response)
-            console.log(newStatus)
-
-            // Проверка статуса ответа
-            if(response['status'] == 'ok') {
-                // Обновление элементов страницы после изменения статуса
-                statusSelect.style.display = 'none';
-                element.parentNode.style.display = 'none';
-                element.parentNode.parentNode.querySelector('.statusButton').style.display = 'block';
-                element.parentNode.parentNode.querySelector('.statusButton').textContent = 'Изменить статус';
-                window.location.reload();
-            } else {
-                // Вывод сообщения об ошибке
-                alert('Ошибка при изменении статуса');
-            }
-        }
-    });
-}
-
-function getStatusText(status) {
-    switch (status) {
-        case '0':
-            return 'Создана';
-        case '1':
-            return 'На рассмотрении';
-        case '2':
-            return 'Принята';
-        case '3':
-            return 'Отклонена';
-        default:
-            return 'Неизвестно';
-    }
 }
 
 function procurRedirect() {

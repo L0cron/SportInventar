@@ -3,8 +3,6 @@ from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
 
-# если тип заявки приоберетение-> поиска не будет, текст; замена -> поиск
-
 def requests_view(request:HttpRequest):
     if request.method == 'GET':
         requests = Request.objects.all()
@@ -22,11 +20,13 @@ def requests_view(request:HttpRequest):
             if  len(requestedItem) == 0 or len(requestDesc) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
+                print(Item.objects.filter(name=requestedItem))
                 print(requestedItem)
-                print(requestedItem in Item.objects.values_list('id', flat=True))
+                
                 if Item.objects.filter(name=requestedItem).exists():
                     print('ша')
-                    request = Request(requested_item=Item.objects.get(name=requestedItem), 
+                    
+                    request = Request(requested_item=Item.objects.filter(name=requestedItem)[0], 
                                       text=requestDesc,
                                       request_type=requestType,
                                       author=User.objects.get(id=request.user.id),
@@ -39,8 +39,11 @@ def requests_view(request:HttpRequest):
                                    status=2,
                                    current_holder=User.objects.get(id=1))
                     newItem.save()
-                    print(newItem)
-                    
+
+                    newHistory = History(item=newItem,
+                                         current_holder=User.objects.get(id=request.user.id))
+                    newHistory.save()
+
                     request = Request(requested_item=Item.objects.get(name=requestedItem), 
                                       text=requestDesc,
                                       request_type=requestType,
@@ -50,32 +53,6 @@ def requests_view(request:HttpRequest):
                 print(request)
                 request.save()
                 status = 'ok'
-        except Exception as e:
-            status = 'Ошибка записи данных в базу данных: ' + str(e)
-        return JsonResponse({"status":status})
-
-def change_request_view(request:HttpRequest):
-    if request.method == 'POST':
-        status = 'ok'
-        try:
-            print(request.POST)
-            requestId = request.POST.get('request_id')
-            requestItem = request.POST.get('request_type')
-            _request = Request.objects.get(id=int(requestId))
-            _request.save()
-        except Exception as e:
-            status = 'Ошибка записи данных в базу данных: ' + str(e)
-        return JsonResponse({"status":status})
-
-def accept_request_view(request:HttpRequest):
-    if request.method == 'POST':
-        status = 'ok'
-        try:
-            requestId = request.POST.get('request_id')
-            _request = Request.objects.get(id=int(requestId))
-            _request.status = 1
-            _request.request_display_type = 1
-            _request.save()
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
@@ -107,7 +84,6 @@ def archive_request_view(request:HttpRequest):
     if request.method == 'POST':
         status = 'ok'
         try:
-            print('rerwndognsknsngoirdtnjkrdlrmbkidnrkb moejfrvbkl')
             requestId = request.POST.get('request_id')
             requestStatus = request.POST.get('request_status')
             requestType = request.POST.get('disp_type')
