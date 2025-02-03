@@ -173,7 +173,6 @@
             <h2>Введите данные для заявки</h2>
             <div class="input-group">
                 <label for="requestedType">Тип заявки:</label>
-                <input hidden name="requestedType">
                 <select name="requestedType" id="requestedType" onclick="f1()" required>
                     <option value="-1" disabled selected>Выберите тип</option>
                     <option value="0">Приобретение</option>
@@ -184,7 +183,7 @@
             </div>
             <div class="input-group hidden" id="type0">
                 <label for="requestedItem">Экипировка:</label>
-                <input type="text" id="elastic" autocomplete="off" oninput="elasticSearch()" placeholder="Укажите требуемую экипировку" name="requestedItem" list="resultsList">
+                <input type="text" id="requestedItem" autocomplete="off" oninput="elasticSearch()" placeholder="Укажите требуемую экипировку" name="requestedItem" list="resultsList">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message hidden" id="owner-error-message"></span>

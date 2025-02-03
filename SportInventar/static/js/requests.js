@@ -17,7 +17,7 @@ function f1() {
         type.classList.add('hidden'); // Скрываем все
     });
     // Очищаем поля ввода
-    const inputField = document.getElementById('elastic'); // Поле для типа 0
+    const inputField = document.getElementById('requestedItem'); // Поле для типа 0
     const selectField = document.querySelectorAll('select[name="requestedItem"]'); // Поля для типов 1 и 2
     // Очищаем текстовое поле
     inputField.value = '';
@@ -48,10 +48,10 @@ function createRequest() {
     const errorMessageElement = document.getElementById('error-message'); // Элемент для сообщения об ошибке
 
     // Проверка каждого поля и выделение красным, если оно пустое
-    if (!requestedItem) {
-        document.getElementById('requestDesc').style.border = '1px solid red';
-        hasError = true;
-    }
+    // if (!requestedItem) {
+    //     document.getElementById('requestedItem').style.border = '1px solid red';
+    //     hasError = true;
+    // }
     if (requestType === '') {
         document.getElementById('requestedType').style.border = '1px solid red';
         hasError = true;
@@ -63,7 +63,7 @@ function createRequest() {
         }
     }
     if (!requestDesc) {
-        document.getElementById('requestedItem').style.border = '1px solid red';
+        document.getElementById('requestDesc').style.border = '1px solid red';
         hasError = true;
     }
 
@@ -103,7 +103,8 @@ $(function() {
         
         // Сериализация данных формы в строку
         let data = $("#createRequest").serialize();
-        
+        data = data.replace('requestedItem=&', '');
+        console.log(data)
         // AJAX-запрос на добавление элемента
         $.ajax({
             // Тип запроса
@@ -111,7 +112,7 @@ $(function() {
             // URL, на который отправляется запрос
             url: dataset['url'],
             // Данные, отправляемые с запросом
-            data: data,
+            data: data  ,
             // Функция, выполняемая при успешном ответе сервера
             success: function(response) {
                 // Проверка статуса ответа
@@ -323,7 +324,7 @@ function finder(array, to_f) {
 }
 
 function elasticSearch() {
-    let val = document.getElementById('elastic').value;
+    let val = document.getElementById('requestedItem').value;
     try {
         if(val == '') {
             results.innerHTML = '';
@@ -374,7 +375,7 @@ function displayResults(resultsArray) {
         return;
     }
     
-    const elastic = document.getElementById('elastic');
+    const elastic = document.getElementById('requestedItem');
     // Если поле ввода пустое, выходим из функции
     if (elastic.value === '') {
         return;

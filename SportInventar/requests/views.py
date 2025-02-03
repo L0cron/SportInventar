@@ -16,25 +16,25 @@ def requests_view(request:HttpRequest):
             requestType = request.POST.get('requestedType')
             requestedItem = request.POST.get('requestedItem')
             requestDesc = request.POST.get('requestDesc')
-            print(list(Item.objects.values_list('id', flat=True)))
             if  len(requestedItem) == 0 or len(requestDesc) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
-                print(Item.objects.filter(name=requestedItem))
-                print(requestedItem)
-                
                 if Item.objects.filter(name=requestedItem).exists():
-                    print('ша')
-                    
-                    request = Request(requested_item=Item.objects.filter(name=requestedItem)[0], 
-                                      text=requestDesc,
-                                      request_type=requestType,
-                                      author=User.objects.get(id=request.user.id),
-                                      status=0
-                                      )
-                    print('if')
+                    if requestedItem.isdigit():
+                        request = Request(requested_item=Item.objects.get(id=requestedItem), 
+                                          text=requestDesc,
+                                          request_type=requestType,
+                                          author=User.objects.get(id=request.user.id),
+                                          status=0
+                                          )
+                    else:
+                        request = Request(requested_item=Item.objects.get(name=requestedItem), 
+                                          text=requestDesc,
+                                          request_type=requestType,
+                                          author=User.objects.get(id=request.user.id),
+                                          status=0
+                                          )
                 else:
-                    print('else')
                     newItem = Item(name=requestedItem,
                                    status=2,
                                    current_holder=User.objects.get(id=1))
@@ -50,7 +50,6 @@ def requests_view(request:HttpRequest):
                                       author=User.objects.get(id=request.user.id),
                                       status=0
                                       )
-                print(request)
                 request.save()
                 status = 'ok'
         except Exception as e:
