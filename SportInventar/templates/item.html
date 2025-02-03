@@ -36,12 +36,9 @@
         <!-- Боковая панель -->
         <div class="sidebar">
             <h2>История владельцев</h2>
-            {{item_history.current_holder}}
-            {% if item_history.current_holder %}
-                <p>{{ item_history.current_holder }}</p>
-            {% else %}
-                <p>Ничейный</p>
-            {% endif %}
+            {% for i in item_history %}
+                <p>{{ i.current_holder.username }} ({{ i.timestamp }})</p>
+            {% endfor %}
         </div>
 
         <div class="qr-and-button-container">

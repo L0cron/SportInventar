@@ -7,7 +7,7 @@ from urllib.parse import parse_qs
 
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Item, id=item_id)
-    hist = History.objects.get(item = item)
+    hist = History.objects.filter(item=item)
     
     return render(request, 'item.html', context={'item': item, 'item_history': hist})
 
@@ -76,7 +76,7 @@ def search_view(request:HttpRequest):
 
 
 
-def edit_view(request:HttpRequest):
+def edit_view(request: HttpRequest):
     status = {
         "item_edited": 0,
         "message": ""
@@ -89,11 +89,6 @@ def edit_view(request:HttpRequest):
             item_name = request.POST.get('itemName')
             item_status = request.POST.get('itemStatus')
             item_owner = request.POST.get('itemOwner')
-
-            print(item_id)
-            print(item_name)
-            print(item_status)
-            print(item_owner)
 
             # Проверяем, что item_id передан
             if not item_id:
@@ -112,12 +107,18 @@ def edit_view(request:HttpRequest):
                 item.name = item_name
             if item_status:
                 item.status = item_status
+            
+            # Проверяем, изменился ли владелец
             if item_owner:
-                item.current_holder = User.objects.get(username=item_owner)
+                new_owner = User.objects.get(username=item_owner)
+                if item.current_holder != new_owner:
+                    # Создаем новую запись в истории
+                    hist = History(item=item, current_holder=new_owner)
+                    hist.save()
+                    # Обновляем текущего владельца
+                    item.current_holder = new_owner
 
             # Сохраняем изменения в базе данных
-            print("none")
-            print(item)
             item.save()
 
             # Устанавливаем статус успешного обновления
