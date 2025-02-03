@@ -14,16 +14,6 @@
 
 <div class="container">
     <div class="item-content">
-        <!-- Фотография предмета -->
-        <div class="item-photo"> 
-            {% if item.photo_path %}
-            
-                <img src="http://127.0.0.1:8000/media/{{ item.photo_path }}" alt="Фотография предмета">
-            {% else %}
-                Фото отсутствует
-            {% endif %}
-        </div>
-
         <!-- Характеристики предмета -->
         <div class="item-specs">
             <h2>Характеристики предмета</h2>
@@ -43,16 +33,6 @@
             </ul>
         </div>
 
-        <!-- Боковая панель -->
-        <div class="sidebar">
-            <h2>Текущий владелец</h2>
-            {% if item_history.current_holder %}
-                <p>{{ item_history.current_holder }}</p>
-            {% else %}
-                <p>Ничейный</p>
-            {% endif %}
-        </div>
-
         <div class="qr-and-button-container">
             <button class="edit-button" onclick="openEditWindow()">Редактировать</button>
             <div class="qr-container">
@@ -70,15 +50,22 @@
     <div class="item-comments">
         <h2>Комментарии</h2>
         <p>Здесь будут отображаться комментарии.</p>
+        <ul>
+            {% for comment in item.comments %}
+                <li>{{ comment.text }} - <em>{{ comment.author.username }}</em></li>
+            {% empty %}
+                <li>Нет комментариев.</li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
 <div id="editModal" class="edit-window">
     <div class="edit-modal-content">
         <form id="itemForm">
-            {%csrf_token%}
+            {% csrf_token %}
             <span class="close" onclick="closeEditWindow()">&times;</span>
-            <input name="itemId" hidden value="{{item.id}}">
+            <input name="itemId" hidden value="{{ item.id }}">
             <h2>Редактирование инвентаря</h2>
             <div class="input-group">
                 <label for="inventoryName">Название инвентаря:</label>
@@ -95,7 +82,7 @@
             </div>
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList" value="{{ item.current_holder }}">
+                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владельца" name="itemOwner" list="resultsList" value="{{ item.current_holder }}">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message" id="owner-error-message"></span>
