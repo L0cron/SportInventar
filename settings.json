@@ -1,7 +1,6 @@
 {
-    "free_register":false,
-    "free_view":true,
-    "hide_real_names":true,
-    "free_user_inventory_view":false,
-    "free_user_history_view":false
+    "free_register": false,
+    "free_view": true,
+    "hide_real_names": true,
+    "free_user_inventory_view": false
 }
