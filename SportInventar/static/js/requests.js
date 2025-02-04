@@ -120,7 +120,7 @@ $(function() {
                     // Добавление элемента в инвентарь
                     createRequest();
                     // Перезагрузка страницы
-                    window.location.reload();
+                    // window.location.reload();
 
                 } else {
                     // TODO: обработка ошибки

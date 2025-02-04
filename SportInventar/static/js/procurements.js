@@ -113,10 +113,8 @@ function createProcurement() {
     if (hasError) {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
         errorMessageElement.style.display = 'block';
-        console.log('dfbrjb')
         return;
     } else {
-        console.log('assasassasassaaaa')
         errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
         closeModal();
     }
@@ -125,4 +123,11 @@ function createProcurement() {
 function openModal() {
     const modal = document.getElementById("myModal");
     modal.style.display = "block";
+}
+
+function openModalFilled(item) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    console.log(item)
+    document.getElementById('requestDesc').value = item;
 }

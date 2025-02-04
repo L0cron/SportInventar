@@ -42,16 +42,16 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
     
         <div class="sidebar">
             <h2>Добавить закупку</h2>
-            <button class="button" onclick="openModal()">Добавить</button>
+            <button class="button" onclick="openModalFilled('{{ i }}')">Добавить</button>
             <h2>Удалить закупку</h2>
             <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
+        {% endfor %}
     </div>
 
     <div id="NotChosenItemModal" class="NotChosenItemModal">
