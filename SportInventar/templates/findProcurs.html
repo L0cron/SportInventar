@@ -32,20 +32,7 @@
             По вашему запросу ничего не найдено
             {% endif %}
         </div>
-        <!--
-        author = CharField(username)
-        author = ForeignKey(User)
-
-        Model(author=username)
-        Model(author=Model.objects.get(username=username))
-
-        Мяч
-
-        Item.objects.filter(name__contains).all()
-        context = {}
-        items = [] <- заполнить квери сетом
-        context['items'] = items
-    -->
+    
         <div class="rectangles">
             {% for i in displayers %}
                 <div class="inventory-item">

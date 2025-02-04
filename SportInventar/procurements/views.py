@@ -10,6 +10,8 @@ from bs4 import BeautifulSoup
 from urllib.parse import parse_qs
 import re
 
+
+# Баовое отображение
 def procurements_view(request:HttpRequest):
     if request.method == 'GET':
         procurements = Procurement.objects.all()
@@ -30,8 +32,6 @@ def procurements_view(request:HttpRequest):
                 status = 'ok'
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
-
-        # print(f"itemName: {itemName}, itemStatus: {itemStatus}, itemOwner: {itemOwner}")
         return JsonResponse({"status":status})
     
 
@@ -58,6 +58,7 @@ def del_view(request:HttpRequest)->JsonResponse:
         status['item_deleted'] = deleted
         return JsonResponse(status)
 
+
 def edit_view(request:HttpRequest):
     print(request)
     print(request.method)
@@ -73,8 +74,6 @@ def edit_view(request:HttpRequest):
             item_id = request.POST.get('itemId')
             item_name = request.POST.get('itemName')
             item_status = request.POST.get('itemStatus')
-
-
 
             # Проверяем, что item_id передан
             if not item_id:
@@ -111,12 +110,16 @@ def edit_view(request:HttpRequest):
         status["message"] = "Invalid request method"
         return JsonResponse(status, status=405)
 
+
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Procurement, id=item_id)
     return render(request, 'proc.html', context={'item': item})
 
+
 def parce_view(request:HttpRequest, search:str):
     if request.method == "GET":
+
+        # Парсинг данных с сайта поставщиков
         conn = http.client.HTTPSConnection("starfitshop.ru")
         conn.request("GET","/search/?query=" + str(bytes(search.encode("utf-8"))).replace('x','%').replace("\\","").strip("b' ").upper())
         response = conn.getresponse().read()
@@ -125,6 +128,7 @@ def parce_view(request:HttpRequest, search:str):
         c = 9
         displayers = []
         ind = 0
+
         for row in soup.find_all('form',class_='item cat-item__purchase'):
             found = 1
             href = "https://starfitshop.ru" + row.find('a',class_='item__title')['href']
@@ -132,8 +136,8 @@ def parce_view(request:HttpRequest, search:str):
             price = row.find('span',class_='prc-val').get_text()
             supplier = row.find('td',class_='chars__value').get_text()
             photoPath = ""
-            # obj = Displayer(url=href,name=name,price=price,supplier=supplier,photoPath=photoPath)
-            # obj.save()
+
+            # Сбор информации о предмете
             item = {
                 'href':href,
                 'name':name,
@@ -145,7 +149,7 @@ def parce_view(request:HttpRequest, search:str):
             if not(c): break
             c -= 1
             displayers.append(item)
-        #displayers = Displayer.objects.all()
+            
         context = {'displayers':displayers, "isfound" : found}
         conn.close()
         return render(request,'findProcurs.html',context=context)

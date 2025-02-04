@@ -2,6 +2,7 @@ from django.db import models
 from user_handler.models import *
 from inventory.models import *
 
+# Модель запросов
 class Request(models.Model):
 
     STATUS = (
@@ -20,7 +21,6 @@ class Request(models.Model):
         (1,'Активная'),
         (2,'Архивная')
     )
-
 
     author = models.ForeignKey(User, verbose_name='Текущий владелец', on_delete=models.CASCADE)
     requested_item = models.ForeignKey(Item, verbose_name='Запрошенный инвентарь', on_delete=models.CASCADE)

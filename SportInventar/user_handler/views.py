@@ -8,18 +8,17 @@ from django.contrib.auth import logout as log_out
 from inventory.models import Item
 import json
 
+
 def check_auth(request):
     if request.user.is_authenticated:
-        return 1#HttpResponse("Пользователь авторизован", status=200)
+        return 1    #HttpResponse("Пользователь авторизован", status=200)
     else:
-        return 0#redirect('user:login') 
+        return 0    #redirect('user:login')
+
 
 def index(request:HttpRequest)->HttpResponse:
     return redirect('user:profile')
-    """if check_auth(request):
-        return redirect('user:profile')
-    else:
-        return redirect('user:login')"""
+
 
 def getSettings():
     settings = json.loads(open('./settings.json','r'))
@@ -38,6 +37,7 @@ def profile(request:HttpRequest)->HttpResponse:
     items = Item.objects.filter(current_holder = user)
     context = {"items": items,'show_user':user}
     return render(request,'user/profile.html', context=context)
+
 
 def auth(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':
@@ -62,10 +62,12 @@ def auth(request:HttpRequest)->JsonResponse:
 
             return JsonResponse({"status":"ok"})
 
+
 def login(request:HttpRequest)->HttpResponse:
     if request.user.is_authenticated:
         return redirect('user:profile')
     return render(request,'user/login.html')
+
 
 def register(request:HttpRequest)->HttpResponse|JsonResponse:
     if request.user.is_authenticated:
@@ -100,7 +102,8 @@ def register(request:HttpRequest)->HttpResponse|JsonResponse:
             return JsonResponse({'error':'Username already exists'})
         except:
             return JsonResponse({'error':'Username creation failed'})
-        
+
+
 def logout(request:HttpRequest)->HttpResponse:
     if request.user.is_authenticated:
         log_out(request)

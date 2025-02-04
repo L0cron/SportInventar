@@ -3,8 +3,8 @@ from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
 
-# если тип заявки приоберетение-> поиска не будет, текст; замена -> поиск
 
+# если тип заявки приоберетение-> поиска не будет, текст; замена -> поиск
 def requests_view(request:HttpRequest):
     if request.method == 'GET':
         requests = Request.objects.all()
@@ -33,6 +33,7 @@ def requests_view(request:HttpRequest):
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
 
+
 def change_request_view(request:HttpRequest):
     if request.method == 'POST':
         status = 'ok'
@@ -46,6 +47,7 @@ def change_request_view(request:HttpRequest):
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
 
+
 def accept_request_view(request:HttpRequest):
     if request.method == 'POST':
         status = 'ok'
@@ -58,6 +60,7 @@ def accept_request_view(request:HttpRequest):
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
+
 
 def del_view(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':
@@ -81,7 +84,8 @@ def del_view(request:HttpRequest)->JsonResponse:
                 pass
         status['item_deleted'] = deleted
         return JsonResponse(status)
-    
+
+
 def archive_request_view(request:HttpRequest):
     if request.method == 'POST':
         status = 'ok'
@@ -97,6 +101,7 @@ def archive_request_view(request:HttpRequest):
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
 
+
 def complete_request_view(request:HttpRequest):
     if request.method == 'POST':
         status = 'ok'
@@ -110,7 +115,8 @@ def complete_request_view(request:HttpRequest):
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
-    
+
+
 def search_view(request:HttpRequest):
     if request.method == 'GET':
         items = list(Item.objects.values_list('name', flat=True))

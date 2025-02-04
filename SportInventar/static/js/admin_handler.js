@@ -1,7 +1,7 @@
 
 let dataset =document.currentScript.dataset;
 $(function() {
-    // Fill checkboxes
+    // Заполнение чекбоксов
     var inputs = document.querySelectorAll('input');
     
 
@@ -20,7 +20,7 @@ $(function() {
                 input.checked = settings[input.name];
             }
     
-            // add event listener
+            // Отслеживание ивентов в браузере
             input.addEventListener('change', function(e) {
                 sendSetting(input);
             })

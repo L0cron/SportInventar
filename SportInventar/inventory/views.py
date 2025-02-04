@@ -11,6 +11,7 @@ def item_view(request:HttpRequest, item_id:int):
     
     return render(request, 'item.html', context={'item': item, 'item_history': hist})
 
+
 def inventory_view(request:HttpRequest):
     if request.method == 'GET':
         items = Item.objects.all()
@@ -41,7 +42,8 @@ def inventory_view(request:HttpRequest):
             status = 'Ошибка записи данных в базу данных: ' + str(e)
 
         return JsonResponse({"status":status})
-    
+
+
 def del_view(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':
         status = {
@@ -64,7 +66,6 @@ def del_view(request:HttpRequest)->JsonResponse:
                 pass
         status['item_deleted'] = deleted
         return JsonResponse(status)
-    
 
 
 def search_view(request:HttpRequest):
@@ -73,7 +74,6 @@ def search_view(request:HttpRequest):
         context = {"users":users}
         # return render(request, 'inventory.html',context=context)
         return JsonResponse(context)
-
 
 
 def edit_view(request:HttpRequest):

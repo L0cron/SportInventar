@@ -1,5 +1,7 @@
 from django.db import models
 
+
+# Модель закупок
 class Procurement(models.Model):
     url = models.CharField(verbose_name="Ссылка",max_length=255,null=True,blank=True,default='')
     name = models.CharField(verbose_name="Название", max_length=255,null=True,blank=True,default='')
