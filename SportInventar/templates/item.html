@@ -14,16 +14,6 @@
 
 <div class="container">
     <div class="item-content">
-        <!-- Фотография предмета -->
-        <div class="item-photo"> 
-            {% if item.photo_path %}
-            
-                <img src="http://127.0.0.1:8000/media/{{ item.photo_path }}" alt="Фотография предмета">
-            {% else %}
-                Фото отсутствует
-            {% endif %}
-        </div>
-
         <!-- Характеристики предмета -->
         <div class="item-specs">
             <h2>Характеристики предмета</h2>
@@ -45,7 +35,8 @@
 
         <!-- Боковая панель -->
         <div class="sidebar">
-            <h2>Текущий владелец</h2>
+            <h2>История владельцев</h2>
+            {{item_history.current_holder}}
             {% if item_history.current_holder %}
                 <p>{{ item_history.current_holder }}</p>
             {% else %}
@@ -67,18 +58,14 @@
     </div>
 
     <!-- Комментарии -->
-    <div class="item-comments">
-        <h2>Комментарии</h2>
-        <p>Здесь будут отображаться комментарии.</p>
-    </div>
 </div>
 
 <div id="editModal" class="edit-window">
     <div class="edit-modal-content">
         <form id="itemForm">
-            {%csrf_token%}
+            {% csrf_token %}
             <span class="close" onclick="closeEditWindow()">&times;</span>
-            <input name="itemId" hidden value="{{item.id}}">
+            <input name="itemId" hidden value="{{ item.id }}">
             <h2>Редактирование инвентаря</h2>
             <div class="input-group">
                 <label for="inventoryName">Название инвентаря:</label>
@@ -95,17 +82,12 @@
             </div>
             <div class="input-group">
                 <label for="inventoryOwner">Имя владельца инвентаря:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владелеца" name="itemOwner" list="resultsList" value="{{ item.current_holder }}">
+                <input type="text" id="elastic" oninput="elasticSearch()" placeholder="Введите владельца" name="itemOwner" list="resultsList" value="{{ item.current_holder }}">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message" id="owner-error-message"></span>
 
-            <div class="input-group">
-                <label for="inventoryPhoto">Путь до фото (это поле не обязательное для заполнения):</label>
-                <input type="file" id="inventoryPhoto" name="itemPhoto" />
-            </div>
-            
-            <div class="confirm">
+             <div class="confirm">
                 <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
                 <button id="addButton" class="add-button" type="button" onclick="editInventory()">Изменить</button>
             </div>

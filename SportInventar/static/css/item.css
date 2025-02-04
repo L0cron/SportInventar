@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column; /* Элементы располагаются вертикально */
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 50px auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -15,7 +15,7 @@
     flex-direction: column; /* Элементы располагаются вертикально */
     border-radius: 12px;
     width: 200px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .qr-container {
@@ -41,7 +41,7 @@
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .item-photo img {
     width: 100%;
@@ -97,14 +97,13 @@
 
 .item-comments {
     width: 100%;
-    max-width: 1160px;
+    max-width: 1060px;
     padding: 20px;
     border-top: 1px solid #ddd;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
 .item-comments h2 {
     font-size: 1.5em;
     margin-bottom: 15px;
