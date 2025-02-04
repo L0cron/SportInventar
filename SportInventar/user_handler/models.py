@@ -10,3 +10,4 @@ class User(AbstractUser):
         2:"Деактивирован",
     }
     status = models.IntegerField(choices=statuses.items(), default=1)
+    avatar = models.ImageField(upload_to='avatars',blank=True,null=True)

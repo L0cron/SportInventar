@@ -63,3 +63,9 @@
     background-color: #0056b3; /* Более темный цвет при наведении */
 
 }
+
+.avatar {
+    object-fit: scale-down;
+    width: auto;
+    height: auto;
+}
