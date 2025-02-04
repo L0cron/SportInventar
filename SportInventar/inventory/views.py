@@ -7,7 +7,7 @@ from urllib.parse import parse_qs
 
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Item, id=item_id)
-    hist = History.objects.get(item = item)
+    hist = History.objects.filter(item = item)
     
     return render(request, 'item.html', context={'item': item, 'item_history': hist})
 
@@ -114,6 +114,13 @@ def edit_view(request:HttpRequest):
                 item.status = item_status
             if item_owner:
                 item.current_holder = User.objects.get(username=item_owner)
+
+                # Сохранение его истории
+                hist = History(item=item, current_holder=item.current_holder)
+                hist.save()
+
+            if item_photo:
+                item.photo_path = item_photo
 
             # Сохраняем изменения в базе данных
             print("none")
