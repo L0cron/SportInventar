@@ -49,8 +49,6 @@ def createsuperuser():
 
     os.environ['DJANGO_SUPERUSER_USERNAME'] = cfg['super_username']
     os.environ['DJANGO_SUPERUSER_PASSWORD'] = cfg['super_password']
-    os.environ['DJANGO_SUPERUSER_FIRST_NAME'] = cfg['super_name']
-    os.environ['DJANGO_SUPERUSER_LAST_NAME'] = cfg['super_lastname']
 
     try:
         result = subprocess.run(['python', manage_py_path, 'createsuperuser', '--email', '', '--noinput'], check=True, capture_output=True, text=True)

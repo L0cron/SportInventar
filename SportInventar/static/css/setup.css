@@ -143,7 +143,8 @@ input[type="password"] {
     display: flex;
     flex-direction: row;
     gap:10px;
-    text-align: center;
+    text-align: center; 
+    align-items: center;
 }
 
 .btn {
@@ -163,12 +164,33 @@ input[type="password"] {
 }
 
 
-.checkbox-label {
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Center vertically */
-}
 
-.labele {
-    margin-left: 8px; /* Space between checkbox and text */
-    font-size: 16px; /* Change font size */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-group2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:10px;
 }

@@ -9,4 +9,4 @@ class User(AbstractUser):
         1:"Активен",
         2:"Деактивирован",
     }
-    status = models.IntegerField(max_length=1, choices=statuses.items(), default=1)
+    status = models.IntegerField(choices=statuses.items(), default=1)

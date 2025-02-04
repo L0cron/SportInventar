@@ -1,6 +1,7 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+import sys
 import ipaddress as ipaddr
 import os
 import psycopg2 as psy
@@ -8,6 +9,7 @@ import re
 import json
 from urllib.parse import parse_qs
 import subprocess as sp
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 def index(request:HttpRequest)->HttpResponse:
     return render(request,'index.html')
 
@@ -31,29 +33,32 @@ def checkInit():
             cfg = json.load(fp)
             if cfg['db_name'] != '':
                 return True
-            print(cfg)
     return False
 
 def getMainPath():
     return os.path.dirname(os.path.abspath(__file__))
 
 
+just_created = False
 configuration = {}
 def migrate():
-    print(getMainPath())
-    print(configuration)
-    with open(os.path.join(getMainPath(),'../config.json'), 'w', encoding='utf-8') as fp:
+    with open(os.path.join(getMainPath(),'../../config.json'), 'w', encoding='utf-8') as fp:
         json.dump(configuration, fp,indent=4,ensure_ascii=False)
     
 
 def setup(request:HttpRequest):
+    global just_created
+    if just_created:
+        return HttpResponse("Эту страницу можно закрыть, закройте setup.bat и откройте run.bat")
     if checkInit():
         return redirect('index')
     if request.method == 'POST':
-        print(request.POST)
         status = '0'
         if 'db' in request.POST:
             db = parse_qs(request.POST['db'])
+            create_bd = db.get('create_bd')
+            if create_bd != None:
+                create_bd = create_bd[0]
             try:
                 name = db['dbname'][0]
                 ip = db['ip'][0]
@@ -65,13 +70,46 @@ def setup(request:HttpRequest):
                 status = 'Присутствуют незаполненные поля'
             else:
                 try:
-                    connection = psy.connect(connection_string)
-                    status = 'ok'
-                    configuration['db_name'] = name
-                    configuration['db_ip'] = ip
-                    configuration['db_port'] = port
-                    configuration['db_user'] = user
-                    configuration['db_password'] = pwd
+                    if create_bd == 'on':
+                        try:
+                            
+                            connection = psy.connect(connection_string)
+                            configuration['db_name'] = name
+                            configuration['db_ip'] = ip
+                            configuration['db_port'] = port
+                            configuration['db_user'] = user
+                            configuration['db_password'] = pwd
+                            status = 'ok'
+                        except:
+                            con = psy.connect(
+                                dbname='postgres',
+                                user=user, host=ip,
+                                port=port,
+                                password=pwd
+                            )
+                            con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT) # <-- ADD THIS LINE
+
+                            cur = con.cursor()
+
+                            # Use the psycopg2.sql module instead of string concatenation 
+                            # in order to avoid sql injection attacks.
+                            cur.execute(psy.sql.SQL("CREATE DATABASE {}").format(
+                                    psy.sql.Identifier(name))
+                                )
+                            
+                            configuration['db_name'] = name
+                            configuration['db_ip'] = ip
+                            configuration['db_port'] = port
+                            configuration['db_user'] = user
+                            configuration['db_password'] = pwd
+                            status = 'ok'
+                    else:
+                        status = 'ok'
+                        configuration['db_name'] = name
+                        configuration['db_ip'] = ip
+                        configuration['db_port'] = port
+                        configuration['db_user'] = user
+                        configuration['db_password'] = pwd
                 except psy.OperationalError as e:
                     status = 'Ошибка во время подключения базы: '+str(e)
                 except TimeoutError as e:
@@ -130,8 +168,9 @@ def setup(request:HttpRequest):
                     else:
                         status = 'Некорректный порт сервера'
         if 'migrate' in request.POST:
+            just_created = True
             migrate()
-            exit()
+            
                     
         return JsonResponse({"status":status})
     else:
