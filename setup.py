@@ -66,7 +66,7 @@ def runapp():
     if cfg == {}:
         cfg['serverIP'] = '127.0.0.1'
         cfg['serverPort'] = '8000'
-    subprocess.Popen(f'python SportInventar\\manage.py runserver {cfg["serverIP"]}:{cfg["serverPort"]}')
+    subprocess.Popen(f'python SportInventar/manage.py runserver {cfg["serverIP"]}:{cfg["serverPort"]}', shell=True)
 
 arguments = sys.argv
 if len(arguments) > 1:
