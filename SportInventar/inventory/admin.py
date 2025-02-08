@@ -12,4 +12,3 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(History)
 class HistoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'item', 'timestamp', 'current_holder')
-    

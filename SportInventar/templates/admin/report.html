@@ -1,0 +1,92 @@
+{% extends 'admin/admin.html' %}
+
+{% block script %}
+    <script>
+        {#function sendRequest() {#}
+        {#    // Укажите ваш URL#}
+        {#    const url = `{% url 'adminp:report_csv' %}`;#}
+        {##}
+        {#    // Создаем элемент <a> для скачивания#}
+        {#    const a = document.createElement('a');#}
+        {#    a.href = url; // Устанавливаем URL для скачивания#}
+        {#    a.download = 'report.csv'; // Указываем имя файла для скачивания (можно изменить на нужное)#}
+        {##}
+        {#    // Добавляем элемент на страницу, чтобы он был видим#}
+        {#    document.body.appendChild(a);#}
+        {##}
+        {#    // Инициируем скачивание#}
+        {#    a.click();#}
+        {##}
+        {#    // Удаляем элемент после скачивания#}
+        {#    document.body.removeChild(a);#}
+        {##}
+        {#    // Перезагрузка страницы#}
+        {#    location.reload();#}
+
+
+        function sendRequest() {
+    const url = `{% url 'adminp:report_csv' %}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Сеть ответила с ошибкой');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.csv';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Произошла ошибка:', error);
+        })
+        .finally(() => {
+            // Задержка перед перезагрузкой страницы
+            setTimeout(() => {
+                location.reload();
+            }, 50); // Задержка в 2 секунды
+        });
+}
+    </script>
+{% endblock %}
+
+{% block settings %}
+
+    <div class="content">
+        <h2>Отчёты</h2>
+
+        <div class="settings">
+            <button onclick="sendRequest()">Сформировать отчет</button>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Имя файлы</th>
+                    <th>Дата формирования</th>
+                    <th>Скачать</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>{{ file.file_name }}</td>
+                        <td>{{ file.created_at }}</td>
+                        <td><a href="{{ file.download_link }}" download>Скачать</a></td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}
