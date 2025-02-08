@@ -48,11 +48,20 @@
         <div class="qr-and-button-container">
             <button class="edit-button" onclick="openEditWindow()">Редактировать</button>
             <div class="qr-container">
-                {% if item.qr_path %}
-                    <img src="{{ item.qr_path }}" alt="QR-код">
-                {% else %}
-                    QR-код отсутствует
-                {% endif %}
+                <img id="img" src="" alt="Загрузка..." class="qr">
+                <script data-url="{% url 'inventory:get_qr'%}?id={{item.id}}">
+                    let url = document.currentScript.dataset.url;
+                    let qr = document.getElementById('img')
+                    $(function() {
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            success: function(data) {
+                                qr.src = data['qr']
+                            }
+                        })
+                    })
+                </script>
             </div>
         </div>
 

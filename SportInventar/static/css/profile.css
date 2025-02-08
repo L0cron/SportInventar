@@ -44,7 +44,7 @@
 }
 
 .inventory {
-    width: 70%;
+    width: auto;
     background-color: #f9f9f9;
     padding: 10px;
     border: 1px solid #ddd;

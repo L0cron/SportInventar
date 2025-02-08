@@ -16,7 +16,7 @@
         <div class="main-content">
             <div class="header-container">
                 <div class="inventory-header"> 
-                    <h2>Список инвентаря</h2>
+                    <h2>Инвентарь</h2>
                     <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
                 </div>
                             
@@ -44,13 +44,13 @@
                         <h3>{{ i.name }}</h3>
                         <p>Статус: 
                             {% if i.status == 0 %}
-                                сломано
+                                Сломано
                             {% elif i.status == 1 %}
-                                используемый
+                                Используемый
                             {% elif i.status == 2 %}
-                                новое
+                                Новое
                             {% else %}
-                                неизвестно
+                                Неизвестно
                             {% endif %}
                         </p>
                         <p>Владелец: {{ i.current_holder }}</p>
@@ -61,9 +61,9 @@
         </div>
     
         <div class="sidebar">
-            <h2>Добавить инвентарь</h2>
+            <h2>Добавить экипировку</h2>
             <button class="button" onclick="openModal()">Добавить</button>
-            <h2>Удалить инвентарь</h2>
+            <h2>Удалить экипировку</h2>
             <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
     </div>
@@ -93,26 +93,25 @@
         {% csrf_token %}
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Введите данные инвентаря</h2>
+            <h2>Введите данные экипировки</h2>
             <div class="input-group">
-                <label for="inventoryName">Название инвентаря:</label>
+                <label for="inventoryName">Название:</label>
                 <input name="itemName" type="text" id="inventoryName" placeholder="Название инвентаря" required>
             </div>
             <div class="input-group">
-                <label for="inventoryStatus">Статус инвентаря:</label>
+                <label for="inventoryStatus">Статус:</label>
                 <!-- <input hidden name="itemStatus"> -->
                 <select name="itemStatus" id="inventoryStatus" required>
-                    <option value="-1" disabled selected>Выберите статус</option>
-                    <option value="0">сломано</option>
-                    <option value="1">в норме</option>
-                    <option value="2">новое</option>
+                    <option value="0">Сломано</option>
+                    <option value="1">В норме</option>
+                    <option value="2" selected>Новое</option>
                 </select>
             </div>
 
 
             <div class="input-group">
                 <label for="inventoryOwner">Назначить текущего владельца:</label>
-                <input type="text" id="elastic" oninput="elasticSearch()" name="itemOwner" list="resultsList" placeholder="Не назначено">
+                <input autocomplete="off" type="text" id="elastic" oninput="elasticSearch()" name="itemOwner" list="resultsList" placeholder="Не назначено">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message hidden" id="owner-error-message"></span>
@@ -120,7 +119,7 @@
 
 
             <div class="input-group">
-                <label for="quantility">Количество предметов (это поле не обязательное для заполнения):</label>
+                <label for="quantility">Количество предметов (* Дополнительно):</label>
                 <input type="number" id="quantility" name="itemQuantity" value="1"/>
             </div>
 

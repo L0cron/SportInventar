@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template import TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import *
+from django.conf import settings
+import os
 
 from urllib.parse import parse_qs
+import segno
 
 def item_view(request:HttpRequest, item_id:int):
     item = get_object_or_404(Item, id=item_id)
@@ -141,3 +144,22 @@ def edit_view(request:HttpRequest):
         # Если метод не POST
         status["message"] = "Invalid request method"
         return JsonResponse(status, status=405)
+
+
+def get_qr(request:HttpRequest)->JsonResponse:
+    id = request.GET.get('id')
+    if id == None or id == '':
+        return JsonResponse({"message": "Item ID is required"}, status=400)
+    
+
+    base_url = request.build_absolute_uri('/')[:-1]  # Get the base URL without trailing slash
+    item_url = f"{base_url}/inventory/item/{id}"
+
+    media = settings.MEDIA_ROOT
+    filename = os.path.join(media,'items/'+id+'.png')
+    if not os.path.exists(filename):
+        print("Not exists")
+        qr = segno.make_qr(item_url)
+        qr.save(filename,scale=8)
+    image_link = base_url+'/media/items/'+id+'.png'
+    return JsonResponse({"qr":image_link})

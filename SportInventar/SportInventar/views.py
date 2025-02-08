@@ -11,7 +11,8 @@ from urllib.parse import parse_qs
 import subprocess as sp
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 def index(request:HttpRequest)->HttpResponse:
-    return render(request,'index.html')
+    # return render(request,'index.html')
+    return redirect('inventory:index')
 
 
 basic_config = {
