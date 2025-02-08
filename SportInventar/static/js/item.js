@@ -40,10 +40,6 @@ function editInventory() {
             hasError = true;
         }
     }
-   if (!inventoryOwner) {
-       document.getElementById('elastic').style.border = '1px solid red';
-       hasError = true;
-    }
 
     // Если есть ошибки, выводим сообщение
     if (hasError) {

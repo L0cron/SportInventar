@@ -11,11 +11,11 @@ def item_view(request:HttpRequest, item_id:int):
     
     return render(request, 'item.html', context={'item': item, 'item_history': hist})
 
-def inventory_view(request:HttpRequest):
+def inventory_view(request: HttpRequest):
     if request.method == 'GET':
         items = Item.objects.all()
-        context = {"items":items}
-        return render(request, 'inventory.html',context=context)
+        context = {"items": items}
+        return render(request, 'inventory.html', context=context)
     elif request.method == 'POST':
         status = 'ok'
         try:
@@ -23,24 +23,26 @@ def inventory_view(request:HttpRequest):
             itemStatus = request.POST.get('itemStatus')
             itemOwner = request.POST.get('itemOwner')
 
-
-            if len(itemName) == 0 or len(itemStatus) == 0 or len(itemOwner) == 0:
+            if len(itemName) == 0 or len(itemStatus) == 0:
                 status = 'Присутствуют незаполненные поля'
-            elif not User.objects.filter(username=itemOwner).exists():
+            elif len(itemOwner) != 0 and not User.objects.filter(username=itemOwner).exists():
                 status = 'Пользователь с таким именем не существует'
             else:
-                item = Item(name=itemName,status=int(itemStatus),current_holder=User.objects.get(username=itemOwner))
+                # Если itemOwner пустой, устанавливаем current_holder в None
+                current_holder = User.objects.get(username=itemOwner) if itemOwner else None
+                
+                item = Item(name=itemName, status=int(itemStatus), current_holder=current_holder)
                 item.save()
 
                 # Сохранение его истории
-                hist = History(item=item, current_holder=User.objects.get(username=itemOwner))
+                hist = History(item=item, current_holder=current_holder)
                 hist.save()
 
                 status = 'ok'
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
 
-        return JsonResponse({"status":status})
+        return JsonResponse({"status": status})
     
 def del_view(request:HttpRequest)->JsonResponse:
     if request.method == 'POST':
@@ -110,13 +112,17 @@ def edit_view(request: HttpRequest):
             
             # Проверяем, изменился ли владелец
             if item_owner:
-                new_owner = User.objects.get(username=item_owner)
-                if item.current_holder != new_owner:
-                    # Создаем новую запись в истории
-                    hist = History(item=item, current_holder=new_owner)
-                    hist.save()
-                    # Обновляем текущего владельца
-                    item.current_holder = new_owner
+                try:
+                    new_owner = User.objects.get(username=item_owner)
+                    if item.current_holder != new_owner:
+                        # Создаем новую запись в истории
+                        hist = History(item=item, current_holder=new_owner)
+                        hist.save()
+                        # Обновляем текущего владельца
+                        item.current_holder = new_owner
+                except User.DoesNotExist:
+                    status["message"] = "User  not found"
+                    return JsonResponse(status, status=404)
 
             # Сохраняем изменения в базе данных
             item.save()
