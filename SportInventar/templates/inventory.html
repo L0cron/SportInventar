@@ -59,7 +59,25 @@
                 {% endfor %}
             </div>
         </div>
-    
+
+        {% if user.is_staff %}
+            <style>
+                .sidebar {
+                    display: block;
+                }
+            </style>
+        {% else %}
+            <style>
+                .sidebar {
+                    display: none;
+                }
+                
+                .main-content {
+                    width: 100%;
+                }
+            </style>
+        {% endif %}
+
         <div class="sidebar">
             <h2>Добавить экипировку</h2>
             <button class="button" onclick="openModal()">Добавить</button>
