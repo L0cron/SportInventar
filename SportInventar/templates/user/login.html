@@ -14,8 +14,8 @@
         <div class="title">Авторизация</div>
         <form id="authform" class="form">
             {%csrf_token%}
-            <input name="username" type="text" placeholder="Логин" required>
-            <input name="password" type="password" placeholder="Пароль" required>
+            <input name="username" type="text" placeholder="Логин" required autocomplete="off">
+            <input name="password" type="password" placeholder="Пароль" required autocomplete="off">
             <button id="sendauth" class="login-button" type="submit">Войти</button>
         </form>
 

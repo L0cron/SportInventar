@@ -14,11 +14,11 @@
         <div class="title">Регистрация</div>
         <form id="authform" class="form" method="post" action="{% url 'user:profile' %}">
             {% csrf_token %}
-            <input name="username" type="text" placeholder="Логин" required>
-            <input name="password" type="password" placeholder="Пароль" required>
-            <input name="rpassword" type="password" placeholder="Повторите пароль" required>
-            <input name="first" type="text" placeholder="Имя" required>
-            <input name="last" type="text" placeholder="Фамилия" required>
+            <input name="username" type="text" placeholder="Логин" required autocomplete="off">
+            <input name="password" type="password" placeholder="Пароль" required autocomplete="off">
+            <input name="rpassword" type="password" placeholder="Повторите пароль" required autocomplete="off">
+            <input name="first" type="text" placeholder="Имя" required autocomplete="off">
+            <input name="last" type="text" placeholder="Фамилия" required autocomplete="off">
             <div class="error">
                 <p></p>
             </div>
