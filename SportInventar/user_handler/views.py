@@ -10,6 +10,7 @@ from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from inventory.models import Item
 from django.core.files.base import ContentFile
+from django.contrib.auth.hashers import make_password
 import json
 
 
@@ -98,7 +99,7 @@ def register(request:HttpRequest)->HttpResponse|JsonResponse:
         if len(p) < 8:
             return JsonResponse({'error':'Password is too short'})
         try:
-            User(username=u, password=p,email='',first_name=fn,last_name=ln).save()
+            User(username=u, password=make_password(p),email='',first_name=fn,last_name=ln).save()
             user = User.objects.get(username=u)
             log_in(request,user)
             return JsonResponse({'status':'ok'})
