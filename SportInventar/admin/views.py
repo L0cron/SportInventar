@@ -6,7 +6,7 @@ import json
 # Create your views here.
 from user_handler.models import *
 from django.db.models import Case, When, IntegerField
-from inventory.models import Item
+from inventory.models import Item, inventory_status
 
 import time
 import hashlib
@@ -102,15 +102,15 @@ def export_to_csv(request):
     temp_file_path = 'SportInventar/reports_csv/temp_mymodel_data.csv'
 
     # Создаем CSV writer
-    with open(temp_file_path, 'w', newline='') as file:
+    with open(temp_file_path, 'w', newline='', encoding='utf-8-sig') as file:
         writer = csv.writer(file)
 
         # Записываем заголовки
-        writer.writerow(['Name', 'Status', 'CurrentHolder'])
+        writer.writerow(['Название', 'Статус', 'Текущий владелец', 'ID владельца'])
 
         # Записываем данные из модели
         for obj in Item.objects.all():
-            writer.writerow([obj.name, obj.status, obj.current_holder])
+            writer.writerow([obj.name, inventory_status[obj.status][1], obj.current_holder,obj.id])
 
     # Вычисляем хэш файла
     file_hash = calculate_file_hash()

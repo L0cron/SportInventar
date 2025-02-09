@@ -1,5 +1,5 @@
 {
-    "free_register": false,
+    "free_register": true,
     "free_view": true,
     "hide_real_names": true,
     "free_user_inventory_view": false
