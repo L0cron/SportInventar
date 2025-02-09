@@ -38,10 +38,8 @@
             <h2>История пользования</h2>
 
             {% for it in item_history %}
-                <p>{{ it.current_holder }}</p>
-            {% endfor %}
-
-
+                <p>{% if it.current_holder.username %}{{ it.current_holder.username }}{% else %}Предмет создан{% endif %} ({{ it.timestamp }})</p>
+            {% endfor %}    
 
         </div>
 
