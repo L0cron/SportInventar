@@ -14,7 +14,8 @@ class Request(models.Model):
     REQ_TYPE = (
         (0,'Приобретение'),
         (1,'Замена'),
-        (2,'Назначение')
+        (2,'Назначение'),
+        (3,'Ремонт')
     )
     DISPLAYS = (
         (0,'Новая'),
@@ -27,7 +28,6 @@ class Request(models.Model):
     text = models.TextField(verbose_name='Описание заявки(причина заявки)',max_length=255)
     request_type = models.IntegerField(choices=REQ_TYPE, verbose_name='Тип заявки')
     status = models.IntegerField(choices=STATUS, verbose_name='Статус заявки')
-    completion = models.BooleanField(verbose_name="Выполнена ли заявка", default=False)
     request_display_type = models.IntegerField(choices=DISPLAYS, verbose_name='Где отображать заявку',default=0)
 
     class Meta:

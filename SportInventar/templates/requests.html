@@ -43,14 +43,16 @@
                                         Замена
                                     {% elif i.request_type == 2 %}
                                         Назначение
+                                    {% elif i.request_type == 3 %}
+                                        Ремонт
                                     {% else %}
                                         неизвестно
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="changeRequest('{{ i.id }}',1,1)",1,1>Принять</button>
-                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)",3,3>Отклонить</button>
+                                    <button class="complete-button" onclick="changeRequest('{{ i.id }}',1,1)">Принять</button>
+                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)">Отклонить</button>
                                 </div>
                             </div>
                             {% endif %}
@@ -76,6 +78,8 @@
                                         Замена
                                     {% elif i.request_type == 2 %}
                                         Назначение
+                                    {% elif i.request_type == 3 %}
+                                        Ремонт
                                     {% else %}
                                         неизвестно
                                     {% endif %}
@@ -109,20 +113,21 @@
                                         Замена
                                     {% elif i.request_type == 2 %}
                                         Назначение
+                                    {% elif i.request_type == 3 %}
+                                        Ремонт
                                     {% else %}
                                         неизвестно
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
                                 <p>Статус: 
-                                    {% if i.completion %}
+                                    {% if i.status == 2 %}
                                         Выполнено
-                                    {% else %}
+                                    {% elif i.status == 3 %}
                                         Отказано
                                     {% endif %}
                                 </p>
                                 <div class="button-container">
-                                    <button class="complete-button" onclick="changeRequest('{{ i.id }}')">Принять</button>
                                     <button class="cancel-button" onclick="changeRequest('{{ i.id }}',4,3)">Удалить</button>
                                 </div>
                             </div>
@@ -168,22 +173,33 @@
             <h2>Введите данные для заявки</h2>
             <div class="input-group">
                 <label for="requestedType">Тип заявки:</label>
-                <input hidden name="requestedType">
                 <select name="requestedType" id="requestedType" onclick="f1()" required>
                     <option value="-1" disabled selected>Выберите тип</option>
                     <option value="0">Приобретение</option>
                     <option value="1">Замена</option>
+                    <option value="3">Ремонт</option>
                     <option value="2">Получение</option>
                 </select>
             </div>
             <div class="input-group hidden" id="type0">
                 <label for="requestedItem">Экипировка:</label>
-                <input type="text" id="elastic" autocomplete="off" oninput="elasticSearch()" placeholder="Укажите требуемый предмет" name="requestedItem" list="resultsList">
+                <input type="text" id="requestedItem" autocomplete="off" oninput="elasticSearch()" placeholder="Укажите требуемую экипировку" name="requestedItem" list="resultsList">
                 <datalist id="resultsList"></datalist>
             </div>
             <span class="error-message hidden" id="owner-error-message"></span>
             <div class="input-group hidden" id="type1">
                 <label for="requestedItem">Экипировка для замены:</label>
+                <select name="requestedItem" id="requestedItem" required>
+                    <option value="-1" disabled selected>Выберите экипировку</option>
+                    {% for j in items %}
+                        {% if j.current_holder_id == user.id %}
+                        <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group hidden" id="type3">
+                <label for="requestedItem">Экипировка для ремонта:</label>
                 <select name="requestedItem" id="requestedItem" required>
                     <option value="-1" disabled selected>Выберите экипировку</option>
                     {% for j in items %}
@@ -221,7 +237,6 @@
 
 {% block script %}
     <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
-    data-remurl="{% url 'requests:del' %}" data-change="{% url 'requests:change' %}"
-    data-complete="{% url 'requests:complete' %}" data-archive="{% url 'requests:archive' %}"
-    data-searchurl="{% url 'requests:search' %}"></script>
+    data-remurl="{% url 'requests:del' %}" data-complete="{% url 'requests:complete' %}"
+    data-archive="{% url 'requests:archive' %}" data-searchurl="{% url 'requests:search' %}"></script>
 {% endblock %}

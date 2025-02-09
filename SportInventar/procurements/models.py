@@ -7,5 +7,5 @@ class Procurement(models.Model):
     name = models.CharField(verbose_name="Название", max_length=255,null=True,blank=True,default='')
     price = models.CharField(verbose_name="Цена", max_length=255,null=True,blank=True,default='')
     amount = models.IntegerField(verbose_name="Количество",null=True,blank=True,default=0)
-    supplier = models.CharField(verbose_name="Поставщик", max_length=255,null=True,blank=True,default='')
+    supplier = models.CharField(verbose_name="Поставщик", max_length=255,null=True,blank=True,default='starfitshop')
     photoPath = models.CharField(verbose_name="Путь к иконке",max_length=255,null=True,blank=True,default='')

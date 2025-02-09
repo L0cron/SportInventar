@@ -13,50 +13,47 @@ def requests_view(request:HttpRequest):
         return render(request, 'requests.html',context=context)
     elif request.method == 'POST':
         status = 'ok'
+        
         try:
             requestType = request.POST.get('requestedType')
             requestedItem = request.POST.get('requestedItem')
             requestDesc = request.POST.get('requestDesc')
-
             if  len(requestedItem) == 0 or len(requestDesc) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
-                request = Request(requested_item=Item.objects.get(id=requestedItem), 
-                                  text=requestDesc,
-                                  request_type=requestType,
-                                  author=User.objects.get(id=request.user.id),
-                                  status=0
-                                  )
+                if Item.objects.filter(name=requestedItem).exists():
+                    if requestedItem.isdigit():
+                        request = Request(requested_item=Item.objects.get(id=requestedItem), 
+                                          text=requestDesc,
+                                          request_type=requestType,
+                                          author=User.objects.get(id=request.user.id),
+                                          status=0
+                                          )
+                    else:
+                        request = Request(requested_item=Item.objects.get(name=requestedItem), 
+                                          text=requestDesc,
+                                          request_type=requestType,
+                                          author=User.objects.get(id=request.user.id),
+                                          status=0
+                                          )
+                else:
+                    newItem = Item(name=requestedItem,
+                                   status=2,
+                                   current_holder=User.objects.get(id=1))
+                    newItem.save()
+
+                    newHistory = History(item=newItem,
+                                         current_holder=User.objects.get(id=request.user.id))
+                    newHistory.save()
+
+                    request = Request(requested_item=Item.objects.get(name=requestedItem), 
+                                      text=requestDesc,
+                                      request_type=requestType,
+                                      author=User.objects.get(id=request.user.id),
+                                      status=0
+                                      )
                 request.save()
                 status = 'ok'
-        except Exception as e:
-            status = 'Ошибка записи данных в базу данных: ' + str(e)
-        return JsonResponse({"status":status})
-
-
-def change_request_view(request:HttpRequest):
-    if request.method == 'POST':
-        status = 'ok'
-        try:
-            print(request.POST)
-            requestId = request.POST.get('request_id')
-            requestItem = request.POST.get('request_type')
-            _request = Request.objects.get(id=int(requestId))
-            _request.save()
-        except Exception as e:
-            status = 'Ошибка записи данных в базу данных: ' + str(e)
-        return JsonResponse({"status":status})
-
-
-def accept_request_view(request:HttpRequest):
-    if request.method == 'POST':
-        status = 'ok'
-        try:
-            requestId = request.POST.get('request_id')
-            _request = Request.objects.get(id=int(requestId))
-            _request.status = 1
-            _request.request_display_type = 1
-            _request.save()
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
