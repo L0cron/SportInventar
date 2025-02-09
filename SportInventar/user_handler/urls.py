@@ -24,5 +24,6 @@ urlpatterns = [
     path('login/',login, name='login'),
     path('auth/',auth,name='auth'),
     path('logout/',logout,name='logout'),
-    path('search/',search,name='search')
+    path('search/',search,name='search'),
+    path('update_avatar',update_avatar,name='update_avatar')
 ]

@@ -11,23 +11,25 @@
 {% endblock %}
 
 {% block body %}
-
+    <meta name="csrf-token" content="{{ csrf_token }}">
     {% include 'inc/topnav.html' %}
 
     <div class="profile-container">
         <div class="user-info">
             {% if user.avatar %}
-                <img src="{% static 'img/avatar.jpg' %}" alt="User   Avatar" class="profile_avatar">
+                <img src="{{ user.avatar.url }}" alt="User  Avatar" class="profile_avatar">
             {% else %}
-                <img src="{% static 'user_placeholder.svg' %}" alt="User   Avatar" class="profile_avatar">
+                <img src="{% static 'user_placeholder.svg' %}" alt="User  Avatar" class="profile_avatar">
             {% endif %}
             <div class="user-details">
                 <h1 class="username">{{ show_user.username }}</h1>
                 <h2 class="real-name">{{ show_user.first_name }} {{ show_user.last_name }}</h2>
             </div>
+            <button class="logout-button" onclick="window.location.href=`{% url 'user:logout' %}`">Выйти</button>
+            <button class="change-avatar-button" id="openModalButton">Изменить аватар</button>
         </div>
         <div class="inventory">
-
+            
             <div class="main-content">
                 <div class="header-container">
                     <div class="inventory-header"> 
@@ -69,14 +71,32 @@
                     {% endfor %}
                 </div>
             </div>
-
-
-
         </div>
+    </div>
+
+    <div class="modal2" id="avatarModal">
+        <div class="modal-content2">
+
+            <input type="file" id="avatarInput" accept="image/*">
+            <div id="imageContainer" class="image-container" style="display: none;">
+                <img id="previewImage" src="#" alt="Preview">
+                <div id="cropBox" class="crop-box"></div>
+            </div>
+            <div id="avatarControls" class="controls">
+                <label id="sliderName" for="sizeSlider" style="display: none;">Размер аватара:</label>
+                <input type="range" id="sizeSlider" min="50" max="500" value="100" style="display: none;">
+                <button id="confirmBtn" disabled>Подтвердить</button>
+                <button id="closeModal">Отмена</button>
+            </div>
+        </div>
+        
     </div>
 
 {% endblock %}
 
+
+
 {% block script %}
     <script src="{% static 'js/inventory.js' %}" data-url="{% url 'inventory:index' %}" data-remurl="{% url 'inventory:del' %}"  data-searchurl="{% url 'user:search' %}"></script>
+    <script src="{% static 'js/avatar_handler.js'%}" data-url="{% url 'user:update_avatar'%}"></script>
 {% endblock %}

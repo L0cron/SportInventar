@@ -1,3 +1,6 @@
+import base64
+import uuid
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.db.utils import IntegrityError
@@ -6,6 +9,7 @@ from .models import *
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from inventory.models import Item
+from django.core.files.base import ContentFile
 import json
 
 
@@ -133,3 +137,27 @@ def search(reqest:HttpRequest)->JsonResponse:
             return JsonResponse({"status":"not enough previliges"})
     else:
         return JsonResponse({"status":"not logged in"})
+    
+
+@csrf_exempt
+@login_required
+def update_avatar(request):
+    if request.method == 'POST':
+        try:
+            # Получаем base64-строку из запроса
+            data = json.loads(request.body)
+            avatar_data = data.get('avatar')
+
+            # Декодируем base64-строку в бинарные данные
+            format, imgstr = avatar_data.split(';base64,')
+            ext = format.split('/')[-1]  # Получаем расширение файла (например, 'png')
+            avatar_file = ContentFile(base64.b64decode(imgstr), name=f'{uuid.uuid4()}.{ext}')
+
+            # Сохраняем файл в поле avatar пользователя
+            request.user.avatar.save(avatar_file.name, avatar_file)
+            request.user.save()
+
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    return JsonResponse({'success': False, 'error': 'Недопустимый метод запроса'})

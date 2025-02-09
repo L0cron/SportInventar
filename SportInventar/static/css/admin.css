@@ -180,3 +180,7 @@ tbody tr:hover {
 .admin {
     color: #28a745;
 }
+
+.settings{
+    margin-bottom: 20px;
+}

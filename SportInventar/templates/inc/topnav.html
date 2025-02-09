@@ -29,7 +29,7 @@
                     
                     <p class="topusername">{{ user.username }}</p>
                     {% if user.avatar %}
-                        <img src="{% static 'img/avatar.jpg' %}" alt="User   Avatar" class="avatar">
+                        <img src="{{ user.avatar.url}}" alt="User   Avatar" class="avatar">
                     {% else %}
                         <img src="{% static 'user_placeholder.svg' %}" alt="User   Avatar" class="avatar">
                     {% endif %}

@@ -8,6 +8,7 @@ from user_handler.models import *
 from django.db.models import Case, When, IntegerField
 from inventory.models import Item
 
+import time
 import hashlib
 import csv
 import os
@@ -87,15 +88,13 @@ def setview(request:HttpRequest)->JsonResponse:
     return JsonResponse({'status':"Settings updated successfully"})
 
 
-# Формирование отчетов
-def calculate_file_hash(file_path):
-    """Вычисляет SHA-256 хэш файла."""
-    sha256_hash = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        # Читаем файл по частям
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    return sha256_hash.hexdigest()
+#Формирование отчетов
+def calculate_file_hash():
+    """Вычисляет SHA-256 хэш файла c использованием time."""
+    
+    hash = hashlib.sha256(str(int(time.time())).encode())
+
+    return hash.hexdigest()
 
 
 def export_to_csv(request):
@@ -114,7 +113,7 @@ def export_to_csv(request):
             writer.writerow([obj.name, obj.status, obj.current_holder])
 
     # Вычисляем хэш файла
-    file_hash = calculate_file_hash(temp_file_path)
+    file_hash = calculate_file_hash()
     print(f"Хэш файла: {file_hash}")
 
     # Путь к файлу с хэшем в качестве имени
@@ -135,6 +134,7 @@ def export_to_csv(request):
     with open(file_path, 'rb') as f:
         response = HttpResponse(f.read(), content_type='text/csv')
         response['Content-Disposition'] = f'attachment; filename="{file_hash}"'
+        response['name'] = FileLog.objects.get(file_name=file_hash).created_at
         return response
 
 
@@ -149,6 +149,8 @@ def download_file(request, file_name):
         with open(full_file_path, 'rb') as f:
             response = HttpResponse(f.read(), content_type='text/csv')
             response['Content-Disposition'] = f'attachment; filename="{os.path.basename(full_file_path)}"'
+            response['name'] = FileLog.objects.get(file_name=file_name).created_at
+            print(FileLog.objects.get(file_name=file_name).created_at)
             return response
     else:
         raise Http404("File does not exist")

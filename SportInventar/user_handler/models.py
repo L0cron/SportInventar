@@ -20,5 +20,8 @@ class FileLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     file_name = models.CharField(max_length=255, default='')
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
        return f"FileLog(id={self.id}, file_path={self.file_path})"
