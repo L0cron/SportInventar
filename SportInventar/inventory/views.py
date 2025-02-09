@@ -81,7 +81,7 @@ def search_view(request:HttpRequest):
         return JsonResponse(context)
 
 
-def edit_view(request: HttpRequest):
+def edit_view(request:HttpRequest):
     status = {
         "item_edited": 0,
         "message": ""
@@ -126,6 +126,13 @@ def edit_view(request: HttpRequest):
                 except User.DoesNotExist:
                     status["message"] = "User  not found"
                     return JsonResponse(status, status=404)
+
+                # Сохранение его истории
+                hist = History(item=item, current_holder=item.current_holder)
+                hist.save()
+
+            if item_photo:
+                item.photo_path = item_photo
 
             # Сохраняем изменения в базе данных
             item.save()
