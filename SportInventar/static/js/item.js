@@ -60,7 +60,7 @@ function editInventory() {
             success: function(response) {
                 // Обработка успешного ответа
                 closeEditWindow(); // Закрытие модального окна
-                //location.reload(); // Перезагрузка страницы для отображения обновленных данных
+                location.reload(); // Перезагрузка страницы для отображения обновленных данных
             },
             error: function(xhr, status, error) {
                 alert("Произошла ошибка при обновлении инвентаря: " + error);
