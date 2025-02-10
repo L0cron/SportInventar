@@ -45,11 +45,11 @@
                             </div>
                         </div>
                         <div class="img-container">
-                            {% if i.photoPath %}
+                            {% if i.photoPath != '' %}
                                 <img src="{{ i.photoPath }}" width="25" height="25">
-                            {% else %}
-                                <img src="https://img3.procvetok.com/crop/w500h500/32/a0/32a074858cfe875cb16d47a91e7d3c93.jpg" width="25" height="25">
-                            {% endif %}
+                            {%endif%}
+                                <!-- <img src="https://img3.procvetok.com/crop/w500h500/32/a0/32a074858cfe875cb16d47a91e7d3c93.jpg" width="25" height="25"> -->
+                            
                         </div>
                     </div>
                     {% endfor %}
@@ -93,20 +93,20 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Введите данные закупки</h2>
             <div class="input-group">
-                <label for="productName">Введите название товара:</label>
-                <input name="productName" type="text" id="productName" placeholder="Название товара" required>
+                <label for="name">Введите название товара:</label>
+                <input name="name" type="text" id="name" placeholder="Название товара" required>
             </div>
             <div class="input-group">
-                <label for="quantility">Количество предметов:</label>
-                <input type="number" id="quantility" name="itemQuantity" value="1"/>
+                <label for="amount">Количество предметов:</label>
+                <input type="number" id="amount" name="amount" value="1"/>
             </div>
             <div class="input-group">
-                <label for="price">Цена (за шт):</label>
-                <input type="number" id="price" name="itemPrice" value="0"/>
+                <label for="price">Цена:</label>
+                <input type="number" id="price" name="price" value="0"/>
             </div>
             <div class="input-group">
-                <label for="photoPathUsera">Ссылка на фотографию:</label>
-                <input type="text" id="photoPathUsera" name="photoPathUsera" placeholder="Ссылка на фотографию"/>
+                <label for="photoPath">Ссылка на фотографию:</label>
+                <input type="text" id="photoPath" name="photoPath" placeholder="Ссылка на фотографию"/>
             </div>
             <div class="confirm">
                 <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->

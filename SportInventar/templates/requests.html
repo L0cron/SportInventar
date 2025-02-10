@@ -235,6 +235,6 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
+    <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  data-complete="{% url 'requests:complete' %}" 
     data-archive="{% url 'requests:archive' %}" data-searchurl="{% url 'requests:search' %}"></script>
 {% endblock %}

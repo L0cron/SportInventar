@@ -104,6 +104,7 @@ def complete_request_view(request:HttpRequest):
         status = 'ok'
         try:
             requestId = request.POST.get('request_id')
+            
             _request = Request.objects.get(id=int(requestId))
             _request.status = 2
             _request.request_display_type = 2

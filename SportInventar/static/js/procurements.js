@@ -54,10 +54,9 @@ $(function() {
             success: function(response) {
                 // Проверка статуса ответа
                 if(response['status'] == 'ok') {
-                    console.log('yes')
                     // Добавление элемента в инвентарь
                     createProcurement();
-                    window.location.href = dataset['url'];
+                    // window.location.reload()
                 } else {
                     // TODO: обработка ошибки
                 }
@@ -94,20 +93,20 @@ $(function() {
 })
 
 function createProcurement() {
-    var productName = document.getElementById('productName').value;
-    var quantility = document.getElementById('quantility').value;
+    var name = document.getElementById('name').value;
+    var amount = document.getElementById('amount').value;
 
-    document.getElementById('productName').style.border = '';
-    document.getElementById('quantility').style.border = '';
+    document.getElementById('name').style.border = '';
+    document.getElementById('amount').style.border = '';
     let hasError = false;
     const errorMessageElement = document.getElementById('error-message');
 
-    if (!productName) {
-        document.getElementById('productName').style.border = '1px solid red';
+    if (!name) {
+        document.getElementById('name').style.border = '1px solid red';
         hasError = true;
     }
-    if (!quantility) {
-        document.getElementById('quantility').style.border = '1px solid red';
+    if (!amount) {
+        document.getElementById('amount').style.border = '1px solid red';
         hasError = true;
     }
     if (hasError) {

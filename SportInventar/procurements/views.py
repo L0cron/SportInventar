@@ -24,7 +24,11 @@ def procurements_view(request:HttpRequest):
             supplier = request.POST.get('supplier')
             photoPath = request.POST.get('photoPath')
             amount = request.POST.get('amount')
-
+            if supplier == None or supplier == '':
+                supplier = None
+            
+            print(request.POST)
+            print(photoPath)
 
             proc = Procurement(name=productName, price=price, url=url, supplier=supplier, photoPath=photoPath, amount=amount)
             proc.save()
