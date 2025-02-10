@@ -19,11 +19,12 @@
                     <h2>Инвентарь</h2>
                     <button class="toggle-view-button" onclick="toggleInventoryView()">Переключить вид</button>
                 </div>
-                            
+                {% if user.is_staff %}
                 <div class="delite-header">
                     <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
                     <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
                 </div>  
+                {% endif %}            
             </div>
 
 

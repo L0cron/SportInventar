@@ -18,7 +18,9 @@
             </div>
             <button onclick="window.location.href=`{% url 'inventory:index' %}`">Инвентарь</button>
             <button onclick="window.location.href=`{% url 'requests:index' %}`">Заявки</button>
-            <button onclick="window.location.href=`{% url 'procurements:index' %}`">Закупки</button>
+            {% if user.is_staff %}
+                <button onclick="window.location.href=`{% url 'procurements:index' %}`">Закупки</button>
+            {% endif %}
         </div>
         <div class="nav-right">
             {% if user.is_authenticated %}

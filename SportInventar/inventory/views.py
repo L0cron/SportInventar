@@ -131,9 +131,6 @@ def edit_view(request:HttpRequest):
                 hist = History(item=item, current_holder=item.current_holder)
                 hist.save()
 
-            if item_photo:
-                item.photo_path = item_photo
-
             # Сохраняем изменения в базе данных
             item.save()
 
