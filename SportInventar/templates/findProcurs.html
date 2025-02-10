@@ -32,6 +32,7 @@
             По вашему запросу ничего не найдено
             {% endif %}
         </div>
+        {% csrf_token %}
         <div class="rectangles">
             {% for i in displayers %}
                 <div class="inventory-item">
@@ -48,7 +49,7 @@
                     </div>
                     <div class="button-container">
                         <button type="button" onclick="window.location.href='{{ i.href }}'">Посмотреть товар</button>
-                        <button type="button_two" onclick="openModal('{{ i }}')">Создать закупку</button>
+                        <button type="button" onclick="createProcurementAfterSearch('{{ i.name }}', '{{ i.href }}', '{{ i.price }}', '{{ i.supplier }}', '{{ photoPath }}')">Создать закупку</button>
                     </div>
                 </div>
             {% endfor %}

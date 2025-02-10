@@ -131,3 +131,40 @@ function openModalFilled(item) {
     console.log(item)
     document.getElementById('requestDesc').value = item;
 }
+
+
+function createProcurementAfterSearch(name, url, price, supplier, photoPath) {
+    console.log(1)
+    // Создаем объект с данными для отправки на сервер
+    let data = {
+        "csrfmiddlewaretoken": csrftoken.value,
+        "name": name,            // Имя товара
+        "url": url,
+        "amount": 1,          // Ссылка на товар
+        "price": price,          // Цена товара
+        "supplier": supplier,    // Поставщик
+        "photoPath": photoPath   // Путь к изображению
+    };
+
+    // Отправляем данные на сервер с помощью AJAX
+    $.ajax({
+        type: "POST",
+        url: dataset['url'], // URL для создания записи в базе данных
+        data: data,
+        success: function(response) {
+            if (response['status'] == 'ok') {
+                console.log('Запись успешно создана');
+                // Обновляем страницу или выполняем другие действия
+                //window.location.href = dataset['url'];
+                console.log(data)
+            } else {
+                // Обработка ошибки
+                console.error('Ошибка при создании записи');
+            }
+        },
+        error: function(xhr, status, error) {
+            // Обработка ошибки
+            console.error('Ошибка при отправке запроса:', error);
+        }
+    });
+}

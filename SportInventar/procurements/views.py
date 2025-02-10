@@ -10,8 +10,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import parse_qs
 import re
 
-
-# Баовое отображение
 def procurements_view(request:HttpRequest):
     if request.method == 'GET':
         procurements = Procurement.objects.all()
@@ -20,21 +18,17 @@ def procurements_view(request:HttpRequest):
     elif request.method == 'POST':
         status = 'ok'
         try:
-            productName = request.POST.get('productName')
-            quantility = request.POST.get('itemQuantity')
-            price = request.POST.get('itemPrice')
-            photoPath = request.POST.get('photoPathUsera')
-            # url = request.POST.get('urlka')
-            # print(url)
-            # photoPath = request.POST.get('photoPather')
-            # print(photoPath)
-            if len(productName) == 0 or len(quantility) == 0:
-                status = 'Присутствуют незаполненные поля'
-            else:
-                proc = Procurement(name=productName,amount=quantility, price=(int(price)*int(quantility)),photoPath=photoPath)
-                print('save')
-                proc.save()
-                status = 'ok'
+            productName = request.POST.get('name')
+            price = request.POST.get('price')
+            url = request.POST.get('url')
+            supplier = request.POST.get('supplier')
+            photoPath = request.POST.get('photoPath')
+            amount = request.POST.get('amount')
+
+
+            proc = Procurement(name=productName, price=price, url=url, supplier=supplier, photoPath=photoPath, amount=amount)
+            proc.save()
+            status = 'ok'
         except Exception as e:
             status = 'Ошибка записи данных в базу данных: ' + str(e)
         return JsonResponse({"status":status})
