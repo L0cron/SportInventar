@@ -46,8 +46,6 @@
         </div>
     
         <div class="sidebar">
-            <h2>Добавить закупку</h2>
-            <button class="button" onclick="openModalFilled('{{ i }}')">Добавить</button>
             <h2>Удалить закупку</h2>
             <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
@@ -73,35 +71,6 @@
         </div>
     </div>
 </div>
-
-<div id="myModal" class="modal">
-    <form id="addItemForm">
-        {% csrf_token %}
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Введите данные закупки</h2>
-            <div class="input-group">
-                <label for="productName">Введите название товара:</label>
-                <input name="productName" type="text" id="productName" placeholder="Название товара" required>
-            </div>
-            <div class="input-group">
-                <label for="quantility">Количество предметов:</label>
-                <input type="number" id="quantility" name="itemQuantity" value="1"/>
-            </div>
-            <div class="input-group">
-                <label for="price">Цена (за шт):</label>
-                <input type="number" id="price" name="itemPrice" value="0"/>
-            </div>
-            <div class="input-group">
-                <label for="photoPathUsera">Ссылка на фотографию:</label>
-                <input type="text" id="photoPathUsera" name="photoPathUsera" placeholder="Ссылка на фотографию"/>
-            </div>
-            <div class="confirm">
-                <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
-                <button id="createProcurementBtn" class="add-button" type="button" onclick="openModal()">Создать</button>
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block script %}

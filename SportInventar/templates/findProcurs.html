@@ -11,11 +11,14 @@
 
 {% block body %}
     {% include 'inc/topnav.html' %}
+    
     <div class="container">
         <div class="change-view">
             <button type="button" onclick="window.location.href=`{% url 'procurements:index' %}`">Посмотреть закупки</button>
         </div>
+        
         <h1>Поиск в магазинах</h1>
+        
         <div class="search-form">
             <input type="text" id="search" placeholder="Введите запрос...">
             <script>
@@ -27,18 +30,20 @@
             </script>
             <button type="button" onclick="search()">Искать</button>
         </div>
+        
         <div class="cantfound">
             {% if isfound == 0 %}
-            По вашему запросу ничего не найдено
+                По вашему запросу ничего не найдено
             {% endif %}
         </div>
+        
+        {% csrf_token %}
         <div class="rectangles">
             {% for i in displayers %}
                 <div class="inventory-item">
                     <div class="columns">
                         <div class="text-container" id="{{ i.id }}">
                             <h3>{{ i.name }}</h3>
-                            
                             <p>Цена: {{ i.price }}</p>  
                             <p>Поставщик: starfitshop</p>
                         </div>
@@ -48,40 +53,11 @@
                     </div>
                     <div class="button-container">
                         <button type="button" onclick="window.location.href='{{ i.href }}'">Посмотреть товар</button>
-                        <button type="button_two" onclick="openModal('{{ i }}')">Создать закупку</button>
+                        <button type="button" onclick="createProcurement(`{{ i }}`)">Создать закупку</button>
                     </div>
                 </div>
             {% endfor %}
         </div>
-    </div>
-
-    <div id="myModal" class="modal">
-        <form id="createRequest">
-            {% csrf_token %}
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Введите данные закупки</h2>
-                <div class="input-group">
-                    <label for="productName">Введите название товара:</label>
-                    <input name="productName" type="text" id="productName" placeholder="Название товара" required>
-                </div>
-                <div class="input-group">
-                    <label for="quantility">Количество предметов:</label>
-                    <input type="number" id="quantility" name="itemQuantity" value="1"/>
-                </div>
-                <div class="hidden">
-                    <input type="text" id="urlka">
-                    <input type="text" id="photoPather">
-                </div>
-                <form>
-                    <div class="confirm">
-                        <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
-                        <button type="button_two" onclick="openModalRed('{{ i }}')">Создать закупку</button><!--  оно не работает(автофил при нажатии) -->
-                        <!-- <button id="createProcurementBtn" class="add-button" type="button">Создать</button> -->
-                    </div>
-                </form>
-            </div>
-        </form>
     </div>
 {% endblock %}
 
