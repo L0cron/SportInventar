@@ -29,7 +29,7 @@ def procurements_view(request:HttpRequest):
             if len(productName) == 0 or len(quantility) == 0:
                 status = 'Присутствуют незаполненные поля'
             else:
-                proc = Procurement(name=productName,amount=quantility, price=(int(price)*int(quantility)))
+                proc = Procurement(name=productName,amount=quantility, price=(int(price)*int(quantility)),photoPath=photoPath)
                 print('save')
                 proc.save()
                 status = 'ok'

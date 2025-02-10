@@ -26,8 +26,13 @@
             </div>
 
                 <div class="category">
-                    <h3>Новые запросы</h3>
-                    <hr>
+                    <div class="category-title" onclick="toggleList(this)">
+                        Новые
+                        <span class="icon">▶</span>
+                    </div>
+                    <!-- <h3>Новые запросы</h3>
+                    <hr> -->
+                    <div class="item-list">
                     <div class="requests-list list-view" >
                         {% for i in requests %}
                             {% if i.request_display_type == 0 %}
@@ -58,11 +63,17 @@
                             {% endif %}
                         {% endfor %}
                     </div>
+                    </div>
                 </div>
             
                 <div class="category">
-                    <h3>Активные запросы</h3>
-                    <hr>
+                    <div class="category-title" onclick="toggleList(this)">
+                        Активные
+                        <span class="icon">▶</span>
+                    </div>
+                    <!-- <h3>Активные запросы</h3>
+                    <hr> -->
+                    <div class="item-list">
                     <div class="requests-list list-view">
                         {% for i in requests %}
                             {% if i.request_display_type == 1 %}
@@ -93,11 +104,17 @@
                             {% endif %}
                         {% endfor %}
                     </div>
+                    </div>
                 </div>
             
                 <div class="category">
-                    <h3>Архивированные запросы</h3>
-                    <hr>
+                    <div class="category-title" onclick="toggleList(this)">
+                        Архивные
+                        <span class="icon">▶</span> <!-- Иконка для закрытого состояния -->
+                    </div>
+                    <!-- <h3>Архивированные запросы</h3>
+                    <hr> -->
+                    <div class="item-list">
                     <div class="requests-list list-view">
                         {% for i in requests %}
                             {% if i.request_display_type == 2 %}
@@ -135,35 +152,14 @@
                         {% endfor %}
                     </div>      
             </div>
+                </div>
         </div>
     
         <div class="sidebar">
             <h2>Создать заявку</h2>
             <button class="button" onclick="openModal()">Создать</button>
-            <h2>Удалить заявку</h2>
-            <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
     </div>
-
-    <div id="NotChosenItemModal" class="NotChosenItemModal">
-        <div class="NotChosenItemModal-content">
-            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
-            <h2>Ошибка</h2>
-            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
-        </div>
-    </div>
-
-<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
-    <div class="ConfirmItemDelitionModal-content">
-        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
-        <h2>Подтверждение удаления</h2>
-        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
-        <div class="button-container">
-            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
-            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
-        </div>
-    </div>
-</div>
 
 <div id="myModal" class="modal">
     <form id="createRequest">

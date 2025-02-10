@@ -400,3 +400,35 @@ h2 {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.category {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.category-title {
+    background-color: #f0f0f0;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.item-list {
+    height: 0; /* Начальная высота для анимации */
+    overflow: hidden; /* Скрываем переполнение */
+    transition: height 0.3s ease; /* Анимация */
+}
+.item {
+    margin: 5px 0;
+}
+.icon {
+    transition: transform 0.3s ease; /* Анимация для иконки */
+}
+.open .item-list {
+    height: auto; /* Устанавливаем высоту в auto для отображения */
+}
+.open .icon {
+    transform: rotate(90deg); /* Поворачиваем иконку */
+}

@@ -245,6 +245,7 @@ h2 {
     margin: 0 0 10px;
     color: #333;
     font-size: 20px;
+    word-spacing: 5px;
 }
 
 .inventory-item p {
@@ -433,26 +434,14 @@ h2 {
 }
 
 .more-info-icon {
-    position: absolute; /* Абсолютное позиционирование внутри inventory-item */
-    bottom: 10px; /* Отступ снизу */
-    right: 10px; /* Отступ справа */
-    cursor: pointer;
     font-size: 16px;
-    color: #007bff;
-    transition: color 0.3s;
     padding: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    background-color: rgba(215, 215, 215, 0.8);
+    color: #333;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.more-info-icon:hover {
-    color: #0056b3;
-    background-color: rgba(0, 123, 255, 0.1);
 }
 
 .text-container {
@@ -481,12 +470,31 @@ h2 {
 }
 
 .img-container img {
-    width: 100%;
+    width: 100px;
+    height: 100px;
     height: auto;
     object-fit: cover;
     border-radius: 4px;
 }
 .columns {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.title {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.title p {
+    color: black;
+    font-size: 25px;
+}
+
+.all-content {
     display: flex;
     flex-direction: row;
 }
