@@ -44,7 +44,9 @@
         </div>
 
         <div class="qr-and-button-container">
+            {% if user.is_staff %}
             <button class="edit-button" onclick="openEditWindow()">Редактировать</button>
+            {% endif %}
             <div class="qr-container">
                 <img id="img" src="" alt="Загрузка..." class="qr">
                 <script data-url="{% url 'inventory:get_qr'%}?id={{item.id}}">
