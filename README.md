@@ -79,4 +79,4 @@
 
 ### Данный проект был создан в качестве кейса Московской Предпрофессиональной Олимпиады.
 
-### Ссылка на видеозапись  https://example.com](https://rutube.ru/video/private/e4dca641c494fe5f20f5bda2a1f6e448/?p=2A95kgdAN1GVWTyxw7szBw
+### Ссылка на видеозапись  https://rutube.ru/video/private/e4dca641c494fe5f20f5bda2a1f6e448/?p=2A95kgdAN1GVWTyxw7szBw
