@@ -327,14 +327,12 @@ h2 {
     width: 70%;
 }
 
-.delite-header {
-    width: 30%;
-}
+
 
 .header-container {
     display: flex;
     justify-content: space-between;
-    max-width: 1200px;
+    
 }
 
 .remove-button {
@@ -445,7 +443,7 @@ h2 {
 }
 
 .text-container {
-    width: 85%;
+    width: 100%;
 }
 .inventory-item {
     position: relative;
@@ -492,6 +490,10 @@ h2 {
 .title p {
     color: black;
     font-size: 25px;
+    overflow: hidden; /* Ensure overflow is hidden */
+    text-overflow: ellipsis; /* Enable ellipsis */
+    white-space: nowrap; /* Prevent text from wrapping */
+    display: block; /* Ensure it's a block element */
 }
 
 .all-content {
