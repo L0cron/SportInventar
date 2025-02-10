@@ -29,6 +29,9 @@
                 </div>
     
                 <div class="inventory-list grid-view">
+                    {% if procurements|length == 0 %}
+                    <p>Нет закупок для отображения.</p>
+                    {%endif%}
                     {% for i in procurements %}
                     <div class="inventory-item">
                         <div class="columns">

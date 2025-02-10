@@ -40,6 +40,9 @@
     
     
                 <div class="inventory-list grid-view">
+                    {% if items|length == 0 %}
+                    <p>Нет предметов для отображения.</p>
+                    {%endif%}
                     {% for i in items %}
                     <div class="inventory-item">
                         <div class="icons-container">

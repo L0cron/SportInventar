@@ -56,7 +56,7 @@ $(function() {
                 if(response['status'] == 'ok') {
                     // Добавление элемента в инвентарь
                     createProcurement();
-                    // window.location.reload()
+                    window.location.reload()
                 } else {
                     // TODO: обработка ошибки
                 }
