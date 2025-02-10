@@ -16,42 +16,54 @@
             <input type="text" class="input-button-style" id="search" placeholder="Введите запрос...">
             <button type="button" onclick="searchMain()">Поиск товаров</button>
         </div>
-        <div class="main-content">
-            <div class="header-container">
-                <div class="inventory-header"> 
-                    <h2>Список закупок</h2>
+        <div class="inventory-header"> 
+            <h2>Список закупок</h2>
+        </div>
+        <div class="all-content">
+            <div class="main-content">
+                <div class="header-container">    
+                    <div class="delite-header">
+                        <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
+                        <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
+                    </div>  
                 </div>
-                            
-                <div class="delite-header">
-                    <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
-                    <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
-                </div>  
-            </div>
-
-            <div class="inventory-list grid-view">
-                {% for i in procurements %}
-                <div class="inventory-item">
-                    <div class="columns">
-                        <div class="text-container"> 
-                            <h3>{{ i.name }}</h3>
-                            <p>Количество: {{ i.amount }}</p>
-                            <p>Цена: {{ i.price }}</p>
+    
+                <div class="inventory-list grid-view">
+                    {% for i in procurements %}
+                    <div class="inventory-item">
+                        <div class="columns">
+                            <div class="text-container">
+                                <div class="title">
+                                    {% if i.amount != 1 %} 
+                                        <span class="more-info-icon">
+                                            x{{ i.amount }}<i class="fas fa-info-circle"></i>
+                                        </span>
+                                    {% endif %}
+                                    <p>{{ i.name }}</p>
+                                </div>
+                                <p>Цена: {{ i.price }}</p>
+                            </div>
                         </div>
                         <div class="img-container">
-                            <img src="{{ i.photoPath }}" alt="{{ i.photoPath }}" width="100" height="100">
+                            {% if i.photoPath %}
+                                <img src="{{ i.photoPath }}" width="25" height="25">
+                            {% else %}
+                                <img src="https://img3.procvetok.com/crop/w500h500/32/a0/32a074858cfe875cb16d47a91e7d3c93.jpg" width="25" height="25">
+                            {% endif %}
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
+        
+            <div class="sidebar">
+                <h2>Добавить закупку</h2>
+                <button class="button" onclick="openModal()">Добавить</button>
+                <h2>Удалить закупку</h2>
+                <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
+            </div>
         </div>
-    
-        <div class="sidebar">
-            <h2>Добавить закупку</h2>
-            <button class="button" onclick="openModalFilled('{{ i }}')">Добавить</button>
-            <h2>Удалить закупку</h2>
-            <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
-        </div>
-        {% endfor %}
+        
     </div>
 
     <div id="NotChosenItemModal" class="NotChosenItemModal">

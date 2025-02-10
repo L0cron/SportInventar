@@ -157,26 +157,39 @@ $(function() {
     });
 })
 
-function toggleCheckboxes() {
-    const checkboxes = document.querySelectorAll('.checkbox-container');
-    const deleteButton = document.querySelector('.delete-button');
-    const selectAllButton = document.querySelector('.select-all-button');
-    const removeButton = document.querySelector('.remove-button');
+// function toggleCheckboxes() {
+//     const checkboxes = document.querySelectorAll('.checkbox-container');
+//     const deleteButton = document.querySelector('.delete-button');
+//     const selectAllButton = document.querySelector('.select-all-button');
+//     const removeButton = document.querySelector('.remove-button');
 
-    // Переключение видимости чекбоксов
-    checkboxes.forEach(checkboxContainer => {
-        checkboxContainer.classList.toggle('hidden');
-    });
+//     // Переключение видимости чекбоксов
+//     checkboxes.forEach(checkboxContainer => {
+//         checkboxContainer.classList.toggle('hidden');
+//     });
 
-    // Переключение видимости кнопки "Выделить все"
-    selectAllButton.classList.toggle('hidden');
-    removeButton.classList.toggle('hidden');
+//     // Переключение видимости кнопки "Выделить все"
+//     selectAllButton.classList.toggle('hidden');
+//     removeButton.classList.toggle('hidden');
 
-    // Изменение текста кнопки "Удалить"
-    if (deleteButton.textContent === 'Удалить') {
-        deleteButton.textContent = 'Отмена';
+//     // Изменение текста кнопки "Удалить"
+//     if (deleteButton.textContent === 'Удалить') {
+//         deleteButton.textContent = 'Отмена';
+//     } else {
+//         deleteButton.textContent = 'Удалить';
+//     }
+// }
+
+function toggleList(titleElement) {
+    const list = titleElement.nextElementSibling;
+    const icon = titleElement.querySelector('.icon');
+
+    if (list.style.height) {
+        list.style.height = null; // Скрываем список
+        icon.innerHTML = '▶'; // Меняем иконку на закрытую
     } else {
-        deleteButton.textContent = 'Удалить';
+        list.style.height = list.scrollHeight + "px"; // Показываем список
+        icon.innerHTML = '▼'; // Меняем иконку на открытую
     }
 }
 
