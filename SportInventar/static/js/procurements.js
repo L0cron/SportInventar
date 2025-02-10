@@ -1,7 +1,8 @@
+// Search function to redirect to a specific URL based on search input
 function searchMain() {
-    var searchValue = document.getElementById('search').value;
-    if(searchValue !== ""){
-        var url = `buy\\${searchValue}`;
+    const searchValue = document.getElementById('search').value.trim();
+    if (searchValue) {
+        const url = `buy/${searchValue}`; // Use forward slashes for URLs
         window.location.href = url;
     }
 }
@@ -9,162 +10,201 @@ function searchMain() {
 let dataset = document.currentScript.dataset
 let csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0];
 
+// Search function without a predefined URL path
 function search() {
-    var searchValue = document.getElementById('search').value;
-    if(searchValue !== ""){
-        var url = `${searchValue}`;
-        window.location.href = url;
+    const searchValue = document.getElementById('search').value.trim();
+    if (searchValue) {
+        window.location.href = searchValue; // Redirect directly to the search value
     }
 }
 
+// Open a modal with optional item data (for editing or viewing)
 function openModalRed(itemJson = null) {
-    let item = null;
     $.ajax({
         type: "POST",
-        url: dataset,
-    })
+        url: dataset.url, // Use dataset URL for the AJAX request
+        data: { item: itemJson }, // Send itemJson if provided
+        success: function(response) {
+            // Handle success response (e.g., populate modal with data)
+        },
+        error: function(xhr, status, error) {
+            console.error('Error opening modal:', error);
+        }
+    });
 }
 
+// Close the modal
 function closeModal() {
     const modal = document.getElementById("myModal");
-    modal.style.display = "none";
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
 
-
-// Функция, выполняемая после загрузки страницы
+// Function executed after the page loads
 $(function() {
-    // Обработчик клика по кнопке добавления
+    // Click handler for adding procurement
     $('#createProcurementBtn').on('click', function(e) {
-        // Предотвращение стандартного поведения кнопки
-        e.preventDefault();
-        
-        // Сериализация данных формы в строку
-        let data = $("#addItemForm").serialize();
-        console.log(data)
-        
-        // AJAX-запрос на добавление элемента
+        e.preventDefault(); // Prevent default form submission
+        const data = $("#addItemForm").serialize(); // Serialize form data
+
+        // AJAX request to add item
         $.ajax({
-            // Тип запроса
             type: "POST",
-            // URL, на который отправляется запрос
-            url: dataset['url'],
-            // Данные, отправляемые с запросом
+            url: dataset.url,
             data: data,
-            // Функция, выполняемая при успешном ответе сервера
             success: function(response) {
-                // Проверка статуса ответа
-                if(response['status'] == 'ok') {
-                    console.log('yes')
-                    // Добавление элемента в инвентарь
+                if (response.status === 'ok') {
                     createProcurement();
-                    window.location.href = dataset['url'];
+                    window.location.href = dataset.url; // Redirect after success
                 } else {
-                    // TODO: обработка ошибки
+                    console.error('Error adding item:', response);
                 }
-                
-            }
-        })
-    })
-
-    $("#confirm-button").on('click', function(e) {
-
-        let data = {
-            "csrfmiddlewaretoken": csrftoken.value,
-            "items": {
-
-            }
-        }
-        const checkboxes = document.querySelectorAll('.procurement-checkbox');
-        const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
-        for(let i = 0; i < checkedCheckboxes.length; i++) {
-            data['items'][i]=checkedCheckboxes[i].getAttribute('data-id');
-        }
-        console.log(data)
-       
-        $.ajax({
-            type: "POST",
-            url: dataset['remurl'],
-            data: data,
-            success: function(response) {
-                
-                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error during AJAX request:', error);
             }
         });
     });
-})
+});
 
+// Validate and create procurement
 function createProcurement() {
-    var productName = document.getElementById('productName').value;
-    var quantility = document.getElementById('quantility').value;
+    const productName = document.getElementById('productName').value.trim();
+    const quantity = document.getElementById('quantility').value.trim(); // Fixed typo from 'quantility' to 'quantity'
+    const errorMessageElement = document.getElementById('error-message');
+    let hasError = false;
 
+    // Reset styles and error message
     document.getElementById('productName').style.border = '';
     document.getElementById('quantility').style.border = '';
-    let hasError = false;
-    const errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.textContent = '';
+    errorMessageElement.style.display = 'none';
 
+    // Validate inputs
     if (!productName) {
         document.getElementById('productName').style.border = '1px solid red';
         hasError = true;
     }
-    if (!quantility) {
+    if (!quantity) {
         document.getElementById('quantility').style.border = '1px solid red';
         hasError = true;
     }
+
     if (hasError) {
         errorMessageElement.textContent = 'Пожалуйста, введите все необходимые данные.';
         errorMessageElement.style.display = 'block';
-        return;
     } else {
-        errorMessageElement.textContent = ''; // Очищаем сообщение об ошибке, если все поля заполнены
-        closeModal();
+        closeModal(); // Close modal if validation passes
     }
 }
 
+// Open the modal
 function openModal() {
     const modal = document.getElementById("myModal");
-    modal.style.display = "block";
+    if (modal) {
+        modal.style.display = "block";
+    }
 }
 
+// Open the modal with pre-filled data
 function openModalFilled(item) {
     const modal = document.getElementById("myModal");
-    modal.style.display = "block";
-    console.log(item)
-    document.getElementById('requestDesc').value = item;
+    if (modal) {
+        modal.style.display = "block";
+        document.getElementById('requestDesc').value = item; // Pre-fill the input field
+    }
 }
 
-
+// Create procurement after search
 function createProcurementAfterSearch(name, url, price, supplier, photoPath) {
-    console.log(1)
-    // Создаем объект с данными для отправки на сервер
-    let data = {
-        "csrfmiddlewaretoken": csrftoken.value,
-        "name": name,            // Имя товара
-        "url": url,
-        "amount": 1,          // Ссылка на товар
-        "price": price,          // Цена товара
-        "supplier": supplier,    // Поставщик
-        "photoPath": photoPath   // Путь к изображению
+    const data = {
+        csrfmiddlewaretoken: csrftoken,
+        name: name,
+        url: url,
+        amount: 1,
+        price: price,
+        supplier: supplier,
+        photoPath: photoPath
     };
 
-    // Отправляем данные на сервер с помощью AJAX
     $.ajax({
         type: "POST",
-        url: dataset['url'], // URL для создания записи в базе данных
+        url: dataset.url,
         data: data,
         success: function(response) {
-            if (response['status'] == 'ok') {
+            if (response.status === 'ok') {
                 console.log('Запись успешно создана');
-                // Обновляем страницу или выполняем другие действия
-                //window.location.href = dataset['url'];
-                console.log(data)
             } else {
-                // Обработка ошибки
-                console.error('Ошибка при создании записи');
+                console.error('Ошибка при создании записи:', response);
             }
         },
         error: function(xhr, status, error) {
-            // Обработка ошибки
             console.error('Ошибка при отправке запроса:', error);
+        }
+    });
+}
+
+// Toggle visibility of checkboxes and buttons
+function toggleCheckboxes() {
+    const checkboxes = document.querySelectorAll('.checkbox-container');
+    const deleteButton = document.querySelector('.delete-button');
+    const selectAllButton = document.querySelector('.select-all-button');
+    const removeButton = document.querySelector('.remove-button');
+
+    checkboxes.forEach(checkboxContainer => {
+        checkboxContainer.classList.toggle('hidden');
+    });
+
+    selectAllButton.classList.toggle('hidden');
+    removeButton.classList.toggle('hidden');
+
+    // Toggle delete button text
+    deleteButton.textContent = deleteButton.textContent === 'Удалить' ? 'Отмена' : 'Удалить';
+}
+
+// Open the confirmation modal for item deletion
+function openConfirmItemDeletionModal() {
+    const modal = document.getElementById("ConfirmItemDelitionModal");
+    if (modal) {
+        modal.style.display = "block";
+    }
+}
+
+// Close the confirmation modal
+function closeConfirmItemDeletionModal() {
+    const modal = document.getElementById("ConfirmItemDelitionModal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Delete selected inventory items
+function deleteInventory() {
+    const checkboxes = document.querySelectorAll('.inventory-checkbox');
+    const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+    const data = {
+        csrfmiddlewaretoken: csrftoken.value,
+        items: {}
+    };
+
+    checkedCheckboxes.forEach((checkbox, index) => {
+        data.items[index] = checkbox.getAttribute('data-id');
+    });
+
+    $.ajax({
+        type: "POST",
+        url: dataset.remurl,
+        data: data,
+        success: function(response) {
+            if (response.status === 'ok') {
+                window.location.reload(); // Reload the page to reflect changes
+            } else {
+                console.error('Error deleting items:', response);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error deleting items:', error);
         }
     });
 }

@@ -23,9 +23,9 @@
             <div class="main-content">
                 <div class="header-container">    
                     <div class="delite-header">
-                        <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
+                        <button class="remove-button hidden" onclick="openConfirmItemDeletionModal()">Удалить</button>
                         <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
-                    </div>  
+                    </div>
                 </div>
     
                 <div class="inventory-list grid-view">
@@ -42,6 +42,10 @@
                                     <p>{{ i.name }}</p>
                                 </div>
                                 <p>Цена: {{ i.price }}</p>
+                            </div>
+
+                            <div class="checkbox-container hidden">
+                                <input type="checkbox" class="inventory-checkbox" data-id="{{ i.id }}">
                             </div>
                         </div>
                         <div class="img-container">
@@ -74,17 +78,18 @@
         </div>
     </div>
 
-<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
-    <div class="ConfirmItemDelitionModal-content">
-        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
-        <h2>Подтверждение удаления</h2>
-        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
-        <div class="button-container">
-            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
-            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
+    <div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
+        <div class="ConfirmItemDelitionModal-content">
+            <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
+            <h2>Подтверждение удаления</h2>
+            <p>Вы уверены, что хотите удалить выбранные элементы?</p>
+            {% csrf_token %}
+            <div class="button-container">
+                <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
+                <button class="confirm-del-button" onclick="deleteInventory()">Удалить</button>
+            </div>
         </div>
     </div>
-</div>
 
 <div id="myModal" class="modal">
     <form id="addItemForm">
@@ -109,13 +114,13 @@
                 <input type="text" id="photoPathUsera" name="photoPathUsera" placeholder="Ссылка на фотографию"/>
             </div>
             <div class="confirm">
-                <span class="error-message hidden" id="error-message"></span> <!-- Элемент для сообщения об ошибке -->
-                <button id="createProcurementBtn" class="add-button" type="button" onclick="openModal()">Создать</button>
+                <span class="error-message hidden" id="error-message"></span> <!-- Element for error message -->
+                <button id="createProcurementBtn" class="add-button" type="button" onclick="createProcurement()">Создать</button>
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/procurements.js' %}" data-url="{% url 'procurements:index' %}"></script>
+    <script src="{% static 'js/procurements.js' %}" data-url="{% url 'procurements:index' %}" remurl="{% url 'procurements:del' %}"></script>
 {% endblock %}
