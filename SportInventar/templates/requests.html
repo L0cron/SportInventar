@@ -20,7 +20,6 @@
                 </div>
                             
                 <div class="delite-header">
-                    <button class="remove-button hidden" onclick="deleteInventory()">Удалить</button>
                     <button class="button select-all-button hidden" onclick="selectAllItems()">Выделить все</button>
                 </div>  
             </div>
@@ -87,10 +86,12 @@
                                     {% endif %}
                                 </p>
                                 <p>Описание: {{ i.text }}</p>
-                                <div class="button-container">
-                                    <button class="complete-button" onclick="completeRequest('{{ i.id }}','{{ i.request_type }}')">Выполнить</button>
-                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)">Отменить</button>
-                                </div>
+                                {% if user.is_staff %}
+                                    <div class="button-container">
+                                        <button class="complete-button" onclick="completeRequest('{{ i.id }}','{{ i.request_type }}')">Выполнить</button>
+                                        <button class="cancel-button" onclick="changeRequest('{{ i.id }}',3,2)">Отменить</button>
+                                    </div>
+                                {% endif %}
                             </div>
                             {% endif %}
                         {% endfor %}
@@ -129,9 +130,11 @@
                                         Отказано
                                     {% endif %}
                                 </p>
-                                <div class="button-container">
-                                    <button class="cancel-button" onclick="changeRequest('{{ i.id }}',4,3)">Удалить</button>
-                                </div>
+                                {% if user.is_staff %}
+                                    <div class="button-container">
+                                        <button class="cancel-button" onclick="changeRequest('{{ i.id }}',4,3)">Удалить</button>
+                                    </div>
+                                {% endif %}
                             </div>
                             {% endif %}
                         {% endfor %}
@@ -142,30 +145,8 @@
         <div class="sidebar">
             <h2>Создать заявку</h2>
             <button class="button" onclick="openModal()">Создать</button>
-            <h2>Удалить заявку</h2>
-            <button class="button delete-button" onclick="toggleCheckboxes()">Удалить</button>
         </div>
     </div>
-
-    <div id="NotChosenItemModal" class="NotChosenItemModal">
-        <div class="NotChosenItemModal-content">
-            <span class="close" onclick="closeNotChosenItemModal()">&times;</span>
-            <h2>Ошибка</h2>
-            <p>Пожалуйста, выберите хотя бы один элемент для удаления.</p>
-        </div>
-    </div>
-
-<div id="ConfirmItemDelitionModal" class="ConfirmItemDelitionModal">
-    <div class="ConfirmItemDelitionModal-content">
-        <span class="close" onclick="closeConfirmItemDelitionModal()">&times;</span>
-        <h2>Подтверждение удаления</h2>
-        <p>Вы уверены, что хотите удалить выбранные элементы?</p>
-        <div class="button-container">
-            <button class="decline-del-button cancel-button" onclick="closeConfirmItemDelitionModal()">Отмена</button>
-            <button class="confirm-del-button confirm-button" id="confirm-button">Удалить</button>
-        </div>
-    </div>
-</div>
 
 <div id="myModal" class="modal">
     <form id="createRequest">
@@ -239,6 +220,5 @@
 
 {% block script %}
     <script src="{% static 'js/requests.js' %}" data-url="{% url 'requests:index' %}"  
-    data-remurl="{% url 'requests:del' %}" data-complete="{% url 'requests:complete' %}"
     data-archive="{% url 'requests:archive' %}" data-searchurl="{% url 'requests:search' %}"></script>
 {% endblock %}
