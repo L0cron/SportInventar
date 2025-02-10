@@ -127,10 +127,6 @@ def edit_view(request:HttpRequest):
                     status["message"] = "User  not found"
                     return JsonResponse(status, status=404)
 
-                # Сохранение его истории
-                hist = History(item=item, current_holder=item.current_holder)
-                hist.save()
-
             # Сохраняем изменения в базе данных
             item.save()
 
